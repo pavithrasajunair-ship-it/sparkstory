@@ -776,7 +776,7 @@
     }
     const titleKey = g.shape === "haunt" && reg === "simple" ? "hauntKid" : g.shape;
     const title = titleCase(tidy(fill(rt.draw("title", TITLES[titleKey] || TITLES.quest), ctx, lex, rt, gid)));
-    const story = { title, chapters, params: { tier, genre: gid, length, chars: params.chars, place: params.place || "", item: params.item || "", seed, bedtime: bed ? { today: bed.today } : null, ending: endKind }, ctx: { ...ctx } };
+    const story = { title, chapters, params: { tier, genre: gid, length, chars: params.chars, place: params.place || "", item: params.item || "", seed, bedtime: bed ? { today: bed.today } : null, ending: endKind, dedication: String(params.dedication || "").slice(0, 40) }, ctx: { ...ctx } };
     story.text = toText(story);
     return story;
   }

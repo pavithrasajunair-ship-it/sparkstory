@@ -79,6 +79,7 @@
         <p class="fine">The story will gently say that big days are okay, then help the little one settle.</p>
       </div>
     </div>
+    <label class="field" id="ded-row"><span>💝 Made for… (optional, shown on the story)</span><input id="in-ded" maxlength="40" autocomplete="off" placeholder="Aanya, on her birthday"></label>
     <label class="field" id="end-row"><span>How should it end?</span>
       <select id="in-end"><option value="">Surprise me</option><option value="epilogue">A look ahead: years later</option><option value="twist">A twist ending</option><option value="cliff">A cliffhanger: to be continued</option></select>
     </label>
@@ -104,11 +105,14 @@
     </article>
     <div class="toolbar" role="toolbar" aria-label="Story tools">
       <button class="btn btn-soft" id="t-listen" type="button">🔊 Listen</button>
+      <label class="sleepsel" id="voice-wrap" hidden>Voice <select id="voice" aria-label="Voice"></select></label>
+      <label class="sleepsel" id="speed-wrap" hidden>Speed <select id="speed" aria-label="Reading speed"><option value="0.7">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label>
       <button class="btn btn-soft" id="t-smaller" type="button" aria-label="Smaller text">A−</button>
       <button class="btn btn-soft" id="t-bigger" type="button" aria-label="Bigger text">A+</button>
       <button class="btn btn-soft" id="t-save" type="button">💾 Save</button>
       <button class="btn btn-soft" id="t-copy" type="button">📋 Copy</button>
       <button class="btn btn-soft" id="t-pdf" type="button">📄 PDF</button>
+      <button class="btn btn-soft" id="t-txt" type="button">⬇️ Text file</button>
       <button class="btn btn-soft" id="t-share" type="button">🔗 Share link</button>
       <button class="btn btn-soft" id="t-quiz" type="button" hidden>🧠 Story quiz</button>
     </div>
@@ -134,6 +138,8 @@
     <h1 id="h-lib">My stories</h1>
     <p class="lead" id="lib-empty" hidden>Nothing saved yet. Make a story and press Save.</p>
     <ul class="lib" id="lib-list"></ul>
+    <div class="toolbar" id="lib-tools"><button class="btn btn-soft" id="lib-export" type="button">⬇️ Back up my stories</button><button class="btn btn-soft" id="lib-import" type="button">⬆️ Restore from backup</button><input type="file" id="lib-file" accept="application/json,.json" hidden></div>
+    <p class="fine" id="lib-status" role="status"></p>
   </section>
 </main>
 <div class="sleep" id="sleep" hidden role="dialog" aria-label="Sleep mode">

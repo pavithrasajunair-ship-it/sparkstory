@@ -11,6 +11,9 @@ Type in your characters, pick who the story is for and what kind of story you wa
 - **Bedtime mode (little ones and kids):** tell it about today and the story gently winds down to "Goodnight".
 - **Sleep mode:** the story is read aloud slowly, with a timer, on a dim screen.
 - **PDF and private links:** print or save as PDF; share a read-only link that carries the story in the link itself (nothing is stored on a server).
+- **Made for…:** add a dedication like "Aanya, on her birthday" that shows on the story and in the text file.
+- **Voice and speed:** pick any voice your device has and how fast it reads.
+- **Keep your stories safe:** star favourites, download a story as a text file, and back up or restore your whole library as one file.
 - **All free:** no accounts, no database, no paid services needed.
 - **Works with no setup.** The built-in story maker runs on the device with no network.
 - **Optional Magic mode (AI).** Add an `ANTHROPIC_API_KEY` and the app offers one-of-a-kind AI stories. If it fails, or the answer isn't suitable for the age group, it falls back to the built-in maker.
