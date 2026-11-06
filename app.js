@@ -16,8 +16,9 @@
   };
   const SAVE_KEY = "storyspark:lib";
   const FONT_KEY = "storyspark:font";
+  const CAST_KEY = "storyspark:cast";
 
-  const state = { tier: "", genre: "", chars: [{ name: "", role: "hero" }], place: "", item: "", length: "medium", ai: false, story: null, aiMade: false };
+  const state = { tier: "", genre: "", chars: [{ name: "", role: "hero" }], place: "", item: "", length: "medium", ai: false, story: null, aiMade: false, bed: false, shared: false };
 
   // ---------- storage (always wrapped) ----------
   const store = {
@@ -88,6 +89,27 @@
     });
   }
 
+  // ---------- my cast (saved characters) ----------
+  const cast = () => store.get(CAST_KEY, []).filter((c) => c && typeof c.name === "string");
+  function saveCast(name, role) {
+    name = name.trim(); if (!name) return false;
+    const all = cast().filter((c) => c.name.toLowerCase() !== name.toLowerCase());
+    all.push({ name, role: role === "hero" ? "friend" : role });
+    return store.set(CAST_KEY, all.slice(-24));
+  }
+  function renderCast() {
+    const box = $("cast-box"), list = $("cast-list"); list.textContent = "";
+    const all = cast(); box.hidden = !all.length;
+    all.forEach((c) => {
+      const w = document.createElement("span"); w.className = "castchip";
+      const add = document.createElement("button"); add.type = "button"; add.textContent = "+ " + c.name; add.setAttribute("aria-label", "Add " + c.name + " to the story");
+      add.addEventListener("click", () => addName(c.name, c.role));
+      const del = document.createElement("button"); del.type = "button"; del.textContent = "✕"; del.setAttribute("aria-label", "Remove " + c.name + " from my cast");
+      del.addEventListener("click", () => { store.set(CAST_KEY, cast().filter((x) => x.name !== c.name)); renderCast(); });
+      w.append(add, del); list.appendChild(w);
+    });
+  }
+
   // ---------- characters ----------
   function roleOptions() {
     const r = COPY[state.tier].roles;
@@ -103,7 +125,7 @@
       b.addEventListener("click", () => addName(n)); sg.appendChild(b);
     });
     $("in-place").value = state.place; $("in-item").value = state.item;
-    $("chars-error").hidden = true;
+    $("chars-error").hidden = true; renderCast();
   }
   function renderChars() {
     const list = $("char-list"); list.textContent = "";
@@ -126,14 +148,18 @@
         x.addEventListener("click", () => { state.chars.splice(i, 1); renderChars(); });
         row.appendChild(x);
       }
+      const sv = document.createElement("button"); sv.type = "button"; sv.className = "save-c"; sv.textContent = "💾"; sv.title = "Save to my cast"; sv.setAttribute("aria-label", "Save " + (ch.name || "this character") + " to my cast");
+      sv.addEventListener("click", () => { if (!ch.name.trim()) { inp.focus(); return; } saveCast(ch.name, ch.role); renderCast(); sv.textContent = "✅"; });
+      if (i === 0) row.insertBefore(sv, row.children[2] || null); else row.insertBefore(sv, row.querySelector(".x"));
       list.appendChild(row);
     });
     $("add-char").hidden = state.chars.length >= 6;
   }
-  function addName(n) {
+  function addName(n, role) {
+    if (state.chars.some((c) => c.name.trim().toLowerCase() === n.toLowerCase())) return;
     const empty = state.chars.find((c) => !c.name.trim());
-    if (empty) empty.name = n;
-    else if (state.chars.length < 6) state.chars.push({ name: n, role: "friend" });
+    if (empty) { empty.name = n; if (empty.role !== "hero" && role) empty.role = role; }
+    else if (state.chars.length < 6) state.chars.push({ name: n, role: role || "friend" });
     renderChars();
   }
   function validateChars() {
@@ -157,11 +183,15 @@
       g.appendChild(b);
     });
     $("ai-row").hidden = !state.ai;
+    const bedOk = (state.tier === "tiny" || state.tier === "kids") && state.genre !== "spooky";
+    $("bed-row").hidden = !bedOk;
+    if (!bedOk) { state.bed = false; $("use-bed").checked = false; }
+    $("bed-opts").hidden = !($("use-bed").checked && bedOk);
   }
 
   // ---------- making a story ----------
   const LOADING = { tiny: "Sprinkling story dust…", kids: "Writing your adventure…", teens: "Spinning your story…", adult: "Setting the scene…" };
-  const params = (seed) => ({ tier: state.tier, genre: state.genre, length: state.length, chars: state.chars, place: state.place, item: state.item, seed });
+  const params = (seed) => ({ tier: state.tier, genre: state.genre, length: state.length, chars: state.chars, place: state.place, item: state.item, seed, bedtime: state.bed ? { today: $("bed-today").value.trim() } : null });
 
   async function aiStory(extra) {
     const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 55000);
@@ -204,7 +234,7 @@
     $("story-title").textContent = s.title;
     const words = s.text.split(/\s+/).length;
     const g = D.GENRES[s.params.genre];
-    $("story-meta").textContent = (g ? g.emoji + " " + g.name + " · " : "") + Math.max(1, Math.round(words / 150)) + " min read" + (s.ai ? " · written with AI ✨" : "");
+    $("story-meta").textContent = (g ? g.emoji + " " + g.name + " · " : "") + Math.max(1, Math.round(words / 150)) + " min read" + (s.episode ? " · Episode " + s.episode : "") + (s.params.bedtime ? " · 🌙 Bedtime" : "") + (s.ai ? " · written with AI ✨" : "");
     const n = $("story-notice"); n.textContent = notice || ""; n.hidden = !notice;
     const body = $("story-body"); body.textContent = "";
     s.chapters.forEach((c) => {
@@ -214,6 +244,13 @@
     applyFont();
     $("t-save").textContent = state.saved ? "✅ Saved" : "💾 Save";
     $("story-status").textContent = "";
+    $("shared-banner").hidden = !s.shared;
+    document.querySelectorAll(".gen-only").forEach((el) => { el.hidden = !!s.shared; });
+    const order = ["tiny", "kids", "teens", "adult"], ti = order.indexOf(s.params.tier);
+    const canGrow = !s.shared && ti >= 0 && ti < order.length - 1;
+    $("grow-row").hidden = !canGrow; $("grow").checked = false;
+    if (canGrow) $("grow-text").textContent = "They've grown up: make the next episode for " + D.TIERS[order[ti + 1]].name + " (" + D.TIERS[order[ti + 1]].range + ")";
+    $("t-episode").textContent = s.episode ? "📺 Episode " + (s.episode + 1) : "📺 Next episode";
     stopSpeak();
   }
 
@@ -243,7 +280,7 @@
     const s = state.story; if (!s) return;
     const all = lib().filter((x) => x.id !== s.id);
     s.id = s.id || String(Date.now());
-    all.unshift({ id: s.id, savedAt: Date.now(), story: { title: s.title, chapters: s.chapters, params: s.params, ctx: s.ctx, text: s.text, ai: !!s.ai, id: s.id } });
+    all.unshift({ id: s.id, savedAt: Date.now(), story: { title: s.title, chapters: s.chapters, params: s.params, ctx: s.ctx, text: s.text, ai: !!s.ai, id: s.id, episode: s.episode || 0, seriesTitle: s.seriesTitle || "", seriesId: s.seriesId || "", shared: !!s.shared } });
     if (!store.set(SAVE_KEY, all.slice(0, 40))) { $("story-status").textContent = "This browser could not save the story. Use Copy to keep it."; return; }
     state.saved = true; $("t-save").textContent = "✅ Saved"; $("story-status").textContent = "Saved in this browser. Find it under My stories."; updateCount();
   }
@@ -255,7 +292,7 @@
       const left = document.createElement("div");
       const b = document.createElement("b"); b.textContent = it.story.title;
       const sm = document.createElement("small"); const g = D.GENRES[it.story.params.genre];
-      sm.textContent = (g ? g.name : "") + " · " + new Date(it.savedAt).toLocaleDateString();
+      sm.textContent = (g ? g.name : "") + (it.story.episode ? " · Episode " + it.story.episode : "") + " · " + new Date(it.savedAt).toLocaleDateString();
       left.append(b, sm);
       const acts = document.createElement("div"); acts.className = "acts";
       const open = document.createElement("button"); open.type = "button"; open.className = "btn btn-soft"; open.textContent = "Read";
@@ -265,6 +302,82 @@
       acts.append(open, del); li.append(left, acts); ul.appendChild(li);
     });
     stopSpeak(); show("lib");
+  }
+
+  // ---------- sleep mode (audio only, screen dark) ----------
+  let sleepOn = false, sleepTimer = null, wakeLock = null;
+  function openSleep() {
+    if (!canSpeak || !state.story) { $("story-status").textContent = "This browser has no built-in voice, so Sleep mode is not available here."; return; }
+    stopSpeak();
+    const mins = Number($("sleep-min").value) || 0;
+    sleepOn = true; $("sleep").hidden = false; $("sleep-msg").textContent = "Close your eyes. Listen…";
+    $("sleep-stop").focus();
+    if (mins) sleepTimer = setTimeout(() => closeSleep(true), mins * 60000);
+    try { if (navigator.wakeLock) navigator.wakeLock.request("screen").then((l) => { wakeLock = l; }).catch(() => {}); } catch (e) {}
+    const items = [state.story.title].concat(Array.from($("story-body").children).map((el) => el.textContent));
+    const rate = { tiny: 0.8, kids: 0.85, teens: 0.9, adult: 0.88 }[state.story.params.tier] || 0.85;
+    const play = (i) => {
+      if (!sleepOn) return;
+      if (i >= items.length) { if (mins) setTimeout(() => play(1), 4000); else closeSleep(true); return; }
+      const u = new SpeechSynthesisUtterance(items[i]); u.rate = rate; u.pitch = 0.95;
+      u.onend = () => setTimeout(() => play(i + 1), 1200);
+      u.onerror = () => { if (sleepOn) setTimeout(() => play(i + 1), 1200); };
+      speechSynthesis.speak(u);
+    };
+    play(0);
+  }
+  function closeSleep(finished) {
+    sleepOn = false; clearTimeout(sleepTimer); sleepTimer = null;
+    if (canSpeak) speechSynthesis.cancel();
+    try { if (wakeLock) { wakeLock.release(); wakeLock = null; } } catch (e) {}
+    if (finished === true) { $("sleep-msg").textContent = "Sweet dreams 🌙"; $("sleep-stop").textContent = "Close"; return; }
+    $("sleep").hidden = true; $("sleep-stop").textContent = "Stop";
+  }
+
+  // ---------- private share link (the story travels inside the link; no server) ----------
+  const b64u = (bytes) => { let s = ""; for (let i = 0; i < bytes.length; i += 8192) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192)); return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); };
+  const unb64u = (t) => { const b = atob(t.replace(/-/g, "+").replace(/_/g, "/")); const a = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; };
+  async function encodeStory(st) {
+    const o = { v: 1, t: st.title, k: st.params.tier, g: st.params.genre, c: st.chapters.map((c) => [c.title || "", c.paragraphs]) };
+    const bytes = new TextEncoder().encode(JSON.stringify(o));
+    if (typeof CompressionStream === "function") {
+      const out = new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer());
+      return "z" + b64u(out);
+    }
+    return "p" + b64u(bytes);
+  }
+  async function decodeStory(code) {
+    let bytes = unb64u(code.slice(1));
+    if (code[0] === "z") bytes = new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer());
+    else if (code[0] !== "p") throw new Error("bad");
+    if (bytes.length > 200000) throw new Error("big");
+    const o = JSON.parse(new TextDecoder().decode(bytes));
+    if (!o || o.v !== 1 || typeof o.t !== "string" || !D.TIERS[o.k] || !Array.isArray(o.c) || o.c.length < 1 || o.c.length > 12) throw new Error("shape");
+    const str = (x, n) => String(x == null ? "" : x).slice(0, n);
+    const chapters = o.c.map((c) => {
+      if (!Array.isArray(c) || !Array.isArray(c[1]) || c[1].length > 40) throw new Error("shape");
+      return { title: str(c[0], 120), paragraphs: c[1].map((p) => str(p, 3000)) };
+    });
+    const story = { title: str(o.t, 160), chapters, params: { tier: o.k, genre: D.GENRES[o.g] ? o.g : "adventure", length: "medium", chars: [], place: "", item: "", seed: 0 }, ctx: {}, shared: true };
+    story.text = flatten(story);
+    return story;
+  }
+  async function shareLink() {
+    const st = state.story; if (!st) return;
+    try {
+      const url = location.origin + location.pathname + "#s=" + (await encodeStory(st));
+      if (navigator.share) { try { await navigator.share({ title: st.title, url }); $("story-status").textContent = "Shared."; return; } catch (e) { if (e && e.name === "AbortError") return; } }
+      await navigator.clipboard.writeText(url);
+      $("story-status").textContent = url.length > 6000 ? "Link copied. It is long, so some chat apps may cut it. For long stories use PDF." : "Link copied. Anyone who has this link can read the story. Nothing is uploaded anywhere.";
+    } catch (e) { $("story-status").textContent = "Could not make a link here. Use PDF or Copy instead."; }
+  }
+  async function openSharedFromHash() {
+    const m = /^#s=([A-Za-z0-9_-]+)$/.exec(location.hash);
+    if (!m) return;
+    try {
+      const st = await decodeStory(m[1]);
+      setTier(st.params.tier); state.story = st; state.saved = false; renderStory(""); show("story");
+    } catch (e) { history.replaceState(null, "", location.pathname); const n = document.createElement("p"); n.className = "notice"; n.textContent = "That shared link could not be opened. Ask for a new one."; $("s-age").prepend(n); }
   }
 
   // ---------- wiring ----------
@@ -310,6 +423,23 @@
       const hs = $("story-body").querySelectorAll("h2"); if (hs.length) hs[hs.length - 1].scrollIntoView({ behavior: "smooth", block: "start" });
       $("story-status").textContent = "Added a new chapter.";
     });
+    $("use-bed").addEventListener("change", () => { state.bed = $("use-bed").checked; $("bed-opts").hidden = !state.bed; });
+    $("t-episode").addEventListener("click", () => {
+      const s0 = state.story; if (!s0 || s0.shared) return;
+      stopSpeak();
+      const ep = E.nextEpisode(Object.assign({}, s0, { id: s0.id }), { grow: $("grow").checked });
+      if (!ep.seriesId) ep.seriesId = s0.id || String(s0.params.seed);
+      if (ep.params.tier !== state.tier) { setTier(ep.params.tier); state.tier = ep.params.tier; }
+      state.genre = ep.params.genre; state.length = ep.params.length;
+      state.story = ep; state.saved = false; renderStory("");
+      $("story-status").textContent = "Episode " + ep.episode + " is ready. Save it to keep the series.";
+    });
+    $("t-pdf").addEventListener("click", () => { stopSpeak(); window.print(); });
+    $("t-share").addEventListener("click", shareLink);
+    $("make-own").addEventListener("click", () => { history.replaceState(null, "", location.pathname); state.shared = false; state.chars = [{ name: "", role: "hero" }]; setTier(""); show("age"); });
+    $("t-sleep").addEventListener("click", openSleep);
+    $("sleep-stop").addEventListener("click", closeSleep);
+    openSharedFromHash();
     // is AI available?
     fetch("/api/story").then((r) => (r.ok ? r.json() : { ai: false })).then((j) => { state.ai = !!(j && j.ai); }).catch(() => {});
     window.__SS = { state, show };

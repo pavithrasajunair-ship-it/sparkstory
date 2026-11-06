@@ -6,6 +6,12 @@ Type in your characters, pick who the story is for and what kind of story you wa
 - **24 story types:** bedtime, animal friends, fairy tales, silly, kindness and magic for little ones; adventure, fantasy, mystery, space, spooky-not-too-scary and superheroes for kids; romance, dystopian, friendship and more for teens; horror, dark romance, thriller, psychological, drama and historical for grown-ups.
 - **Short, medium or long:** long stories come in chapters, and **Keep going** adds another one.
 - **Read, listen, keep:** bigger/smaller text, read aloud, copy, and save to **My stories** (kept in the browser).
+- **Your own cast:** save characters (💾) and reuse them in any story.
+- **Ongoing series:** a new episode with a "Last time" recap; characters can grow up into the next age group.
+- **Bedtime mode (little ones and kids):** tell it about today and the story gently winds down to "Goodnight".
+- **Sleep mode:** the story is read aloud slowly, with a timer, on a dim screen.
+- **PDF and private links:** print or save as PDF; share a read-only link that carries the story in the link itself (nothing is stored on a server).
+- **All free:** no accounts, no database, no paid services needed.
 - **Works with no setup.** The built-in story maker runs on the device with no network.
 - **Optional Magic mode (AI).** Add an `ANTHROPIC_API_KEY` and the app offers one-of-a-kind AI stories. If it fails, or the answer isn't suitable for the age group, it falls back to the built-in maker.
 

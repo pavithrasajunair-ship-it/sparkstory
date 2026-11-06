@@ -15,8 +15,9 @@ function validate(body) {
     .filter((c) => c.name);
   if (!chars.length) return { error: "Please add at least one character" };
   const place = clean(body.place, 40), item = clean(body.item, 40);
+  const bedtime = body.bedtime && typeof body.bedtime === "object" && (tier === "tiny" || tier === "kids") ? { today: clean(body.bedtime.today, 60) } : null;
   const continueFrom = typeof body.continueFrom === "string" ? body.continueFrom.slice(-1800) : "";
-  return { value: { tier, genre: body.genre, genreName: g.name, length, chars, place, item, continueFrom } };
+  return { value: { tier, genre: body.genre, genreName: g.name, length, chars, place, item, continueFrom, bedtime } };
 }
 
 const RULES = {
@@ -46,6 +47,7 @@ function buildPrompt(v) {
   let user = `Write a ${v.genreName} story, ${sz}.\n\nCharacters:\n${who}\n`;
   if (v.place) user += `\nSetting: ${v.place}\n`;
   if (v.item) user += `\nA special thing in the story: ${v.item}\n`;
+  if (v.bedtime) user += `\nThis is a calm bedtime story. Keep it soft and slow, with no problem that feels scary, and end by gently winding down so the child can fall asleep.${v.bedtime.today ? " Something that happened today, to be handled kindly and reassuringly: " + v.bedtime.today + "." : ""}\n`;
   if (v.continueFrom) user = `Here is the end of a story so far:\n"""\n${v.continueFrom}\n"""\n\nWrite the next chapter (about 400 words) in the same style, with the same characters, moving the story forward. Start with a line \`TITLE: <same story title>\` then one chapter heading line \`## <chapter title>\`.`;
   return { system, user, maxTokens: v.continueFrom ? 1400 : size.tokens };
 }

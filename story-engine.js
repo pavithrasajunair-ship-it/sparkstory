@@ -720,9 +720,23 @@
         : (tier === "tiny" ? `${n} came along too, and waved hello.` : `Along the way, ${n} joined in, with a surprising talent for exactly what was needed.`))).join(" ");
       target.splice(Math.max(1, Math.floor(target.length / 2)), 0, line);
     }
+    // bedtime mode: a gentle look back at the day, then a slow wind-down for sleep
+    const bed = params.bedtime && (tier === "tiny" || tier === "kids") ? { today: CLEAN(params.bedtime.today, 60).replace(/[.!?]+$/, "") } : null;
+    if (bed) {
+      const last = chapters[chapters.length - 1].paragraphs;
+      const H = ctx.H;
+      if (bed.today) last.push(`Today had been a big day for ${H}: ${bed.today}. Some days feel big, and that is okay.`);
+      const wind = [
+        `Now the story was nearly over, and everything grew soft and slow. ${H} took a deep breath in... and a long breath out. In... and out.`,
+        `The night was quiet now. The stars blinked slowly, one by one. ${H} felt warm and safe, with heavy eyelids and a calm, cosy tummy.`,
+        `Everything in the story began to rest. The wind stopped to listen. ${H} snuggled down, and every worry floated away like a little cloud.`,
+      ];
+      last.push(wind[Math.floor(rt.r() * wind.length)]);
+      last.push(allNames.length ? allNames.map((n) => `Goodnight, ${n}.`).join(" ") + " Sleep tight." : "Goodnight. Sleep tight.");
+    }
     const titleKey = g.shape === "haunt" && reg === "simple" ? "hauntKid" : g.shape;
     const title = titleCase(tidy(fill(rt.draw("title", TITLES[titleKey] || TITLES.quest), ctx, lex, rt, gid)));
-    const story = { title, chapters, params: { tier, genre: gid, length, chars: params.chars, place: params.place || "", item: params.item || "", seed }, ctx: { ...ctx } };
+    const story = { title, chapters, params: { tier, genre: gid, length, chars: params.chars, place: params.place || "", item: params.item || "", seed, bedtime: bed ? { today: bed.today } : null }, ctx: { ...ctx } };
     story.text = toText(story);
     return story;
   }
@@ -749,6 +763,26 @@
     return next;
   }
 
+  // a new episode for the same cast: same characters, new adventure, with a short "last time" line
+  function nextEpisode(prev, opts) {
+    opts = opts || {};
+    const p = prev.params;
+    const order = ["tiny", "kids", "teens", "adult"];
+    let tier = p.tier;
+    if (opts.grow && order.indexOf(tier) < order.length - 1) tier = order[order.indexOf(tier) + 1];
+    const s = generate({ tier, genre: p.genre, length: p.length === "short" ? "medium" : p.length, chars: p.chars, place: p.place, item: "", bedtime: tier === "tiny" || tier === "kids" ? p.bedtime : null, seed: (p.seed * 31 + 17 + (prev.episode || 1) * 101) >>> 0 });
+    const ep = (prev.episode || 1) + 1;
+    const seriesTitle = prev.seriesTitle || prev.title;
+    const recap = tier === "tiny" ? `Last time, in "${seriesTitle}", everything ended happily. Now a new adventure was about to begin.`
+      : tier === "adult" ? `After "${seriesTitle}", nothing was quite the same. And then something new began.`
+      : `Last time, in "${seriesTitle}", the adventure ended well. But a new one was just starting.`;
+    s.chapters[0].paragraphs.unshift(recap);
+    s.episode = ep; s.seriesTitle = seriesTitle; s.seriesId = prev.seriesId || prev.id || String(p.seed);
+    s.title = `${seriesTitle}: Episode ${ep}`;
+    s.text = toText(s);
+    return s;
+  }
+
   function toText(s) {
     return [s.title].concat(s.chapters.map((c) => (c.title ? c.title + "\n\n" : "") + c.paragraphs.join("\n\n"))).join("\n\n");
   }
@@ -757,5 +791,5 @@
     return Object.keys(GENRES).filter((k) => GENRES[k].tiers.includes(tier)).map((k) => ({ id: k, ...GENRES[k] }));
   }
 
-  return { generate, continueStory, genresFor, toText, tidy, _S: S };
+  return { generate, continueStory, nextEpisode, genresFor, toText, tidy, _S: S };
 });

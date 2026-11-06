@@ -50,6 +50,11 @@
       <button class="btn btn-soft" id="add-char" type="button">＋ Add another character</button>
     </div>
     <div class="suggest" id="suggest" aria-label="Name ideas"></div>
+    <div class="cast" id="cast-box" hidden>
+      <h2>My cast</h2>
+      <p class="fine">Tap to add someone you saved. Saved only in this browser.</p>
+      <div class="suggest" id="cast-list"></div>
+    </div>
     <details class="more">
       <summary>Add a place or a special thing (optional)</summary>
       <label class="field"><span>A place</span><input id="in-place" maxlength="40" autocomplete="off" placeholder="the old lighthouse"></label>
@@ -64,6 +69,13 @@
     <button class="back" type="button" data-back="chars">← Back</button>
     <h1 id="h-length">How long should it be?</h1>
     <div class="grid length-grid" id="length-grid" role="radiogroup" aria-label="Story length"></div>
+    <div id="bed-row" hidden>
+      <label class="ai-row"><input type="checkbox" id="use-bed"> <span><b>🌙 Bedtime mode</b> A calm story that ends with a slow wind-down for sleep</span></label>
+      <div id="bed-opts" hidden>
+        <label class="field"><span>Something that happened today (optional)</span><input id="bed-today" maxlength="60" autocomplete="off" placeholder="first day at school"></label>
+        <p class="fine">The story will gently say that big days are okay, then help the little one settle.</p>
+      </div>
+    </div>
     <label class="ai-row" id="ai-row" hidden><input type="checkbox" id="use-ai" checked> <span><b>Magic mode ✨</b> Write a one-of-a-kind story with AI</span></label>
     <div class="row"><button class="btn btn-primary btn-big" id="make" type="button">Make my story ✨</button></div>
   </section>
@@ -76,6 +88,7 @@
 
   <!-- story -->
   <section class="screen" id="s-story" hidden aria-labelledby="story-title">
+    <div class="shared" id="shared-banner" hidden><span>💌 Someone shared this story with you.</span> <button class="btn btn-soft" id="make-own" type="button">Make my own</button></div>
     <article class="story" id="story">
       <h1 id="story-title"></h1>
       <p class="meta" id="story-meta"></p>
@@ -88,12 +101,20 @@
       <button class="btn btn-soft" id="t-bigger" type="button" aria-label="Bigger text">A+</button>
       <button class="btn btn-soft" id="t-save" type="button">💾 Save</button>
       <button class="btn btn-soft" id="t-copy" type="button">📋 Copy</button>
+      <button class="btn btn-soft" id="t-pdf" type="button">📄 PDF</button>
+      <button class="btn btn-soft" id="t-share" type="button">🔗 Share link</button>
+    </div>
+    <div class="toolbar sleepbar">
+      <button class="btn btn-soft" id="t-sleep" type="button">🌙 Sleep mode</button>
+      <label class="sleepsel">Keep playing for <select id="sleep-min" aria-label="Sleep timer"><option value="0">until the story ends</option><option value="10">10 minutes</option><option value="20">20 minutes</option><option value="30">30 minutes</option></select></label>
     </div>
     <div class="toolbar">
-      <button class="btn btn-primary" id="t-continue" type="button">➕ Keep going</button>
-      <button class="btn btn-soft" id="t-again" type="button">🔄 Another version</button>
+      <button class="btn btn-primary gen-only" id="t-continue" type="button">➕ Keep going</button>
+      <button class="btn btn-primary gen-only" id="t-episode" type="button">📺 Next episode</button>
+      <button class="btn btn-soft gen-only" id="t-again" type="button">🔄 Another version</button>
       <button class="btn btn-ghost" id="t-new" type="button">New story</button>
     </div>
+    <label class="grow gen-only" id="grow-row" hidden><input type="checkbox" id="grow"> <span id="grow-text">They've grown up: make the next episode for the next age group</span></label>
     <p class="fine" id="story-status" role="status"></p>
   </section>
 
@@ -105,6 +126,11 @@
     <ul class="lib" id="lib-list"></ul>
   </section>
 </main>
+<div class="sleep" id="sleep" hidden role="dialog" aria-label="Sleep mode">
+  <div class="moon" aria-hidden="true">🌙</div>
+  <p id="sleep-msg">Close your eyes. Listen…</p>
+  <button class="btn btn-ghost" id="sleep-stop" type="button">Stop</button>
+</div>
 <footer class="foot">Made with ✨ StorySpark. Stories are made up, for fun.</footer>
 <script src="story-data.js"></script>
 <script src="story-engine.js"></script>
