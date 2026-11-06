@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en" data-tier="">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>StorySpark - Stories made for you</title>
+<meta name="description" content="Type in your characters, pick who the story is for and what kind of story you want. StorySpark writes it: bedtime tales for little ones, adventures for kids, bold stories for teens, horror and romance for grown-ups.">
+<meta name="theme-color" content="#7c3aed">
+<meta property="og:title" content="StorySpark - Stories made for you">
+<meta property="og:description" content="Add your characters, choose an age group and a genre, and get a story to read, listen to and save.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="deco" id="deco" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <button class="brand" id="brand" type="button" aria-label="StorySpark home"><span class="brand-star" aria-hidden="true">✨</span> StorySpark</button>
+  <button class="btn btn-ghost" id="btn-lib" type="button">📚 My stories <span class="count" id="lib-count" hidden></span></button>
+</header>
+
+<main id="main" tabindex="-1">
+  <ol class="steps" id="steps" aria-label="Progress" hidden>
+    <li data-step="1">Genre</li><li data-step="2">Characters</li><li data-step="3">Length</li>
+  </ol>
+
+  <!-- 1. who is it for -->
+  <section class="screen" id="s-age" aria-labelledby="h-age">
+    <h1 id="h-age">Who is the story for?</h1>
+    <p class="lead">Pick the reader and StorySpark will change its look and its story types to suit.</p>
+    <div class="grid age-grid" id="age-grid"></div>
+    <p class="fine">Stories are made for the age group you choose. Parents, please choose the right group for your child.</p>
+  </section>
+
+  <!-- 2. genre -->
+  <section class="screen" id="s-genre" hidden aria-labelledby="h-genre">
+    <button class="back" type="button" data-back="age">← Back</button>
+    <h1 id="h-genre">What kind of story?</h1>
+    <div class="grid genre-grid" id="genre-grid"></div>
+  </section>
+
+  <!-- 3. characters -->
+  <section class="screen" id="s-chars" hidden aria-labelledby="h-chars">
+    <button class="back" type="button" data-back="genre">← Back</button>
+    <h1 id="h-chars">Who is in your story?</h1>
+    <p class="lead" id="chars-lead">Type the names of your characters. The first one is the main character.</p>
+    <div id="char-list" class="char-list"></div>
+    <div class="row">
+      <button class="btn btn-soft" id="add-char" type="button">＋ Add another character</button>
+    </div>
+    <div class="suggest" id="suggest" aria-label="Name ideas"></div>
+    <details class="more">
+      <summary>Add a place or a special thing (optional)</summary>
+      <label class="field"><span>A place</span><input id="in-place" maxlength="40" autocomplete="off" placeholder="the old lighthouse"></label>
+      <label class="field"><span>A special thing</span><input id="in-item" maxlength="40" autocomplete="off" placeholder="a red balloon"></label>
+    </details>
+    <p class="error" id="chars-error" role="alert" hidden></p>
+    <div class="row"><button class="btn btn-primary" id="chars-next" type="button">Next →</button></div>
+  </section>
+
+  <!-- 4. length -->
+  <section class="screen" id="s-length" hidden aria-labelledby="h-length">
+    <button class="back" type="button" data-back="chars">← Back</button>
+    <h1 id="h-length">How long should it be?</h1>
+    <div class="grid length-grid" id="length-grid" role="radiogroup" aria-label="Story length"></div>
+    <label class="ai-row" id="ai-row" hidden><input type="checkbox" id="use-ai" checked> <span><b>Magic mode ✨</b> Write a one-of-a-kind story with AI</span></label>
+    <div class="row"><button class="btn btn-primary btn-big" id="make" type="button">Make my story ✨</button></div>
+  </section>
+
+  <!-- loading -->
+  <section class="screen" id="s-loading" hidden aria-live="polite">
+    <div class="loader" aria-hidden="true"><span>📖</span><span>✨</span><span>🌟</span></div>
+    <h1 id="loading-text">Writing your story…</h1>
+  </section>
+
+  <!-- story -->
+  <section class="screen" id="s-story" hidden aria-labelledby="story-title">
+    <article class="story" id="story">
+      <h1 id="story-title"></h1>
+      <p class="meta" id="story-meta"></p>
+      <p class="notice" id="story-notice" hidden></p>
+      <div id="story-body" class="story-body"></div>
+    </article>
+    <div class="toolbar" role="toolbar" aria-label="Story tools">
+      <button class="btn btn-soft" id="t-listen" type="button">🔊 Listen</button>
+      <button class="btn btn-soft" id="t-smaller" type="button" aria-label="Smaller text">A−</button>
+      <button class="btn btn-soft" id="t-bigger" type="button" aria-label="Bigger text">A+</button>
+      <button class="btn btn-soft" id="t-save" type="button">💾 Save</button>
+      <button class="btn btn-soft" id="t-copy" type="button">📋 Copy</button>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-primary" id="t-continue" type="button">➕ Keep going</button>
+      <button class="btn btn-soft" id="t-again" type="button">🔄 Another version</button>
+      <button class="btn btn-ghost" id="t-new" type="button">New story</button>
+    </div>
+    <p class="fine" id="story-status" role="status"></p>
+  </section>
+
+  <!-- library -->
+  <section class="screen" id="s-lib" hidden aria-labelledby="h-lib">
+    <button class="back" type="button" data-back="age">← Back</button>
+    <h1 id="h-lib">My stories</h1>
+    <p class="lead" id="lib-empty" hidden>Nothing saved yet. Make a story and press Save.</p>
+    <ul class="lib" id="lib-list"></ul>
+  </section>
+</main>
+<footer class="foot">Made with ✨ StorySpark. Stories are made up, for fun.</footer>
+<script src="story-data.js"></script>
+<script src="story-engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
