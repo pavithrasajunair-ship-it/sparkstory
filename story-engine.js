@@ -597,6 +597,39 @@
   };
 
   // ---------- building a story ----------
+  // ---------- optional endings ----------
+  const ENDINGS = {
+    epilogue: {
+      simple: [
+        "Many days later, {H} still smiled whenever {I} came to mind. {A} smiled too. And that is how it all ended, happily.",
+        "A long time after, {H} and {A} sometimes went back to {P}, just to remember. It was always lovely. The end.",
+      ],
+      rich: [
+        "Years later, {H} still told the story of {P}. Some people laughed. {A} never did, because {A} had been there. {I} stayed where it belonged, and nothing was ever quite the same again.",
+        "Time passed, as it does. {H} grew, and changed, and kept the memory of {P} close. Some stories end. Others only go quiet, and wait.",
+      ],
+    },
+    twist: {
+      simple: [
+        "But the biggest surprise came last. Tucked inside {I}, {H} found a tiny note. It said: \"Thank you for being brave. See you soon!\" Who wrote it? Nobody ever knew.",
+        "Then came one more surprise. {A} started to giggle, because {A} had known a secret all along. And now {H} knew it too!",
+      ],
+      rich: [
+        "Then, as the others drifted away, {H} noticed what nobody else had. {I} was warm, as if someone had only just let go of it. And in the dust beside it, one fresh footprint pointed back toward {P}.",
+        "It was only later that {H} understood. The one detail that did not fit had been there from the very start. Nothing had been an accident. Not a single thing. And somebody was still watching.",
+      ],
+    },
+    cliff: {
+      simple: [
+        "But just as {H} turned to leave, {P} began to glow, and a tiny voice whispered, \"Come back soon. The adventure has only just begun!\" To be continued...",
+      ],
+      rich: [
+        "Just as {H} thought it was over, a message arrived. No name, only six words: \"It isn't over. Come back to {P}.\" To be continued...",
+        "{H} had barely closed the door when the knocking began again. Slow. Patient. Three knocks. To be continued...",
+      ],
+    },
+  };
+
   const CLEAN = (s, n) => String(s == null ? "" : s).replace(/[<>{}]/g, "").replace(/\s+/g, " ").trim().slice(0, n || 40);
 
   function setup(params) {
@@ -720,6 +753,13 @@
         : (tier === "tiny" ? `${n} came along too, and waved hello.` : `Along the way, ${n} joined in, with a surprising talent for exactly what was needed.`))).join(" ");
       target.splice(Math.max(1, Math.floor(target.length / 2)), 0, line);
     }
+    // chosen ending: a twist, an epilogue ("years later") or a cliffhanger. Never mixed into bedtime stories.
+    const endKind = ["twist", "epilogue", "cliff"].includes(params.ending) && !(params.bedtime && (tier === "tiny" || tier === "kids")) && !(params.ending === "cliff" && tier === "tiny") ? params.ending : "";
+    if (endKind) {
+      const E2 = ENDINGS[endKind][reg === "simple" ? "simple" : "rich"];
+      const lastP = chapters[chapters.length - 1].paragraphs;
+      lastP.push(tidy(fill(E2[Math.floor(rt.r() * E2.length)], ctx, lex, rt, gid)));
+    }
     // bedtime mode: a gentle look back at the day, then a slow wind-down for sleep
     const bed = params.bedtime && (tier === "tiny" || tier === "kids") ? { today: CLEAN(params.bedtime.today, 60).replace(/[.!?]+$/, "") } : null;
     if (bed) {
@@ -736,7 +776,7 @@
     }
     const titleKey = g.shape === "haunt" && reg === "simple" ? "hauntKid" : g.shape;
     const title = titleCase(tidy(fill(rt.draw("title", TITLES[titleKey] || TITLES.quest), ctx, lex, rt, gid)));
-    const story = { title, chapters, params: { tier, genre: gid, length, chars: params.chars, place: params.place || "", item: params.item || "", seed, bedtime: bed ? { today: bed.today } : null }, ctx: { ...ctx } };
+    const story = { title, chapters, params: { tier, genre: gid, length, chars: params.chars, place: params.place || "", item: params.item || "", seed, bedtime: bed ? { today: bed.today } : null, ending: endKind }, ctx: { ...ctx } };
     story.text = toText(story);
     return story;
   }
@@ -770,7 +810,7 @@
     const order = ["tiny", "kids", "teens", "adult"];
     let tier = p.tier;
     if (opts.grow && order.indexOf(tier) < order.length - 1) tier = order[order.indexOf(tier) + 1];
-    const s = generate({ tier, genre: p.genre, length: p.length === "short" ? "medium" : p.length, chars: p.chars, place: p.place, item: "", bedtime: tier === "tiny" || tier === "kids" ? p.bedtime : null, seed: (p.seed * 31 + 17 + (prev.episode || 1) * 101) >>> 0 });
+    const s = generate({ tier, genre: p.genre, length: p.length === "short" ? "medium" : p.length, chars: p.chars, place: p.place, item: "", bedtime: tier === "tiny" || tier === "kids" ? p.bedtime : null, ending: "", seed: (p.seed * 31 + 17 + (prev.episode || 1) * 101) >>> 0 });
     const ep = (prev.episode || 1) + 1;
     const seriesTitle = prev.seriesTitle || prev.title;
     const recap = tier === "tiny" ? `Last time, in "${seriesTitle}", everything ended happily. Now a new adventure was about to begin.`

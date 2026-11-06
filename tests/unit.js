@@ -140,6 +140,37 @@ t("suitability check blocks unsafe words for young readers only", () => {
 // ---- handler with a fake network ----
 const mkRes = () => { const r = { code: 200, headers: {}, body: null, setHeader(k, v) { r.headers[k] = v; }, status(c) { r.code = c; return r; }, json(b) { r.body = b; return r; } }; return r; };
 const goodBody = { tier: "kids", genre: "adventure", length: "short", chars: [{ name: "Zoe", role: "hero" }] };
+const X = require("../extras.js");
+t("endings are added, are age-safe, and are skipped for bedtime stories", () => {
+  for (const tier of ["tiny", "kids", "teens", "adult"]) for (const g of E.genresFor(tier)) for (const kind of ["twist", "epilogue", "cliff"]) {
+    const s = E.generate({ tier, genre: g.id, length: "short", chars: crew, seed: 11, ending: kind });
+    const exp = kind === "cliff" && tier === "tiny" ? "" : kind;
+    assert.strictEqual(s.params.ending, exp, tier + g.id + kind);
+    assert(!/[{}]/.test(s.text), "unfilled token");
+    if (tier === "tiny" || tier === "kids") assert(!KIDS_BAD.test(s.text), s.text);
+    if (exp === "cliff") assert(/To be continued/.test(s.text));
+  }
+  const b = E.generate({ tier: "tiny", genre: "bedtime", length: "short", chars: crew, seed: 3, ending: "twist", bedtime: { today: "a big day" } });
+  assert.strictEqual(b.params.ending, ""); assert(/Goodnight/.test(b.chapters.slice(-1)[0].paragraphs.slice(-1)[0]));
+  assert.strictEqual(E.generate({ tier: "kids", genre: "adventure", length: "short", chars: crew, seed: 3, ending: "bogus" }).params.ending, "");
+});
+t("quiz: one right answer, no repeats, answers appear in the story", () => {
+  let made = 0;
+  for (const tier of ["tiny", "kids", "teens"]) for (const g of E.genresFor(tier)) for (let seed = 1; seed < 6; seed++) {
+    const s = E.generate({ tier, genre: g.id, length: "medium", chars: [{ name: "Zoe", role: "hero" }], seed });
+    const qs = X.quiz(s); if (!qs.length) continue; made++;
+    qs.forEach((q) => {
+      assert(q.options.length === 4 && new Set(q.options).size === 4, "options " + JSON.stringify(q));
+      assert(q.answer >= 0 && q.answer < 4);
+      const right = q.options[q.answer].replace(/^(the|a|an)\s+/i, "").toLowerCase();
+      assert(s.text.toLowerCase().includes(right), "answer not in story: " + right);
+    });
+  }
+  assert(made > 40, "most stories should have a quiz, got " + made);
+  const adult = E.generate({ tier: "adult", genre: "horror", length: "short", chars: crew, seed: 1 });
+  assert.deepStrictEqual(X.quiz(adult), []);
+  assert.deepStrictEqual(X.quiz({ ai: true, ctx: {}, params: {}, text: "x" }), []);
+});
 (async () => {
   const realFetch = global.fetch;
   await ta("GET reports whether AI is configured", async () => {

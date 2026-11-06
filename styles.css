@@ -146,7 +146,21 @@ html[data-tier=teens]{--card:rgba(26,12,52,.88)}
 .sleep p{font:400 18px var(--body)}
 .sleep .btn{color:#8d86a8;border-color:#2a2540;background:transparent}
 @keyframes breathe{50%{transform:scale(1.12);opacity:.4}}
+/* cover art, quiz */
+.cover{margin:-8px -8px 14px;border-radius:calc(var(--radius) - 4px);overflow:hidden;line-height:0}
+.cover-svg{width:100%;height:auto;max-height:260px;display:block}
+.quiz{margin:16px 0;background:var(--card);border:2px solid var(--line);border-radius:var(--radius);padding:18px}
+.quiz h2{margin:0 0 10px}
+.quiz .q{margin:14px 0 8px;font-weight:700}
+.quiz .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.quiz .opt{min-height:44px;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--ink);font:600 15px var(--body);cursor:pointer;text-align:left}
+.quiz .opt.right{border-color:#22a559;background:rgba(34,165,89,.18)}
+.quiz .opt.wrong{border-color:#d9455f;background:rgba(217,69,95,.16)}
+.quiz .score{font-weight:800;font-size:1.15em;margin-top:14px}
+#end-row{margin-top:16px;display:block}
 @media print{
+  .quiz{display:none!important}
+  .cover{margin:0 0 12pt}.cover-svg{max-height:150pt}
   body{background:#fff!important;color:#000!important}
   .top,.steps,.foot,.deco,.skip,.sleep,.toolbar,.grow,.fine,.notice,.shared,main>.screen:not(#s-story){display:none!important}
   #s-story{display:block!important}

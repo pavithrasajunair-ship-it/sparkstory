@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  const D = window.SSData, E = window.SSEngine;
+  const D = window.SSData, E = window.SSEngine, X = window.SSExtras;
   const $ = (id) => document.getElementById(id);
   const SCREENS = ["age", "genre", "chars", "length", "loading", "story", "lib"];
   const COPY = {
@@ -187,11 +187,56 @@
     $("bed-row").hidden = !bedOk;
     if (!bedOk) { state.bed = false; $("use-bed").checked = false; }
     $("bed-opts").hidden = !($("use-bed").checked && bedOk);
+    syncEnding();
+  }
+
+  // ---------- ending choice ----------
+  function endingOk() { return !state.bed && !($("use-ai") && $("use-ai").checked && state.ai); }
+  function endingChoice() { return endingOk() ? $("in-end").value : ""; }
+  function syncEnding() {
+    $("end-row").hidden = !endingOk();
+    const cliff = $("in-end").querySelector('option[value="cliff"]'); cliff.hidden = cliff.disabled = state.tier === "tiny";
+    if (state.tier === "tiny" && $("in-end").value === "cliff") $("in-end").value = "";
+  }
+
+  // ---------- surprise me ----------
+  const SURP_NAMES = ["Aarav", "Neel", "Zoya", "Mira", "Kabir", "Anaya", "Rohan", "Isla", "Theo", "Naina", "Luca", "Sana", "Maya", "Leo", "Ira", "Dev"];
+  const pickOne = (a) => a[Math.floor(Math.random() * a.length)];
+  function surprise() {
+    const gs = E.genresFor(state.tier); if (!gs.length) return;
+    state.genre = pickOne(gs).id;
+    const a = pickOne(SURP_NAMES); let b = pickOne(SURP_NAMES); while (b === a) b = pickOne(SURP_NAMES);
+    state.chars = [{ name: a, role: "hero" }, { name: b, role: "friend" }];
+    state.place = ""; state.item = ""; state.length = "medium"; state.bed = false;
+    $("use-bed").checked = false; $("in-end").value = pickOne(["", "", "epilogue", "twist"]);
+    make();
+  }
+
+  // ---------- quiz ----------
+  function renderQuiz() {
+    const qs = X.quiz(state.story), box = $("quiz-body"); box.textContent = "";
+    let done = 0, right = 0;
+    qs.forEach((q) => {
+      const h = document.createElement("p"); h.className = "q"; h.textContent = q.q; box.appendChild(h);
+      const row = document.createElement("div"); row.className = "opts";
+      q.options.forEach((o, i) => {
+        const b = document.createElement("button"); b.type = "button"; b.className = "opt"; b.textContent = o;
+        b.addEventListener("click", () => {
+          if (row.dataset.done) return; row.dataset.done = "1"; done++;
+          const ok = i === q.answer; if (ok) right++;
+          b.classList.add(ok ? "right" : "wrong");
+          if (!ok) row.children[q.answer].classList.add("right");
+          if (done === qs.length) { const sc = document.createElement("p"); sc.className = "score"; sc.setAttribute("role", "status"); sc.textContent = (right === qs.length ? "🌟 Perfect! " : right ? "⭐ Nice! " : "💫 Good try! ") + right + " out of " + qs.length; box.appendChild(sc); }
+        });
+        row.appendChild(b);
+      });
+      box.appendChild(row);
+    });
   }
 
   // ---------- making a story ----------
   const LOADING = { tiny: "Sprinkling story dust…", kids: "Writing your adventure…", teens: "Spinning your story…", adult: "Setting the scene…" };
-  const params = (seed) => ({ tier: state.tier, genre: state.genre, length: state.length, chars: state.chars, place: state.place, item: state.item, seed, bedtime: state.bed ? { today: $("bed-today").value.trim() } : null });
+  const params = (seed) => ({ tier: state.tier, genre: state.genre, length: state.length, chars: state.chars, place: state.place, item: state.item, seed, bedtime: state.bed ? { today: $("bed-today").value.trim() } : null, ending: endingChoice() });
 
   async function aiStory(extra) {
     const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 55000);
@@ -241,6 +286,9 @@
       if (c.title) { const h = document.createElement("h2"); h.textContent = c.title; body.appendChild(h); }
       c.paragraphs.forEach((p) => { const el = document.createElement("p"); el.textContent = p; body.appendChild(el); });
     });
+    const cv = $("cover"); cv.textContent = "";
+    try { cv.appendChild(X.cover(s)); } catch (e) {}
+    $("quiz").hidden = true; $("t-quiz").hidden = !X.quiz(s).length;
     applyFont();
     $("t-save").textContent = state.saved ? "✅ Saved" : "💾 Save";
     $("story-status").textContent = "";
@@ -395,6 +443,12 @@
     $("chars-next").addEventListener("click", () => { if (validateChars()) { buildLength(); show("length"); } });
     $("char-list").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); $("chars-next").click(); } });
     $("make").addEventListener("click", () => make());
+    $("surprise").addEventListener("click", surprise);
+    $("use-ai").addEventListener("change", syncEnding);
+    $("t-quiz").addEventListener("click", () => { const q = $("quiz"); q.hidden = !q.hidden; if (!q.hidden) { renderQuiz(); q.scrollIntoView({ behavior: "smooth", block: "nearest" }); } });
+    const amb = $("amb"); X.Ambience.KINDS.forEach(([v, l]) => { const o = document.createElement("option"); o.value = v; o.textContent = l; amb.appendChild(o); });
+    amb.addEventListener("change", () => { if (!X.Ambience.play(amb.value)) { $("story-status").textContent = "Sounds are not available on this device."; amb.value = "off"; } });
+    if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("/sw.js").catch(() => {});
     $("t-again").addEventListener("click", () => make());
     $("t-new").addEventListener("click", () => { stopSpeak(); state.chars = [{ name: "", role: "hero" }]; state.place = ""; state.item = ""; setTier(""); show("age"); });
     $("t-save").addEventListener("click", saveStory);
@@ -423,7 +477,7 @@
       const hs = $("story-body").querySelectorAll("h2"); if (hs.length) hs[hs.length - 1].scrollIntoView({ behavior: "smooth", block: "start" });
       $("story-status").textContent = "Added a new chapter.";
     });
-    $("use-bed").addEventListener("change", () => { state.bed = $("use-bed").checked; $("bed-opts").hidden = !state.bed; });
+    $("use-bed").addEventListener("change", () => { state.bed = $("use-bed").checked; $("bed-opts").hidden = !state.bed; syncEnding(); });
     $("t-episode").addEventListener("click", () => {
       const s0 = state.story; if (!s0 || s0.shared) return;
       stopSpeak();

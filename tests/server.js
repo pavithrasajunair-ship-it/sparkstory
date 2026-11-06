@@ -7,10 +7,11 @@ if (process.env.STUB_AI) {
   process.env.ANTHROPIC_API_KEY = "stub";
   global.fetch = async () => ({ ok: true, json: async () => ({ content: [{ type: "text", text: "TITLE: The AI Lantern\n\n## The Start\n\n" + "Zoe walked along the sunny path, smiling at the birds and the big blue sky. ".repeat(4) + "\n\n## The End\n\n" + "Everyone cheered, and the lantern glowed warm and bright all night long. ".repeat(3) }] }) });
 }
-const types = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".ttf": "font/ttf", ".txt": "text/plain", ".xml": "application/xml", ".png": "image/png", ".json": "application/json" };
+const types = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".ttf": "font/ttf", ".txt": "text/plain", ".xml": "application/xml", ".png": "image/png", ".json": "application/json", ".webmanifest": "application/manifest+json" };
 http.createServer((req, res) => {
   const url = new URL(req.url, "http://x");
   for (const h of cfg.headers[0].headers) res.setHeader(h.key, h.value);
+  for (const blk of cfg.headers.slice(1)) if (blk.source === url.pathname) for (const h of blk.headers) res.setHeader(h.key, h.value);
   if (url.pathname === "/api/story") {
     let data = ""; req.on("data", (c) => (data += c)); req.on("end", () => {
       const r = { status(c) { res.statusCode = c; return r; }, setHeader: (k, v) => res.setHeader(k, v), json(b) { res.setHeader("content-type", "application/json"); res.end(JSON.stringify(b)); } };
