@@ -170,3 +170,7 @@ html[data-tier=teens]{--card:rgba(26,12,52,.88)}
   .story-body>p:first-of-type::first-letter{float:none;font-size:inherit;padding:0;color:inherit}
   .story::after{content:"Made with StorySpark";display:block;margin-top:24pt;font-size:10pt;color:#666}
 }
+
+.daily{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:22px 0 4px;padding:16px 18px;background:var(--card);border:2px dashed var(--accent,var(--line));border-radius:var(--radius)}
+.daily small{display:block;color:var(--muted);font-weight:700}.daily b{display:block;font:700 18px var(--head)}.daily span{color:var(--muted);font-size:14px}
+@media(max-width:560px){.daily{flex-direction:column;align-items:flex-start}}

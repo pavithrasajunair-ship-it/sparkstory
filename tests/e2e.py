@@ -222,6 +222,14 @@ try:
     chk('restoring twice adds no duplicates', pg5.locator('#lib-list li').count() == 1)
     chk('no page errors (batch 3)', not e5)
     chk('speed menu exists', pg5.locator('#speed option').count() == 3)
+    # ---- story of the day ----
+    pg6 = b.new_page(); e6 = []; pg6.on('pageerror', lambda e: e6.append(str(e)))
+    pg6.goto(base); chk('story of the day card shows', pg6.locator('#daily').is_visible() and len(pg6.inner_text('#daily-title')) > 5)
+    pg6.click('#daily-go'); pg6.wait_for_selector('#s-story:not([hidden])', timeout=8000); t1 = pg6.inner_text('#story-body'); n1 = pg6.inner_text('#story-title')
+    chk('story of the day makes a story', len(t1) > 150 and 'Zoe' in t1 or len(t1) > 150)
+    pg6.click('#brand'); pg6.click('#daily-go'); pg6.wait_for_selector('#s-story:not([hidden])', timeout=8000)
+    chk('story of the day is the same story each time today', pg6.inner_text('#story-body') == t1 and pg6.inner_text('#story-title') == n1)
+    chk('no page errors (daily)', not e6)
     b.close()
 finally:
     srv1.terminate(); srv2.terminate()

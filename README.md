@@ -1,7 +1,28 @@
 # StorySpark ✨
 
+<p align="center"><img src="docs/images/01-who-is-it-for.png" alt="StorySpark home screen: who is the story for, plus the story of the day" width="720"></p>
+
+## A look inside
+
+The whole app changes its look to match the reader. These are real screenshots.
+
+| Little ones | Kids |
+| --- | --- |
+| <img src="docs/images/02-tiny-story.png" alt="Bedtime story for little ones" width="420"> | <img src="docs/images/03-kids-story.png" alt="Adventure story for kids with cover art" width="420"> |
+
+| Teens | Grown-ups |
+| --- | --- |
+| <img src="docs/images/04-teens-story.png" alt="Mystery story for teens" width="420"> | <img src="docs/images/05-adult-story.png" alt="Horror story for grown-ups" width="420"> |
+
+| On a phone | Story quiz |
+| --- | --- |
+| <img src="docs/images/06-phone.png" alt="StorySpark on a phone" width="260"> | <img src="docs/images/07-quiz.png" alt="Quiz after a kids story" width="420"> |
+
+## What it does
+
 Type in your characters, pick who the story is for and what kind of story you want. StorySpark writes it.
 
+- **Story of the day:** a fresh idea on the first screen, the same for everyone on a given date.
 - **Asks who it's for first:** little ones (3 to 6), kids (7 to 12), teens (13 to 16) or grown-ups (17+). The whole app changes its look, and only offers story types that fit that age group.
 - **24 story types:** bedtime, animal friends, fairy tales, silly, kindness and magic for little ones; adventure, fantasy, mystery, space, spooky-not-too-scary and superheroes for kids; romance, dystopian, friendship and more for teens; horror, dark romance, thriller, psychological, drama and historical for grown-ups.
 - **Short, medium or long:** long stories come in chapters, and **Keep going** adds another one.

@@ -59,6 +59,41 @@
     }
   }
 
+  // ---------- story of the day: the same idea for everyone on a given date ----------
+  const DAILY = [
+    { tier: "tiny", genre: "bedtime", chars: ["Luna", "Teddy"], place: "the moon garden", idea: "A sleepy bear and the moon garden" },
+    { tier: "kids", genre: "adventure", chars: ["Zoe", "Captain Pip"], place: "a floating island", idea: "A map that appears on a floating island" },
+    { tier: "tiny", genre: "animals", chars: ["Bunny", "Max"], place: "the big meadow", idea: "Two friends who share a picnic" },
+    { tier: "teens", genre: "mystery", chars: ["Mira", "Dev"], place: "the school library", idea: "A note hidden in an old library book" },
+    { tier: "kids", genre: "space", chars: ["Nova", "Leo"], place: "a tiny red planet", idea: "A robot who learns to laugh" },
+    { tier: "adult", genre: "thriller", chars: ["Elena", "Marcus"], place: "the last train", idea: "A stranger who knows your name" },
+    { tier: "tiny", genre: "kindness", chars: ["Sunny", "Mia"], place: "the village square", idea: "One small kind thing" },
+    { tier: "teens", genre: "scifi", chars: ["Kai", "Ananya"], place: "a quiet space station", idea: "A signal that should not exist" },
+    { tier: "kids", genre: "fantasy", chars: ["Riya", "Aarav"], place: "the dragon's kitchen", idea: "A dragon who is terrible at cooking" },
+    { tier: "adult", genre: "horror", chars: ["Isla", "Victor"], place: "the old lighthouse", idea: "The light that turns on by itself" },
+    { tier: "kids", genre: "silly", chars: ["Zoe", "Leo"], place: "the world's smallest zoo", idea: "A zoo where the animals run the show" },
+    { tier: "adult", genre: "romance2", chars: ["Naina", "Rohan"], place: "a rainy bookshop", idea: "Two strangers and one last copy of a book" },
+  ];
+  let dailySeed = null;
+  function todaysIdea() {
+    const d = new Date(), key = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+    const day = Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+    return { it: DAILY[day % DAILY.length], seed: key };
+  }
+  function initDaily() {
+    const { it } = todaysIdea(), g = D.GENRES[it.genre]; if (!g) return;
+    $("daily-title").textContent = it.idea;
+    $("daily-idea").textContent = g.emoji + " " + g.name + " · for " + D.TIERS[it.tier].name.toLowerCase() + " (" + D.TIERS[it.tier].range + ")";
+    $("daily").hidden = false;
+  }
+  function readDaily() {
+    const { it, seed } = todaysIdea();
+    setTier(it.tier); state.genre = it.genre; state.length = "short";
+    state.chars = it.chars.map((n, i) => ({ name: n, role: i ? "friend" : "hero" }));
+    state.place = it.place; state.item = ""; state.bed = false; $("use-bed").checked = false; $("in-end").value = ""; $("in-ded").value = "";
+    dailySeed = seed; make();
+  }
+
   // ---------- age ----------
   function buildAge() {
     const g = $("age-grid"); g.textContent = "";
@@ -252,7 +287,7 @@
   async function make(seedChange) {
     $("loading-text").textContent = LOADING[state.tier] || "Writing your story…";
     show("loading");
-    const useAI = state.ai && $("use-ai").checked;
+    const useAI = dailySeed == null && state.ai && $("use-ai").checked;
     let story = null, notice = "";
     if (useAI) {
       try {
@@ -263,7 +298,7 @@
     }
     if (!story) {
       await new Promise((r) => setTimeout(r, 700));
-      story = E.generate(params(Math.floor(Math.random() * 2 ** 31)));
+      story = E.generate(params(dailySeed != null ? dailySeed : Math.floor(Math.random() * 2 ** 31))); dailySeed = null;
     }
     state.story = story; state.saved = false;
     renderStory(notice);
@@ -487,6 +522,7 @@
     }));
     $("brand").addEventListener("click", () => { stopSpeak(); setTier(""); show("age"); });
     $("btn-lib").addEventListener("click", showLib);
+    initDaily(); $("daily-go").addEventListener("click", readDaily);
     $("t-txt").addEventListener("click", downloadTxt);
     $("lib-export").addEventListener("click", exportLib);
     $("lib-import").addEventListener("click", () => $("lib-file").click());

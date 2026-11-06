@@ -1,6 +1,6 @@
 /* StorySpark service worker: lets the app install to the home screen and open offline.
    The built-in story maker needs no network, so the whole app works without one. */
-const CACHE = "storyspark-v3";
+const CACHE = "storyspark-v4";
 const SHELL = ["/", "/index.html", "/styles.css", "/app.js", "/story-data.js", "/story-engine.js", "/extras.js", "/favicon.svg", "/manifest.webmanifest",
   "/fonts/Poppins-Regular.ttf", "/fonts/Poppins-Bold.ttf", "/fonts/Lora-Variable.ttf", "/icons/icon-192.png", "/icons/icon-512.png"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
