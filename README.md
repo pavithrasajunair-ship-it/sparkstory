@@ -35,6 +35,8 @@ Type in your characters, pick who the story is for and what kind of story you wa
 - **Made for…:** add a dedication like "Aanya, on her birthday" that shows on the story and in the text file.
 - **Voice and speed:** pick any voice your device has and how fast it reads.
 - **Keep your stories safe:** star favourites, download a story as a text file, and back up or restore your whole library as one file.
+- **Photo covers:** romance, dark romance, horror, fantasy, mystery and adventure stories get a real photo cover (files in `covers/`). Other genres keep a drawn scene.
+- **Word level:** choose simpler or richer words for any age group. It swaps vocabulary in the built-in maker; it does not rewrite the story.
 - **All free:** no accounts, no database, no paid services needed.
 - **Works with no setup.** The built-in story maker runs on the device with no network.
 - **Optional Magic mode (AI).** Add an `ANTHROPIC_API_KEY` and the app offers one-of-a-kind AI stories. If it fails, or the answer isn't suitable for the age group, it falls back to the built-in maker.

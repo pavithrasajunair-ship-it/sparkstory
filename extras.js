@@ -11,7 +11,22 @@
   const bare = (s) => String(s).replace(/^(the|a|an)\s+/i, "").trim();
 
   // ---------- cover art (an SVG scene, different for every story) ----------
+  // genres that have a real photo cover (files in /covers); every other genre keeps the drawn scene
+  const PHOTOS = { romance: ["romance-1", "romance-2"], romance2: ["romance-1", "romance-2"], darkromance: ["darkromance-1", "darkromance-2"], horror: ["horror-1"], fantasy: ["fantasy-1", "fantasy-2"], fairy: ["fantasy-1", "fantasy-2"], magic: ["fantasy-1", "fantasy-2"], mystery: ["mystery-1"], thriller: ["mystery-1"], adventure: ["adventure-1"] };
   function cover(story, doc) {
+    doc = doc || document;
+    const pg = (story.params || {}).genre, list = PHOTOS[pg];
+    if (list && doc.createElement) {
+      const sd = ((story.params || {}).seed || 0) ^ hashStr(story.title || "");
+      const img = doc.createElement("img");
+      img.className = "cover-img"; img.src = "/covers/" + list[Math.abs(sd) % list.length] + ".webp";
+      img.alt = "Cover picture for " + (story.title || "the story"); img.width = 800; img.height = 400; img.decoding = "async";
+      img.onerror = () => { try { const f = coverArt(story, doc); img.replaceWith(f); } catch (e) {} };
+      return img;
+    }
+    return coverArt(story, doc);
+  }
+  function coverArt(story, doc) {
     doc = doc || document;
     const NS = "http://www.w3.org/2000/svg";
     const el = (n, a, kids) => { const e = doc.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); (kids || []).forEach((c) => e.appendChild(c)); return e; };

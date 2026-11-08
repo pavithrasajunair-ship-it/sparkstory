@@ -194,6 +194,7 @@
     var more = document.createElement('details'); more.className = 'ss-more'; more.innerHTML = '<summary>More ▾</summary><div class="ss-menu"></div>';
     var menu = $('.ss-menu', more);
     ['t-episode', 't-again', 't-copy', 't-pdf', 't-sleep', 't-new'].forEach(function (id) { if (g(id)) menu.appendChild(g(id)); });
+    var am = g('amb'); if (am && am.parentNode) menu.insertBefore(am.parentNode, g('t-new') || null);
     var sl = g('sleep-min'); if (sl && sl.parentNode) menu.insertBefore(sl.parentNode, g('t-new') || null);
     sec.appendChild(more); wrap.appendChild(pr); wrap.appendChild(sec); first.parentNode.insertBefore(wrap, first);
     var aa = document.createElement('div'); aa.className = 'ss-aa'; ['t-smaller', 't-bigger'].forEach(function (id) { if (g(id)) aa.appendChild(g(id)); });

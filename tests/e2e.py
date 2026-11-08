@@ -2,6 +2,13 @@
 import subprocess, os, sys, time
 from playwright.sync_api import sync_playwright
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def tool(page, sel):
+    """Some toolbar buttons live in the 'More' menu; open it first when needed."""
+    if not page.locator(sel).is_visible():
+        page.evaluate("document.querySelectorAll('.ss-more').forEach(d => d.open = true)")
+    page.click(sel)
+    page.evaluate("document.querySelectorAll('.ss-more').forEach(d => d.open = false)")
+
 def start(port, stub):
     env = dict(os.environ, PORT=str(port)); 
     if stub: env['STUB_AI'] = '1'
@@ -58,7 +65,7 @@ try:
     chk('story has a title', len(pg.inner_text('#story-title')) > 3)
     first = pg.inner_text('#story-title')
     # another version
-    pg.click('#t-again'); pg.wait_for_selector('#s-story:not([hidden])', timeout=6000)
+    tool(pg, '#t-again'); pg.wait_for_selector('#s-story:not([hidden])', timeout=6000)
     chk('another version differs', pg.inner_text('#story-body') != txt)
     # keep going
     n0 = pg.locator('#story-body h2').count(); pg.click('#t-continue'); pg.wait_for_timeout(200)
@@ -67,7 +74,7 @@ try:
     f0 = pg.evaluate("getComputedStyle(document.getElementById('story-body')).fontSize"); pg.click('#t-bigger')
     chk('bigger text works', pg.evaluate("getComputedStyle(document.getElementById('story-body')).fontSize") != f0)
     # copy
-    pg.click('#t-copy'); pg.wait_for_timeout(200)
+    tool(pg, '#t-copy'); pg.wait_for_timeout(200)
     chk('copy puts the story on the clipboard', 'Aarav' in pg.evaluate("navigator.clipboard.readText()"))
     # save + library
     pg.click('#t-save'); chk('saved message', 'Saved' in pg.inner_text('#story-status'))
@@ -79,7 +86,7 @@ try:
     chk('opening a saved story restores its theme', pg.get_attribute('html', 'data-tier') == 'kids' and 'Aarav' in pg.inner_text('#story-body'))
     pg.click('#btn-lib'); pg.click('#lib-list [aria-label^=Delete]'); chk('delete works', pg.locator('#lib-empty').is_visible())
     # new story resets to the question
-    pg.click('#t-new') if pg.locator('#t-new').is_visible() else pg.click('#brand')
+    tool(pg, '#t-new') if pg.locator('#t-new').is_visible() else pg.click('#brand')
     chk('start over asks who again', pg.locator('#h-age').is_visible() and pg.get_attribute('html', 'data-tier') == '')
     # adult dark flow works
     pg.click('[data-tier=adult].tile'); pg.click('[data-genre=horror]'); pg.fill('#char-list input', 'Elena'); pg.click('#chars-next'); pg.click('[data-length=short]'); pg.click('#make')
@@ -120,10 +127,10 @@ try:
     pg.goto(base); pg.click('[data-tier=tiny].tile'); pg.click('[data-genre=bedtime]'); pg.fill('#char-list input', 'Luna'); pg.click('#add-char'); pg.fill('#char-list .char:nth-child(2) input', 'Teddy')
     pg.click('#chars-next'); pg.click('[data-length=short]'); pg.click('#make'); pg.wait_for_selector('#s-story:not([hidden])', timeout=6000)
     t1 = pg.inner_text('#story-title'); chk('grow option offered for little ones', pg.locator('#grow-row').is_visible())
-    pg.click('#t-episode'); pg.wait_for_timeout(200)
+    tool(pg, '#t-episode'); pg.wait_for_timeout(200)
     t2 = pg.inner_text('#story-title'); chk('episode 2 keeps the series title', 'Episode 2' in t2 and t1 in t2)
     chk('episode keeps the cast and recaps', all(n in pg.inner_text('#story-body') for n in ['Luna', 'Teddy', 'Last time']))
-    pg.check('#grow'); pg.click('#t-episode'); pg.wait_for_timeout(200)
+    pg.check('#grow'); tool(pg, '#t-episode'); pg.wait_for_timeout(200)
     chk('growing up moves to the next age theme', pg.get_attribute('html', 'data-tier') == 'kids' and 'Episode 3' in pg.inner_text('#story-title'))
     pg.click('#t-save'); pg.click('#btn-lib'); chk('library shows the episode number', 'Episode 3' in pg.inner_text('#lib-list'))
     # ---- PDF / print layout ----
@@ -131,7 +138,7 @@ try:
     chk('print view shows only the story', pg.locator('.toolbar >> nth=0').is_hidden() and pg.locator('.top').is_hidden() and pg.locator('#story').is_visible())
     pg.emulate_media(media='screen')
     # ---- sleep mode ----
-    pg.select_option('#sleep-min', '10'); pg.click('#t-sleep')
+    pg.evaluate("document.querySelectorAll('.ss-more').forEach(d => d.open = true)"); pg.select_option('#sleep-min', '10'); tool(pg, '#t-sleep')
     chk('sleep mode covers the screen', pg.locator('#sleep').is_visible())
     pg.click('#sleep-stop'); chk('sleep mode can be stopped', pg.locator('#sleep').is_hidden())
     # ---- private share link round trip ----
@@ -150,7 +157,7 @@ try:
     import json, base64
     evil = base64.urlsafe_b64encode(json.dumps({'v': 1, 't': '<img src=x onerror=window.__y=1>', 'k': 'kids', 'g': 'adventure', 'c': [['<b>x</b>', ['<script>window.__y=2</script>']]]}).encode()).decode().rstrip('=')
     pg3.goto('about:blank'); pg3.goto(base + '#s=p' + evil); pg3.wait_for_selector('#s-story:not([hidden])', timeout=6000)
-    chk('shared story cannot inject HTML', pg3.evaluate("window.__y") is None and pg3.locator('#story img, #story script, #story b').count() == 0)
+    chk('shared story cannot inject HTML', pg3.evaluate("window.__y") is None and pg3.locator('#story-body img, #story-body script, #story-body b, #story-title img, #story-title b').count() == 0)
     pg3.close()
     # mobile layout: no sideways scroll on any screen
     pg.goto(base); w = pg.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"); chk('no horizontal scroll (home)', w)
@@ -170,7 +177,7 @@ try:
     chk('AI story is labelled', 'AI' in pg2.inner_text('#story-meta'))
     c0 = pg2.locator('#story-body h2').count(); pg2.click('#t-continue'); pg2.wait_for_timeout(800)
     chk('AI keep going adds chapters', pg2.locator('#story-body h2').count() > c0)
-    pg2.click('#t-new'); pg2.click('[data-tier=kids].tile'); pg2.click('[data-genre=adventure]'); pg2.fill('#char-list input', 'Zoe'); pg2.click('#chars-next')
+    tool(pg2, '#t-new'); pg2.click('[data-tier=kids].tile'); pg2.click('[data-genre=adventure]'); pg2.fill('#char-list input', 'Zoe'); pg2.click('#chars-next')
     pg2.uncheck('#use-ai'); pg2.click('[data-length=short]'); pg2.click('#make'); pg2.wait_for_selector('#s-story:not([hidden])', timeout=8000)
     chk('switching Magic mode off uses the built-in maker', pg2.inner_text('#story-title') != 'The AI Lantern')
     chk('no page errors (AI page)', not errs2)
@@ -178,8 +185,10 @@ try:
     pg4 = ctx.new_page(); e4 = []; pg4.on('pageerror', lambda e: e4.append(str(e)))
     pg4.goto(base); pg4.click('[data-tier=kids].tile'); pg4.click('[data-genre=adventure]'); pg4.fill('#char-list input', 'Zoe'); pg4.click('#chars-next')
     chk('ending choice is offered', pg4.locator('#in-end').is_visible())
+    chk('word level choice is offered', pg4.locator('#in-lvl').is_visible() and pg4.locator('#in-lvl option').count() == 3)
     pg4.select_option('#in-end', 'cliff'); pg4.click('[data-length=short]'); pg4.click('#make'); pg4.wait_for_selector('#s-story:not([hidden])', timeout=8000)
-    chk('cover art is drawn', pg4.locator('#cover svg').count() == 1 and pg4.locator('#cover svg text').text_content() != '')
+    pg4.wait_for_function("document.querySelector('#cover img') && document.querySelector('#cover img').complete", timeout=5000)
+    chk('adventure shows a photo cover', pg4.locator('#cover img.cover-img').count() == 1 and pg4.locator('#cover img').evaluate('e=>e.naturalWidth') > 100)
     chk('chosen ending is used', 'To be continued' in pg4.inner_text('#story-body'))
     chk('quiz button shows for kids story', pg4.locator('#t-quiz').is_visible())
     pg4.click('#t-quiz'); chk('quiz opens with questions', pg4.locator('#quiz .q').count() >= 2)
@@ -187,14 +196,19 @@ try:
     for i in range(n): pg4.locator('#quiz .opts').nth(i).locator('.opt').first.click()
     chk('quiz shows a score at the end', 'out of' in pg4.inner_text('#quiz .score'))
     chk('right answer is marked', pg4.locator('#quiz .opt.right').count() >= n)
+    pg5 = ctx.new_page(); e5 = []; pg5.on('pageerror', lambda e: e5.append(str(e)))
+    pg5.goto(base); pg5.click('[data-tier=kids].tile'); pg5.click('[data-genre=space]'); pg5.fill('#char-list input', 'Nova'); pg5.click('#chars-next')
+    pg5.select_option('#in-lvl', 'advanced'); pg5.click('[data-length=short]'); pg5.click('#make'); pg5.wait_for_selector('#s-story:not([hidden])', timeout=8000)
+    chk('genres without a photo keep the drawn cover', pg5.locator('#cover svg').count() == 1 and pg5.locator('#cover img').count() == 0)
+    chk('no page errors (level + drawn cover)', not e5)
     chk('sounds menu has options', pg4.locator('#amb option').count() == 5)
-    pg4.select_option('#amb', 'rain'); pg4.wait_for_timeout(300); pg4.select_option('#amb', 'off')
-    pg4.click('#t-new'); pg4.click('[data-tier=tiny].tile'); pg4.click('[data-genre=bedtime]'); pg4.fill('#char-list input', 'Mia'); pg4.click('#chars-next')
+    pg4.evaluate("document.querySelectorAll('.ss-more').forEach(d => d.open = true)"); pg4.select_option('#amb', 'rain'); pg4.wait_for_timeout(300); pg4.select_option('#amb', 'off')
+    tool(pg4, '#t-new'); pg4.click('[data-tier=tiny].tile'); pg4.click('[data-genre=bedtime]'); pg4.fill('#char-list input', 'Mia'); pg4.click('#chars-next')
     chk('tiny cannot pick a cliffhanger', pg4.locator('#in-end option[value=cliff]').evaluate('e=>e.disabled'))
     pg4.check('#use-bed'); chk('ending choice hides in bedtime mode', not pg4.locator('#end-row').is_visible())
-    pg4.click('#t-new') if pg4.locator('#t-new').is_visible() else pg4.click('#brand')
+    tool(pg4, '#t-new') if pg4.locator('#t-new').is_visible() else pg4.click('#brand')
     pg4.click('[data-tier=teens].tile'); pg4.click('#surprise'); pg4.wait_for_selector('#s-story:not([hidden])', timeout=8000)
-    chk('surprise me makes a story straight away', len(pg4.inner_text('#story-body')) > 200 and pg4.locator('#cover svg').count() == 1)
+    chk('surprise me makes a story straight away', len(pg4.inner_text('#story-body')) > 200 and pg4.locator('#cover svg, #cover img').count() == 1)
     chk('manifest is valid', pg4.request.get('http://localhost:8821/manifest.webmanifest').json()['display'] == 'standalone')
     chk('service worker is served', 'storyspark' in pg4.request.get('http://localhost:8821/sw.js').text())
     chk('icons exist', pg4.request.get('http://localhost:8821/icons/icon-192.png').ok and pg4.request.get('http://localhost:8821/icons/icon-512.png').ok)
@@ -224,7 +238,7 @@ try:
     chk('speed menu exists', pg5.locator('#speed option').count() == 3)
     # ---- story of the day ----
     pg6 = b.new_page(); e6 = []; pg6.on('pageerror', lambda e: e6.append(str(e)))
-    pg6.goto(base); chk('story of the day card shows', pg6.locator('#daily').is_visible() and len(pg6.inner_text('#daily-title')) > 5)
+    pg6.goto(base); pg6.wait_for_selector('#daily:not([hidden])', timeout=5000); chk('story of the day card shows', pg6.locator('#daily').is_visible() and len(pg6.inner_text('#daily-title')) > 5)
     pg6.click('#daily-go'); pg6.wait_for_selector('#s-story:not([hidden])', timeout=8000); t1 = pg6.inner_text('#story-body'); n1 = pg6.inner_text('#story-title')
     chk('story of the day makes a story', len(t1) > 150 and 'Zoe' in t1 or len(t1) > 150)
     pg6.click('#brand'); pg6.click('#daily-go'); pg6.wait_for_selector('#s-story:not([hidden])', timeout=8000)

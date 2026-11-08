@@ -679,6 +679,32 @@
     });
   }
 
+
+  // ---------- reading level: swaps words for easier or richer ones (same story, different vocabulary) ----------
+  const LEVEL_UP = { big: "enormous", huge: "colossal", happy: "delighted", sad: "sorrowful", scared: "frightened", tired: "weary", angry: "furious", strange: "peculiar", pretty: "lovely", shiny: "gleaming", quiet: "hushed", brave: "courageous", clever: "resourceful", funny: "hilarious", fast: "swift", quickly: "swiftly", shouted: "exclaimed", looked: "gazed", found: "discovered", tried: "attempted", dark: "shadowy", old: "weathered", nice: "pleasant", smart: "astute", noise: "racket", afraid: "apprehensive" };
+  const LEVEL_DOWN = { extraordinary: "amazing", enormous: "huge", colossal: "huge", tremendous: "huge", delighted: "happy", exhausted: "tired", furious: "very angry", terrified: "very scared", frightened: "scared", mysterious: "strange", magnificent: "wonderful", ancient: "very old", whispered: "said softly", murmured: "said softly", hesitated: "waited", peculiar: "odd", immediately: "right away", discovered: "found", determined: "sure", courageous: "brave", sorrowful: "sad", gleaming: "shiny", resourceful: "clever", hilarious: "funny", swift: "fast", swiftly: "quickly", exclaimed: "said", gazed: "looked", attempted: "tried", shadowy: "dark", weathered: "old", astute: "smart", apprehensive: "afraid", unexpectedly: "suddenly", surprising: "unexpected", wonderful: "great", incredible: "amazing", marvellous: "great", marvelous: "great", curious: "keen", fortunate: "lucky", reluctantly: "slowly", gradually: "slowly", enormously: "very", seized: "grabbed", peered: "looked", clutched: "held", glanced: "looked", wandered: "walked", gasped: "said" };
+  const LEVELS = { simple: LEVEL_DOWN, advanced: LEVEL_UP };
+  const aOrAn = (w) => (/^[aeiou]/i.test(w) ? "an" : "a");
+  function levelize(text, level) {
+    const map = LEVELS[level];
+    if (!map) return text;
+    const keys = Object.keys(map).sort((a, b) => b.length - a.length);
+    const re = new RegExp("\\b(?:(an?)\\s+)?(" + keys.join("|") + ")\\b", "gi");
+    return String(text).replace(re, (m, art, w, off, whole) => {
+      const rep = map[w.toLowerCase()];
+      const cap = w[0] !== w[0].toLowerCase();
+      if (cap) {
+        // a capital letter mid-sentence is probably a name, leave it alone
+        const before = whole.slice(0, off).replace(/[\s"“'‘(]+$/, "");
+        if (before && !/[.!?:]$/.test(before)) return m;
+      }
+      const out = cap ? rep[0].toUpperCase() + rep.slice(1) : rep;
+      if (!art) return out;
+      const a = aOrAn(out);
+      return (art[0] === "A" ? a[0].toUpperCase() + a.slice(1) : a) + " " + out;
+    });
+  }
+
   function generate(params) {
     const tier = TIERS[params.tier] ? params.tier : "kids";
     const gid = GENRES[params.genre] && GENRES[params.genre].tiers.includes(tier) ? params.genre : Object.keys(GENRES).find((k) => GENRES[k].tiers.includes(tier));
@@ -774,9 +800,11 @@
       last.push(wind[Math.floor(rt.r() * wind.length)]);
       last.push(allNames.length ? allNames.map((n) => `Goodnight, ${n}.`).join(" ") + " Sleep tight." : "Goodnight. Sleep tight.");
     }
+    const level = LEVELS[params.level] ? params.level : "";
+    if (level) chapters.forEach((c) => { c.paragraphs = c.paragraphs.map((x) => levelize(x, level)); });
     const titleKey = g.shape === "haunt" && reg === "simple" ? "hauntKid" : g.shape;
     const title = titleCase(tidy(fill(rt.draw("title", TITLES[titleKey] || TITLES.quest), ctx, lex, rt, gid)));
-    const story = { title, chapters, params: { tier, genre: gid, length, chars: params.chars, place: params.place || "", item: params.item || "", seed, bedtime: bed ? { today: bed.today } : null, ending: endKind, dedication: String(params.dedication || "").slice(0, 40) }, ctx: { ...ctx } };
+    const story = { title, chapters, params: { tier, genre: gid, length, chars: params.chars, place: params.place || "", item: params.item || "", seed, bedtime: bed ? { today: bed.today } : null, ending: endKind, level, dedication: String(params.dedication || "").slice(0, 40) }, ctx: { ...ctx } };
     story.text = toText(story);
     return story;
   }
@@ -793,7 +821,7 @@
     const mids = shape.long.mids.reduce((a, b) => a.concat(b), []);
     const beats = [mids[Math.floor(rt.r() * mids.length)], mids[Math.floor(rt.r() * mids.length)], "ending"]
       .filter((b, i, a) => pool[b] && a.indexOf(b) === i);
-    const texts = beats.map((b) => tidy(fill(rt.draw("c:" + b, pool[b]), ctx, lex, rt, p.genre)));
+    const texts = beats.map((b) => levelize(tidy(fill(rt.draw("c:" + b, pool[b]), ctx, lex, rt, p.genre)), p.level));
     const paras = tier === "tiny" ? texts : (() => { const o = []; for (let i = 0; i < texts.length; i += 2) o.push(texts.slice(i, i + 2).join(" ")); return o; })();
     const n = story.chapters.length + 1;
     const chapters = story.chapters.length === 1 && !story.chapters[0].title ? [{ title: "Chapter 1", paragraphs: story.chapters[0].paragraphs }] : story.chapters.slice();
@@ -810,7 +838,7 @@
     const order = ["tiny", "kids", "teens", "adult"];
     let tier = p.tier;
     if (opts.grow && order.indexOf(tier) < order.length - 1) tier = order[order.indexOf(tier) + 1];
-    const s = generate({ tier, genre: p.genre, length: p.length === "short" ? "medium" : p.length, chars: p.chars, place: p.place, item: "", bedtime: tier === "tiny" || tier === "kids" ? p.bedtime : null, ending: "", seed: (p.seed * 31 + 17 + (prev.episode || 1) * 101) >>> 0 });
+    const s = generate({ tier, genre: p.genre, length: p.length === "short" ? "medium" : p.length, chars: p.chars, place: p.place, item: "", bedtime: tier === "tiny" || tier === "kids" ? p.bedtime : null, ending: "", seed: (p.seed * 31 + 17 + (prev.episode || 1) * 101) >>> 0, level: p.level });
     const ep = (prev.episode || 1) + 1;
     const seriesTitle = prev.seriesTitle || prev.title;
     const recap = tier === "tiny" ? `Last time, in "${seriesTitle}", everything ended happily. Now a new adventure was about to begin.`
@@ -831,5 +859,5 @@
     return Object.keys(GENRES).filter((k) => GENRES[k].tiers.includes(tier)).map((k) => ({ id: k, ...GENRES[k] }));
   }
 
-  return { generate, continueStory, nextEpisode, genresFor, toText, tidy, _S: S };
+  return { levelize, generate, continueStory, nextEpisode, genresFor, toText, tidy, _S: S };
 });

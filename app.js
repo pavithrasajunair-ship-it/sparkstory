@@ -90,7 +90,7 @@
     const { it, seed } = todaysIdea();
     setTier(it.tier); state.genre = it.genre; state.length = "short";
     state.chars = it.chars.map((n, i) => ({ name: n, role: i ? "friend" : "hero" }));
-    state.place = it.place; state.item = ""; state.bed = false; $("use-bed").checked = false; $("in-end").value = ""; $("in-ded").value = "";
+    state.place = it.place; state.item = ""; state.bed = false; $("use-bed").checked = false; $("in-end").value = ""; $("in-lvl").value = ""; $("in-ded").value = "";
     dailySeed = seed; make();
   }
 
@@ -228,8 +228,10 @@
   // ---------- ending choice ----------
   function endingOk() { return !state.bed && !($("use-ai") && $("use-ai").checked && state.ai); }
   function endingChoice() { return endingOk() ? $("in-end").value : ""; }
+  function levelChoice() { return endingOk() && $("in-lvl") ? $("in-lvl").value : ""; }
   function syncEnding() {
     $("end-row").hidden = !endingOk();
+    if ($("lvl-row")) $("lvl-row").hidden = !endingOk();
     const cliff = $("in-end").querySelector('option[value="cliff"]'); cliff.hidden = cliff.disabled = state.tier === "tiny";
     if (state.tier === "tiny" && $("in-end").value === "cliff") $("in-end").value = "";
   }
@@ -271,7 +273,7 @@
 
   // ---------- making a story ----------
   const LOADING = { tiny: "Sprinkling story dust…", kids: "Writing your adventure…", teens: "Spinning your story…", adult: "Setting the scene…" };
-  const params = (seed) => ({ tier: state.tier, genre: state.genre, length: state.length, chars: state.chars, place: state.place, item: state.item, seed, bedtime: state.bed ? { today: $("bed-today").value.trim() } : null, ending: endingChoice(), dedication: ($("in-ded") ? $("in-ded").value.trim().slice(0, 40) : "") });
+  const params = (seed) => ({ tier: state.tier, genre: state.genre, length: state.length, chars: state.chars, place: state.place, item: state.item, seed, bedtime: state.bed ? { today: $("bed-today").value.trim() } : null, ending: endingChoice(), level: levelChoice(), dedication: ($("in-ded") ? $("in-ded").value.trim().slice(0, 40) : "") });
 
   async function aiStory(extra) {
     const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 55000);

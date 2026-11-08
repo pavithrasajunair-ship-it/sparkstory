@@ -149,6 +149,7 @@ html[data-tier=teens]{--card:rgba(26,12,52,.88)}
 /* cover art, quiz */
 .cover{margin:-8px -8px 14px;border-radius:calc(var(--radius) - 4px);overflow:hidden;line-height:0}
 .cover-svg{width:100%;height:auto;max-height:260px;display:block}
+.cover-img{width:100%;height:auto;max-height:260px;object-fit:cover;display:block}
 .quiz{margin:16px 0;background:var(--card);border:2px solid var(--line);border-radius:var(--radius);padding:18px}
 .quiz h2{margin:0 0 10px}
 .quiz .q{margin:14px 0 8px;font-weight:700}
@@ -160,7 +161,7 @@ html[data-tier=teens]{--card:rgba(26,12,52,.88)}
 #end-row{margin-top:16px;display:block}
 @media print{
   .quiz{display:none!important}
-  .cover{margin:0 0 12pt}.cover-svg{max-height:150pt}
+  .cover{margin:0 0 12pt}.cover-svg,.cover-img{max-height:150pt}
   body{background:#fff!important;color:#000!important}
   .top,.steps,.foot,.deco,.skip,.sleep,.toolbar,.grow,.fine,.notice,.shared,main>.screen:not(#s-story){display:none!important}
   #s-story{display:block!important}

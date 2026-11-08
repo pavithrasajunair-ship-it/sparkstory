@@ -3,9 +3,10 @@
    - Pages: network first, falling back to the saved copy when offline.
    - /api/ (Magic mode AI): never cached. Offline, the app's built-in story maker is used.
    Bump VERSION if you ever need to force every visitor to drop the old cache. */
-const VERSION = 'storyspark-v1';
-const CORE = ['index.html', 'styles.css', 'app.js', 'story-data.js', 'story-engine.js', 'favicon.svg',
-  'manifest.webmanifest', 'pwa.js', 'pwa.css', 'aesthetic.css', 'aesthetic.js', 'scene.css', 'scene.js', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
+const VERSION = 'storyspark-v2';
+const CORE = ['index.html', 'styles.css', 'app.js', 'story-data.js', 'story-engine.js', 'extras.js', 'favicon.svg',
+  'manifest.webmanifest', 'pwa.js', 'pwa.css', 'aesthetic.css', 'aesthetic.js', 'scene.css', 'scene.js', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
+  'covers/romance-1.webp', 'covers/romance-2.webp', 'covers/darkromance-1.webp', 'covers/darkromance-2.webp', 'covers/horror-1.webp', 'covers/fantasy-1.webp', 'covers/fantasy-2.webp', 'covers/mystery-1.webp', 'covers/adventure-1.webp'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => Promise.all(CORE.map(u => c.add(new Request(u, { cache: 'reload' })).catch(() => {})))));

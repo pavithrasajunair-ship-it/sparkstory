@@ -16,133 +16,152 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="StorySpark">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="pwa.css">
 <link rel="stylesheet" href="aesthetic.css">
 <link rel="stylesheet" href="scene.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="deco" id="deco" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
-<button class="brand" id="brand" type="button" aria-label="StorySpark home"><span class="brand-star" aria-hidden="true">✨</span> StorySpark</button>
-<button class="btn btn-ghost" id="btn-lib" type="button">📚 My stories <span class="count" id="lib-count" hidden></span></button>
+  <button class="brand" id="brand" type="button" aria-label="StorySpark home"><span class="brand-star" aria-hidden="true">✨</span> StorySpark</button>
+  <button class="btn btn-ghost" id="btn-lib" type="button">📚 My stories <span class="count" id="lib-count" hidden></span></button>
 </header>
+
 <main id="main" tabindex="-1">
-<ol class="steps" id="steps" aria-label="Progress" hidden>
-<li data-step="1">Genre</li><li data-step="2">Characters</li><li data-step="3">Length</li>
-</ol>
+  <ol class="steps" id="steps" aria-label="Progress" hidden>
+    <li data-step="1">Genre</li><li data-step="2">Characters</li><li data-step="3">Length</li>
+  </ol>
 
-<!-- 1. who is it for -->
-<section class="screen" id="s-age" aria-labelledby="h-age">
-<h1 id="h-age">Who is the story for?</h1>
-<p class="lead">Pick the reader and StorySpark will change its look and its story types to suit.</p>
-<div class="grid age-grid" id="age-grid"></div>
-<p class="fine">Stories are made for the age group you choose. Parents, please choose the right group for your child.</p>
-</section>
+  <!-- 1. who is it for -->
+  <section class="screen" id="s-age" aria-labelledby="h-age">
+    <h1 id="h-age">Who is the story for?</h1>
+    <p class="lead">Pick the reader and StorySpark will change its look and its story types to suit.</p>
+    <div class="grid age-grid" id="age-grid"></div>
+    <div class="daily" id="daily" hidden><div><small>🎁 Story of the day</small><b id="daily-title"></b><span id="daily-idea"></span></div><button class="btn btn-primary" id="daily-go" type="button">Read it</button></div>
+    <p class="fine">Stories are made for the age group you choose. Parents, please choose the right group for your child.</p>
+  </section>
 
-<!-- 2. genre -->
-<section class="screen" id="s-genre" hidden aria-labelledby="h-genre">
-<button class="back" type="button" data-back="age">← Back</button>
-<h1 id="h-genre">What kind of story?</h1>
-<div class="grid genre-grid" id="genre-grid"></div>
-</section>
+  <!-- 2. genre -->
+  <section class="screen" id="s-genre" hidden aria-labelledby="h-genre">
+    <button class="back" type="button" data-back="age">← Back</button>
+    <h1 id="h-genre">What kind of story?</h1>
+    <div class="grid genre-grid" id="genre-grid"></div>
+    <div class="row"><button class="btn btn-soft" id="surprise" type="button">🎲 Surprise me! Pick everything for me</button></div>
+  </section>
 
-<!-- 3. characters -->
-<section class="screen" id="s-chars" hidden aria-labelledby="h-chars">
-<button class="back" type="button" data-back="genre">← Back</button>
-<h1 id="h-chars">Who is in your story?</h1>
-<p class="lead" id="chars-lead">Type the names of your characters. The first one is the main character.</p>
-<div id="char-list" class="char-list"></div>
-<div class="row">
-<button class="btn btn-soft" id="add-char" type="button">＋ Add another character</button>
-</div>
-<div class="suggest" id="suggest" aria-label="Name ideas"></div>
-<div class="cast" id="cast-box" hidden>
-<h2>My cast</h2>
-<p class="fine">Tap to add someone you saved. Saved only in this browser.</p>
-<div class="suggest" id="cast-list"></div>
-</div>
-<details class="more">
-<summary>Add a place or a special thing (optional)</summary>
-<label class="field"><span>A place</span><input id="in-place" maxlength="40" autocomplete="off" placeholder="the old lighthouse"></label>
-<label class="field"><span>A special thing</span><input id="in-item" maxlength="40" autocomplete="off" placeholder="a red balloon"></label>
-</details>
-<p class="error" id="chars-error" role="alert" hidden></p>
-<div class="row"><button class="btn btn-primary" id="chars-next" type="button">Next →</button></div>
-</section>
+  <!-- 3. characters -->
+  <section class="screen" id="s-chars" hidden aria-labelledby="h-chars">
+    <button class="back" type="button" data-back="genre">← Back</button>
+    <h1 id="h-chars">Who is in your story?</h1>
+    <p class="lead" id="chars-lead">Type the names of your characters. The first one is the main character.</p>
+    <div id="char-list" class="char-list"></div>
+    <div class="row">
+      <button class="btn btn-soft" id="add-char" type="button">＋ Add another character</button>
+    </div>
+    <div class="suggest" id="suggest" aria-label="Name ideas"></div>
+    <div class="cast" id="cast-box" hidden>
+      <h2>My cast</h2>
+      <p class="fine">Tap to add someone you saved. Saved only in this browser.</p>
+      <div class="suggest" id="cast-list"></div>
+    </div>
+    <details class="more">
+      <summary>Add a place or a special thing (optional)</summary>
+      <label class="field"><span>A place</span><input id="in-place" maxlength="40" autocomplete="off" placeholder="the old lighthouse"></label>
+      <label class="field"><span>A special thing</span><input id="in-item" maxlength="40" autocomplete="off" placeholder="a red balloon"></label>
+    </details>
+    <p class="error" id="chars-error" role="alert" hidden></p>
+    <div class="row"><button class="btn btn-primary" id="chars-next" type="button">Next →</button></div>
+  </section>
 
-<!-- 4. length -->
-<section class="screen" id="s-length" hidden aria-labelledby="h-length">
-<button class="back" type="button" data-back="chars">← Back</button>
-<h1 id="h-length">How long should it be?</h1>
-<div class="grid length-grid" id="length-grid" role="radiogroup" aria-label="Story length"></div>
-<div id="bed-row" hidden>
-<label class="ai-row"><input type="checkbox" id="use-bed"> <span><b>🌙 Bedtime mode</b> A calm story that ends with a slow wind-down for sleep</span></label>
-<div id="bed-opts" hidden>
-<label class="field"><span>Something that happened today (optional)</span><input id="bed-today" maxlength="60" autocomplete="off" placeholder="first day at school"></label>
-<p class="fine">The story will gently say that big days are okay, then help the little one settle.</p>
-</div>
-</div>
-<label class="ai-row" id="ai-row" hidden><input type="checkbox" id="use-ai" checked> <span><b>Magic mode ✨</b> Write a one-of-a-kind story with AI</span></label>
-<div class="row"><button class="btn btn-primary btn-big" id="make" type="button">Make my story ✨</button></div>
-</section>
+  <!-- 4. length -->
+  <section class="screen" id="s-length" hidden aria-labelledby="h-length">
+    <button class="back" type="button" data-back="chars">← Back</button>
+    <h1 id="h-length">How long should it be?</h1>
+    <div class="grid length-grid" id="length-grid" role="radiogroup" aria-label="Story length"></div>
+    <div id="bed-row" hidden>
+      <label class="ai-row"><input type="checkbox" id="use-bed"> <span><b>🌙 Bedtime mode</b> A calm story that ends with a slow wind-down for sleep</span></label>
+      <div id="bed-opts" hidden>
+        <label class="field"><span>Something that happened today (optional)</span><input id="bed-today" maxlength="60" autocomplete="off" placeholder="first day at school"></label>
+        <p class="fine">The story will gently say that big days are okay, then help the little one settle.</p>
+      </div>
+    </div>
+    <label class="field" id="ded-row"><span>💝 Made for… (optional, shown on the story)</span><input id="in-ded" maxlength="40" autocomplete="off" placeholder="Aanya, on her birthday"></label>
+    <label class="field" id="end-row"><span>How should it end?</span>
+      <select id="in-end"><option value="">Surprise me</option><option value="epilogue">A look ahead: years later</option><option value="twist">A twist ending</option><option value="cliff">A cliffhanger: to be continued</option></select>
+    </label>
+    <label class="field" id="lvl-row"><span>📖 Word level</span>
+      <select id="in-lvl"><option value="">Just right for this age</option><option value="simple">Simpler words</option><option value="advanced">Richer words</option></select>
+    </label>
+    <label class="ai-row" id="ai-row" hidden><input type="checkbox" id="use-ai" checked> <span><b>Magic mode ✨</b> Write a one-of-a-kind story with AI</span></label>
+    <div class="row"><button class="btn btn-primary btn-big" id="make" type="button">Make my story ✨</button></div>
+  </section>
 
-<!-- loading -->
-<section class="screen" id="s-loading" hidden aria-live="polite">
-<div class="loader" aria-hidden="true"><span>📖</span><span>✨</span><span>🌟</span></div>
-<h1 id="loading-text">Writing your story…</h1>
-</section>
+  <!-- loading -->
+  <section class="screen" id="s-loading" hidden aria-live="polite">
+    <div class="loader" aria-hidden="true"><span>📖</span><span>✨</span><span>🌟</span></div>
+    <h1 id="loading-text">Writing your story…</h1>
+  </section>
 
-<!-- story -->
-<section class="screen" id="s-story" hidden aria-labelledby="story-title">
-<div class="shared" id="shared-banner" hidden><span>💌 Someone shared this story with you.</span> <button class="btn btn-soft" id="make-own" type="button">Make my own</button></div>
-<article class="story" id="story">
-<h1 id="story-title"></h1>
-<p class="meta" id="story-meta"></p>
-<p class="notice" id="story-notice" hidden></p>
-<div id="story-body" class="story-body"></div>
-</article>
-<div class="toolbar" role="toolbar" aria-label="Story tools">
-<button class="btn btn-soft" id="t-listen" type="button">🔊 Listen</button>
-<button class="btn btn-soft" id="t-smaller" type="button" aria-label="Smaller text">A−</button>
-<button class="btn btn-soft" id="t-bigger" type="button" aria-label="Bigger text">A+</button>
-<button class="btn btn-soft" id="t-save" type="button">💾 Save</button>
-<button class="btn btn-soft" id="t-copy" type="button">📋 Copy</button>
-<button class="btn btn-soft" id="t-pdf" type="button">📄 PDF</button>
-<button class="btn btn-soft" id="t-share" type="button">🔗 Share link</button>
-</div>
-<div class="toolbar sleepbar">
-<button class="btn btn-soft" id="t-sleep" type="button">🌙 Sleep mode</button>
-<label class="sleepsel">Keep playing for <select id="sleep-min" aria-label="Sleep timer"><option value="0">until the story ends</option><option value="10">10 minutes</option><option value="20">20 minutes</option><option value="30">30 minutes</option></select></label>
-</div>
-<div class="toolbar">
-<button class="btn btn-primary gen-only" id="t-continue" type="button">➕ Keep going</button>
-<button class="btn btn-primary gen-only" id="t-episode" type="button">📺 Next episode</button>
-<button class="btn btn-soft gen-only" id="t-again" type="button">🔄 Another version</button>
-<button class="btn btn-ghost" id="t-new" type="button">New story</button>
-</div>
-<label class="grow gen-only" id="grow-row" hidden><input type="checkbox" id="grow"> <span id="grow-text">They've grown up: make the next episode for the next age group</span></label>
-<p class="fine" id="story-status" role="status"></p>
-</section>
+  <!-- story -->
+  <section class="screen" id="s-story" hidden aria-labelledby="story-title">
+    <div class="shared" id="shared-banner" hidden><span>💌 Someone shared this story with you.</span> <button class="btn btn-soft" id="make-own" type="button">Make my own</button></div>
+    <article class="story" id="story">
+      <div class="cover" id="cover"></div>
+      <h1 id="story-title"></h1>
+      <p class="meta" id="story-meta"></p>
+      <p class="notice" id="story-notice" hidden></p>
+      <div id="story-body" class="story-body"></div>
+    </article>
+    <div class="toolbar" role="toolbar" aria-label="Story tools">
+      <button class="btn btn-soft" id="t-listen" type="button">🔊 Listen</button>
+      <label class="sleepsel" id="voice-wrap" hidden>Voice <select id="voice" aria-label="Voice"></select></label>
+      <label class="sleepsel" id="speed-wrap" hidden>Speed <select id="speed" aria-label="Reading speed"><option value="0.7">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label>
+      <button class="btn btn-soft" id="t-smaller" type="button" aria-label="Smaller text">A−</button>
+      <button class="btn btn-soft" id="t-bigger" type="button" aria-label="Bigger text">A+</button>
+      <button class="btn btn-soft" id="t-save" type="button">💾 Save</button>
+      <button class="btn btn-soft" id="t-copy" type="button">📋 Copy</button>
+      <button class="btn btn-soft" id="t-pdf" type="button">📄 PDF</button>
+      <button class="btn btn-soft" id="t-txt" type="button">⬇️ Text file</button>
+      <button class="btn btn-soft" id="t-share" type="button">🔗 Share link</button>
+      <button class="btn btn-soft" id="t-quiz" type="button" hidden>🧠 Story quiz</button>
+    </div>
+    <div class="toolbar sleepbar">
+      <button class="btn btn-soft" id="t-sleep" type="button">🌙 Sleep mode</button>
+      <label class="sleepsel">Sounds <select id="amb" aria-label="Background sound"></select></label>
+      <label class="sleepsel">Keep playing for <select id="sleep-min" aria-label="Sleep timer"><option value="0">until the story ends</option><option value="10">10 minutes</option><option value="20">20 minutes</option><option value="30">30 minutes</option></select></label>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-primary gen-only" id="t-continue" type="button">➕ Keep going</button>
+      <button class="btn btn-primary gen-only" id="t-episode" type="button">📺 Next episode</button>
+      <button class="btn btn-soft gen-only" id="t-again" type="button">🔄 Another version</button>
+      <button class="btn btn-ghost" id="t-new" type="button">New story</button>
+    </div>
+    <label class="grow gen-only" id="grow-row" hidden><input type="checkbox" id="grow"> <span id="grow-text">They've grown up: make the next episode for the next age group</span></label>
+    <section class="quiz" id="quiz" hidden aria-labelledby="quiz-h"><h2 id="quiz-h">🧠 Story quiz</h2><div id="quiz-body"></div></section>
+    <p class="fine" id="story-status" role="status"></p>
+  </section>
 
-<!-- library -->
-<section class="screen" id="s-lib" hidden aria-labelledby="h-lib">
-<button class="back" type="button" data-back="age">← Back</button>
-<h1 id="h-lib">My stories</h1>
-<p class="lead" id="lib-empty" hidden>Nothing saved yet. Make a story and press Save.</p>
-<ul class="lib" id="lib-list"></ul>
-</section>
+  <!-- library -->
+  <section class="screen" id="s-lib" hidden aria-labelledby="h-lib">
+    <button class="back" type="button" data-back="age">← Back</button>
+    <h1 id="h-lib">My stories</h1>
+    <p class="lead" id="lib-empty" hidden>Nothing saved yet. Make a story and press Save.</p>
+    <ul class="lib" id="lib-list"></ul>
+    <div class="toolbar" id="lib-tools"><button class="btn btn-soft" id="lib-export" type="button">⬇️ Back up my stories</button><button class="btn btn-soft" id="lib-import" type="button">⬆️ Restore from backup</button><input type="file" id="lib-file" accept="application/json,.json" hidden></div>
+    <p class="fine" id="lib-status" role="status"></p>
+  </section>
 </main>
-
 <div class="sleep" id="sleep" hidden role="dialog" aria-label="Sleep mode">
-<div class="moon" aria-hidden="true">🌙</div>
-<p id="sleep-msg">Close your eyes. Listen…</p>
-<button class="btn btn-ghost" id="sleep-stop" type="button">Stop</button>
+  <div class="moon" aria-hidden="true">🌙</div>
+  <p id="sleep-msg">Close your eyes. Listen…</p>
+  <button class="btn btn-ghost" id="sleep-stop" type="button">Stop</button>
 </div>
 <footer class="foot">Made with ✨ StorySpark. Stories are made up, for fun.</footer>
 <script src="story-data.js"></script>
 <script src="story-engine.js"></script>
+<script src="extras.js"></script>
 <script src="app.js"></script>
 <script src="aesthetic.js"></script>
 <script src="scene.js"></script>

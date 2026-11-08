@@ -171,6 +171,27 @@ t("quiz: one right answer, no repeats, answers appear in the story", () => {
   assert.deepStrictEqual(X.quiz(adult), []);
   assert.deepStrictEqual(X.quiz({ ai: true, ctx: {}, params: {}, text: "x" }), []);
 });
+t("reading level swaps words, keeps names and grammar, and is deterministic", () => {
+  const s = "An extraordinary, enormous dragon whispered. A big happy fox found an old map. Grace looked at a Quiet hill.";
+  const simple = E.levelize(s, "simple"), rich = E.levelize(s, "advanced");
+  assert(/An amazing, huge dragon said softly/.test(simple), simple);
+  assert(/An enormous delighted fox discovered/.test(rich) || /enormous delighted fox discovered/.test(rich), rich);
+  assert(rich.includes("Grace gazed") && simple.includes("Grace looked"), "names and sentence starts");
+  assert(rich.includes("Quiet hill") && simple.includes("Quiet hill"), "mid-sentence capitals are left alone");
+  assert.strictEqual(E.levelize(s, ""), s); assert.strictEqual(E.levelize(s, "nonsense"), s);
+  assert.strictEqual(E.levelize("a huge cave", "simple"), "a huge cave");
+  assert.strictEqual(E.levelize("An enormous cave", "simple"), "A huge cave");
+  for (const tier of Object.keys(D.TIERS)) for (const g of E.genresFor(tier)) for (const level of ["", "simple", "advanced"]) {
+    const a = E.generate({ tier, genre: g.id, length: "medium", chars: crew, seed: 11, level }), b = E.generate({ tier, genre: g.id, length: "medium", chars: crew, seed: 11, level });
+    assert.strictEqual(a.text, b.text); assert.strictEqual(a.params.level, level);
+    assert(!/undefined|\{[A-Z0-9]+\}/.test(a.text), "gap in " + tier + "/" + g.id);
+    for (const c of crew) assert(a.text.includes(c.name), c.name + " lost at level " + level);
+  }
+  const base = E.generate({ tier: "kids", genre: "adventure", length: "long", chars: crew, seed: 3 }).text, rich2 = E.generate({ tier: "kids", genre: "adventure", length: "long", chars: crew, seed: 3, level: "advanced" }).text;
+  assert.notStrictEqual(base, rich2, "advanced level should change some words");
+  const ep = E.nextEpisode(E.generate({ tier: "kids", genre: "adventure", length: "medium", chars: crew, seed: 4, level: "simple" }), {});
+  assert.strictEqual(ep.params.level, "simple");
+});
 (async () => {
   const realFetch = global.fetch;
   await ta("GET reports whether AI is configured", async () => {
