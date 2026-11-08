@@ -1,0 +1,87 @@
+/* StorySpark aesthetic pack: genre art, readable stories, tidy actions, music button */
+.ss-sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+/* ---------- genre tiles ---------- */
+#genre-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+#genre-grid>.ss-tile{position:relative;overflow:hidden;min-height:138px;border:0;border-radius:20px;color:#fff;text-align:left;
+  display:flex;flex-direction:column;justify-content:flex-end;gap:2px;padding:14px;cursor:pointer;
+  background:var(--ss-bg,linear-gradient(135deg,#4c1d95,#7c3aed));text-shadow:0 1px 8px rgba(0,0,0,.55);
+  box-shadow:0 10px 26px -12px rgba(0,0,0,.55);transition:transform .18s ease,box-shadow .18s ease}
+#genre-grid>.ss-tile:hover,#genre-grid>.ss-tile:focus-visible{transform:translateY(-3px) scale(1.015);box-shadow:0 16px 34px -12px rgba(0,0,0,.65)}
+#genre-grid>.ss-tile:focus-visible{outline:3px solid #fff;outline-offset:2px}
+#genre-grid>.ss-tile>*:not(.ss-art){position:relative;z-index:2;color:inherit}
+.ss-art{position:absolute;right:0;bottom:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.95}
+.ss-art svg{width:100%;height:100%;display:block}
+#genre-grid>.ss-tile::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(0,0,0,.45),transparent 55%);pointer-events:none}
+.ss-g-darkromance{--ss-bg:radial-gradient(120% 90% at 85% 10%,#a3153d 0,#5c0a22 45%,#1d0510 100%)}
+.ss-g-horror{--ss-bg:linear-gradient(160deg,#0f2a3d,#1e4a5f 55%,#3a6b6b)}
+.ss-g-humor{--ss-bg:linear-gradient(150deg,#ff9f1c,#ff5d8f)}
+.ss-g-fantasy{--ss-bg:linear-gradient(155deg,#3b1d8f,#8b5cf6 60%,#c4b5fd)}
+.ss-g-romance{--ss-bg:linear-gradient(150deg,#ff6b9a,#e0307a)}
+.ss-g-mystery{--ss-bg:linear-gradient(155deg,#1f3a4d,#2a7f86)}
+.ss-g-adventure{--ss-bg:linear-gradient(150deg,#1f8a4c,#7bc043)}
+.ss-g-scifi{--ss-bg:linear-gradient(155deg,#0a3a78,#12a4d9)}
+.ss-g-bedtime{--ss-bg:linear-gradient(155deg,#4b3f9e,#9b8cf2)}
+.ss-g-animals{--ss-bg:linear-gradient(150deg,#2f9e6f,#9be0b5)}
+.ss-g-psych{--ss-bg:linear-gradient(155deg,#2b2a7a,#b5379b)}
+.ss-g-thriller{--ss-bg:linear-gradient(155deg,#123a6b,#c2412d)}
+.ss-g-friends{--ss-bg:linear-gradient(150deg,#f472b6,#fbbf24)}
+.ss-g-hero{--ss-bg:linear-gradient(150deg,#d62839,#273c75)}
+.ss-g-drama{--ss-bg:linear-gradient(150deg,#a2562c,#e0a458)}
+.ss-g-other0{--ss-bg:linear-gradient(150deg,#0e7c86,#4cc9a8)}
+.ss-g-other1{--ss-bg:linear-gradient(150deg,#7a2dbb,#e56bb0)}
+.ss-g-other2{--ss-bg:linear-gradient(150deg,#d9480f,#f4a259)}
+.ss-g-other3{--ss-bg:linear-gradient(150deg,#1d4ed8,#60a5fa)}
+
+/* ---------- story reading ---------- */
+#story-body{font-size:clamp(1.18rem,1.05rem + .5vw,1.4rem);line-height:1.85;max-width:40rem;margin-left:auto;margin-right:auto}
+#story-body p{margin:0 0 1.15em}
+#story-body strong.ss-lead{font-weight:650}
+#story-body .ss-nm{font-weight:700;color:var(--ss-accent,#7c3aed)}
+#story-body>p:first-of-type::first-letter{float:left;font-size:3.4em;line-height:.85;padding:.06em .1em 0 0;font-weight:700;color:var(--ss-accent,#7c3aed)}
+.ss-glance{max-width:40rem;margin:14px auto 18px;padding:14px 16px;border-radius:16px;background:rgba(124,58,237,.09);border:1px solid rgba(124,58,237,.25);font-size:.98rem;line-height:1.5}
+.ss-glance h2{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px;opacity:.8}
+.ss-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
+.ss-chip{padding:4px 12px;border-radius:999px;font-weight:600;font-size:.9rem;background:rgba(124,58,237,.16)}
+.ss-moments{margin:6px 0 0;padding-left:1.1em}.ss-moments li{margin:3px 0}
+.ss-banner{display:block;width:100%;max-width:520px;margin:0 auto 6px;height:auto}
+.ss-aa{display:flex;justify-content:flex-end;gap:6px;max-width:40rem;margin:0 auto 6px}
+.ss-aa .btn{min-width:44px;min-height:40px;padding:6px 12px}
+
+/* dark romance reading theme */
+#s-story.ss-theme-darkromance{--ss-accent:#e7b86a}
+#s-story.ss-theme-darkromance .story{color:#f6e8ec;background:radial-gradient(120% 80% at 50% -10%,#3a0b1c 0,#1a0710 55%,#0e0408 100%);
+  border:1px solid rgba(212,175,106,.4);border-radius:24px;padding:clamp(18px,4vw,40px);box-shadow:inset 0 0 90px rgba(0,0,0,.55),0 18px 50px -20px rgba(120,10,40,.6)}
+#s-story.ss-theme-darkromance #story-title{font-family:"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif;color:#f3d9a0;text-align:center;letter-spacing:.02em}
+#s-story.ss-theme-darkromance .meta,#s-story.ss-theme-darkromance .notice{color:#d9b9c0;text-align:center}
+#s-story.ss-theme-darkromance #story-body{font-family:"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif}
+#s-story.ss-theme-darkromance #story-body .ss-nm{color:#f3c97c}
+#s-story.ss-theme-darkromance .ss-glance{background:rgba(231,184,106,.08);border-color:rgba(231,184,106,.3);color:#f2e1e5}
+#s-story.ss-theme-darkromance .ss-chip{background:rgba(163,21,61,.45);color:#ffe9ef}
+#s-story.ss-theme-horror{--ss-accent:#4fb6a8}
+#s-story.ss-theme-fantasy{--ss-accent:#7c3aed}#s-story.ss-theme-romance{--ss-accent:#d6336c}
+#s-story.ss-theme-humor{--ss-accent:#e8590c}#s-story.ss-theme-mystery{--ss-accent:#1b7f86}
+#s-story.ss-theme-bedtime{--ss-accent:#6d5bd0}#s-story.ss-theme-scifi{--ss-accent:#0b7bb5}
+
+/* ---------- tidy actions ---------- */
+#s-story .toolbar.ss-empty{display:none}
+.ss-actions{display:flex;flex-direction:column;gap:12px;align-items:center;margin:20px auto 10px;max-width:40rem}
+.ss-primary,.ss-secondary{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;width:100%}
+.ss-primary{flex-wrap:nowrap}.ss-primary .btn{flex:1 1 0;min-width:0;min-height:50px;font-size:.98rem;padding:10px 6px;white-space:nowrap}
+.ss-more{position:relative}
+.ss-more>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;height:46px;box-sizing:border-box;padding:0 18px;border-radius:14px;font-weight:700;border:2px solid currentColor;opacity:.85}
+.ss-more>summary::-webkit-details-marker{display:none}
+.ss-menu{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);z-index:20;width:min(280px,calc(100vw - 28px));display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:16px;
+  background:#1f1347;box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.ss-menu .btn{width:100%;justify-content:flex-start;text-align:left}
+.ss-menu label{color:#e8e0ff;font-size:.9rem;display:flex;flex-direction:column;gap:4px;padding:4px 6px}
+.ss-menu select{min-height:40px}
+
+/* ---------- music button ---------- */
+#ss-music{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:900;width:50px;height:50px;border-radius:50%;border:0;cursor:pointer;
+  background:#1f1347;color:#fff;font-size:22px;box-shadow:0 10px 26px rgba(0,0,0,.4)}
+#ss-music[aria-pressed="false"]{opacity:.7}
+#ss-music:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){#genre-grid>.ss-tile{transition:none}}
+
+#main{padding-bottom:84px}

@@ -1,13 +1,15 @@
 {
+  "id": "/",
   "name": "StorySpark",
   "short_name": "StorySpark",
-  "description": "Stories made for you: type your characters, pick an age group and a genre, and get a story.",
+  "description": "Stories made for you: add your characters, pick an age group and a story type, then read, listen and save.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#fff7fb",
+  "orientation": "any",
+  "background_color": "#f5f0ff",
   "theme_color": "#7c3aed",
+  "categories": ["books", "entertainment", "education"],
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
