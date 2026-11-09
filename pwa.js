@@ -49,8 +49,8 @@
   window.addEventListener('online', function () { say('Back online.', [], 2500); });
 
   // Register the service worker
-  var reloading = false, hadController = !!navigator.serviceWorker.controller;   // first visit: nothing to refresh, so no reload
-  navigator.serviceWorker.addEventListener('controllerchange', function () { if (reloading || !hadController) return; reloading = true; location.reload(); });
+  var reloading = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function () { if (reloading) return; reloading = true; location.reload(); });
   navigator.serviceWorker.addEventListener('message', function (e) {
     if (e.data && e.data.type === 'CACHED' && !store.get('ss-offline-ready')) { store.set('ss-offline-ready', '1'); say('Ready to use offline.', [], 4000); }
   });

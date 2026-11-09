@@ -1,60 +1,61 @@
-/* StorySpark cinema: 3D tilt on genre cards, loading screen and reveal transitions (no data leaves the browser) */
+/* StorySpark cinematic UI: 3D tilt on genre cards, immersive loading title card, letterbox reveal. */
 (function () {
   'use strict';
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce) document.documentElement.classList.add('ss-motion');
   var $ = function (s) { return document.querySelector(s); };
+  var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* 3D tilt: cards lean towards the pointer */
-  function tilt() {
-    var grid = $('#genre-grid'); if (!grid || reduce) return;
+  /* 3D tilt */
+  var grid = $('#genre-grid');
+  if (grid && fine && !reduce) {
     grid.addEventListener('pointermove', function (e) {
-      if (e.pointerType === 'touch') return;
       var t = e.target.closest && e.target.closest('.ss-tile'); if (!t) return;
-      var r = t.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      t.style.setProperty('--ry', ((x - .5) * 14).toFixed(1) + 'deg'); t.style.setProperty('--rx', ((.5 - y) * 12).toFixed(1) + 'deg');
-      t.style.setProperty('--gx', (x * 100).toFixed(0) + '%'); t.style.setProperty('--gy', (y * 100).toFixed(0) + '%');
+      var r = t.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      t.classList.add('ss-tilt'); t.style.setProperty('--rx', ((py - .5) * -12).toFixed(2) + 'deg'); t.style.setProperty('--ry', ((px - .5) * 14).toFixed(2) + 'deg');
+      t.style.setProperty('--gx', (px * 100).toFixed(0) + '%'); t.style.setProperty('--gy', (py * 100).toFixed(0) + '%');
     });
     grid.addEventListener('pointerout', function (e) {
-      var t = e.target.closest && e.target.closest('.ss-tile'); if (!t) return;
-      t.style.removeProperty('--rx'); t.style.removeProperty('--ry');
+      var t = e.target.closest && e.target.closest('.ss-tile'); if (!t || (e.relatedTarget && t.contains(e.relatedTarget))) return;
+      t.classList.remove('ss-tilt'); t.style.setProperty('--rx', '0deg'); t.style.setProperty('--ry', '0deg');
     });
   }
 
-  /* loading screen while the story is made */
+  /* loading title card */
   var LINES = {
-    romance: ['Setting the mood…', 'Finding the right words…', 'Letting two hearts meet…'],
-    darkromance: ['Lighting the candles…', 'Drawing the curtains…', 'Letting the shadows lean in…'],
-    horror: ['Switching off the lights…', 'Gathering the fog…', 'Listening for footsteps…'],
-    fantasy: ['Waking the old magic…', 'Opening the hidden door…', 'Following the lantern light…'],
-    mystery: ['Following the rain…', 'Dusting for clues…', 'Reading between the lines…'],
-    thriller: ['Tracing the signal…', 'Counting the seconds…', 'Closing in…'],
-    adventure: ['Unfolding the map…', 'Packing for the journey…', 'Climbing towards the horizon…'],
-    _: ['Choosing the first line…', 'Bringing your characters to life…', 'Turning the page…']
+    darkromance: ['Lighting the candles…', 'Scattering the petals…', 'Pouring the wine…', 'Writing your forbidden chapter…'],
+    horror: ['The fog rolls in…', 'Something stirs in the dark…', 'Do not look behind you…', 'Writing your nightmare…'],
+    romance: ['The sun is setting…', 'Lights come on along the shore…', 'Two hearts, one story…', 'Writing your love story…'],
+    fantasy: ['The aurora wakes…', 'Magic gathers in the trees…', 'The castle gates open…', 'Writing your legend…'],
+    mystery: ['Rain on the empty street…', 'A light flickers in a window…', 'Following the clues…', 'Writing your mystery…'],
+    thriller: ['The sirens fade…', 'Every shadow has a witness…', 'Time is running out…', 'Writing your thriller…'],
+    adventure: ['The sun climbs the peaks…', 'The trail ahead is unmarked…', 'Packing for the journey…', 'Writing your adventure…'],
+    scifi: ['Engines warming up…', 'Charting the stars…', 'Signal incoming…', 'Writing your voyage…'],
+    humor: ['Warming up the jokes…', 'Counting the confetti…', 'Practising the punchline…', 'Writing your comedy…'],
+    'default': ['Setting the scene…', 'Gathering your characters…', 'Turning the page…', 'Writing your story…']
   };
-  var box, t0 = 0, timer = 0, safety = 0, lineT = 0;
-  function build() {
-    if (box) return;
-    box = document.createElement('div'); box.id = 'ss-load'; box.setAttribute('role', 'status'); box.setAttribute('aria-live', 'polite');
-    box.innerHTML = '<div class="ss-ld-title">Writing your story</div><div class="ss-ld-line"></div><div class="ss-ld-bar"><i></i></div>';
-    document.body.appendChild(box);
+  var load = $('#s-loading'), timer = 0, idx = 0;
+  function key() { var s = window.SSScene && SSScene._state; return (s && (s.locked || s.key)) || 'default'; }
+  function ensureCard() {
+    if (!load || load.querySelector('.ss-cine-load')) return;
+    var d = document.createElement('div'); d.className = 'ss-cine-load'; d.setAttribute('aria-hidden', 'true');
+    d.innerHTML = '<div class="ss-cl-sub">A StorySpark story</div><div class="ss-cl-line"></div><div class="ss-cl-bar"><i></i></div>'; load.appendChild(d);
   }
-  function genreKey() { var s = window.SSScene && SSScene._state; return (s && s.key) || '_'; }
-  function show() {
-    build(); var lines = LINES[genreKey()] || LINES._, i = 0, ln = box.querySelector('.ss-ld-line');
-    ln.textContent = lines[0]; clearInterval(lineT); lineT = setInterval(function () { i = (i + 1) % lines.length; ln.textContent = lines[i]; }, 900);
-    box.classList.add('on'); t0 = Date.now();
-    clearTimeout(safety); safety = setTimeout(hide, 25000);     // never trap the reader
-    clearInterval(timer); timer = setInterval(function () {
-      var st = $('#s-story');
-      if (st && !st.hidden && Date.now() - t0 >= (reduce ? 250 : 1500)) hide();
-    }, 120);
+  function showLine() {
+    var el = load && load.querySelector('.ss-cl-line'); if (!el) return; var L = LINES[key()] || LINES['default'];
+    el.classList.add('out'); setTimeout(function () { el.textContent = L[idx++ % L.length]; el.classList.remove('out'); }, reduce ? 0 : 450);
   }
-  function hide() { clearInterval(timer); clearInterval(lineT); clearTimeout(safety); if (box) box.classList.remove('on'); }
-  function init() {
-    tilt();
-    var make = $('#make'); if (make) make.addEventListener('click', show, true);
-    var again = $('#t-again'), ep = $('#t-episode'); [again, ep].forEach(function (b) { if (b) b.addEventListener('click', show, true); });
+  function startLoad() { if (!document.documentElement.classList.contains('ss-scene-on')) return; ensureCard(); idx = 0; var el = load.querySelector('.ss-cl-line'); if (el) el.textContent = (LINES[key()] || LINES['default'])[idx++]; clearInterval(timer); timer = setInterval(showLine, 2600); }
+  function stopLoad() { clearInterval(timer); }
+
+  /* letterbox reveal when the story appears */
+  function reveal() {
+    if (reduce || !document.documentElement.classList.contains('ss-scene-on')) return;
+    var old = $('.ss-lbx'); if (old) old.remove(); var b = document.createElement('div'); b.className = 'ss-lbx'; b.setAttribute('aria-hidden', 'true'); b.innerHTML = '<i></i><i></i>'; document.body.appendChild(b);
+    setTimeout(function () { if (b.parentNode) b.remove(); }, 1900);
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  function watch(el, onShow, onHide) {
+    if (!el) return; var was = !el.hidden;
+    new MutationObserver(function () { var now = !el.hidden; if (now && !was) onShow(); if (!now && was && onHide) onHide(); was = now; }).observe(el, { attributes: true, attributeFilter: ['hidden'] });
+  }
+  watch(load, startLoad, stopLoad); watch($('#s-story'), reveal);
 })();

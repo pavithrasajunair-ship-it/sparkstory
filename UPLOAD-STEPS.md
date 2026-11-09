@@ -11,6 +11,8 @@
 
 If you changed index.html on GitHub after I read it today, tell me first so I can merge instead of replacing.
 
-New in this version: living backgrounds. Point at a genre and the whole page changes scene. Dark Romance is a candlelit bedroom with falling rose petals; tap the candles to blow them out, tap anywhere for a burst of petals.
+New in this version: cinematic scenes for every genre (Romance sunset, Horror mansion in fog, Mystery rainy street, Adventure mountains, Fantasy aurora and castle, Dark Romance bedroom), film grain and depth, 3D tilting genre cards, glass panels, a cinematic loading title card and a letterbox reveal when the story opens. Real photos can be added later: see IMAGE-GUIDE.md.
+
+Before this version: living backgrounds. Point at a genre and the whole page changes scene. Dark Romance is a candlelit bedroom with falling rose petals; tap the candles to blow them out, tap anywhere for a burst of petals.
 
 Check: Grown-ups > the genre tiles should be coloured, with drawings, in a new order each visit. Tap Dark Romance and make a story to see the dark theme and music.
