@@ -531,6 +531,18 @@
     $("lib-file").addEventListener("change", (e) => { importLib(e.target.files[0]); e.target.value = ""; });
     if (canSpeak) { loadVoices(); speechSynthesis.addEventListener && speechSynthesis.addEventListener("voiceschanged", loadVoices); $("voice").addEventListener("change", () => store.set("storyspark:voice", $("voice").value)); }
     $("add-char").addEventListener("click", () => { if (state.chars.length < 6) { state.chars.push({ name: "", role: "friend" }); renderChars(); const ins = $("char-list").querySelectorAll("input"); ins[ins.length - 1].focus(); } });
+    // the step pills jump between sections: back is always allowed, forward only when the names are filled in
+    $("steps").querySelectorAll("li").forEach((li) => {
+      li.tabIndex = 0; li.setAttribute("role", "button");
+      const go = () => {
+        const n = +li.dataset.step;
+        if (n === 1) show("genre");
+        else if (n === 2) { if (state.genre) show("chars"); }
+        else if (n === 3 && state.genre && validateChars()) { buildLength(); show("length"); }
+      };
+      li.addEventListener("click", go);
+      li.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    });
     $("chars-next").addEventListener("click", () => { if (validateChars()) { buildLength(); show("length"); } });
     $("char-list").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); $("chars-next").click(); } });
     $("make").addEventListener("click", () => make());

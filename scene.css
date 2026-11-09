@@ -15,3 +15,15 @@ html.ss-scene-on body{background:transparent!important}
   background:rgba(20,8,14,.72);color:#f3d9a0;font:600 13px system-ui,sans-serif;letter-spacing:.02em;border:1px solid rgba(231,184,106,.35);opacity:0;transition:opacity .6s;pointer-events:none;max-width:88vw;text-align:center;white-space:normal;line-height:1.35}
 #ss-hint.on{opacity:1}
 @media (prefers-reduced-motion:reduce){#ss-scene,#ss-scene .ss-layer{transition:none}}
+
+/* Keep every form readable on top of a living background: solid panel in the tier's own colours */
+html.ss-scene-on #s-age, html.ss-scene-on #s-genre, html.ss-scene-on #s-chars, html.ss-scene-on #s-length{
+  background:color-mix(in srgb,var(--bg1) 95%,transparent);border-radius:var(--radius);padding:18px 16px;margin-top:10px;
+  box-shadow:0 8px 30px rgba(0,0,0,.35);color:var(--ink)}
+html.ss-scene-on .top{background:color-mix(in srgb,var(--bg1) 95%,transparent);border-radius:999px;padding:6px 8px 6px 14px}
+html.ss-scene-on .steps{background:color-mix(in srgb,var(--bg1) 95%,transparent);border-radius:999px;padding:6px 8px;width:fit-content;max-width:100%}
+html.ss-scene-on .steps li{cursor:pointer}
+html.ss-scene-on #chars-error{color:#b00020;font-weight:700}
+html[data-tier=teens].ss-scene-on #chars-error,html[data-tier=adult].ss-scene-on #chars-error{color:#ff8a9b}
+.steps li{cursor:pointer}
+.steps li:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
