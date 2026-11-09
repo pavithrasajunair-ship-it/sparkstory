@@ -16,14 +16,82 @@ html.ss-scene-on body{background:transparent!important}
 #ss-hint.on{opacity:1}
 @media (prefers-reduced-motion:reduce){#ss-scene,#ss-scene .ss-layer{transition:none}}
 
-/* Keep every form readable on top of a living background: solid panel in the tier's own colours */
+
+/* ---- photo backdrops: slow cinematic zoom, parallax comes from scene.js ---- */
+#ss-scene .ss-photo{position:absolute;inset:-7%;background-size:cover;background-position:center;opacity:0;transition:opacity 1.2s ease;
+  will-change:transform;animation:ssKen 46s ease-in-out infinite alternate}
+#ss-scene .ss-photo.ready{opacity:1}
+@keyframes ssKen{from{transform:scale(1) translate3d(0,0,0)}to{transform:scale(1.13) translate3d(-1.2%,-.8%,0)}}
+#ss-scene .ss-dim{background-blend-mode:multiply}
+#ss-scene::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 42%,transparent 38%,rgba(0,0,0,.5) 100%)}   /* vignette */
+
+/* ---- glass panels: forms stay readable on top of any backdrop ---- */
 html.ss-scene-on #s-age, html.ss-scene-on #s-genre, html.ss-scene-on #s-chars, html.ss-scene-on #s-length{
-  background:color-mix(in srgb,var(--bg1) 95%,transparent);border-radius:var(--radius);padding:18px 16px;margin-top:10px;
-  box-shadow:0 8px 30px rgba(0,0,0,.35);color:var(--ink)}
-html.ss-scene-on .top{background:color-mix(in srgb,var(--bg1) 95%,transparent);border-radius:999px;padding:6px 8px 6px 14px}
-html.ss-scene-on .steps{background:color-mix(in srgb,var(--bg1) 95%,transparent);border-radius:999px;padding:6px 8px;width:fit-content;max-width:100%}
-html.ss-scene-on .steps li{cursor:pointer}
+  background:color-mix(in srgb,var(--bg1) 86%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25);
+  border:1px solid rgba(255,255,255,.35);border-radius:var(--radius);padding:20px 16px;margin-top:10px;
+  box-shadow:0 18px 50px -12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.35);color:var(--ink)}
+html.ss-scene-on .top,html.ss-scene-on .steps{background:color-mix(in srgb,var(--bg1) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 8px 6px 14px}
+html.ss-scene-on .steps{width:fit-content;max-width:100%;padding:6px 8px}
+html.ss-scene-on #s-story{background:color-mix(in srgb,var(--bg1) 88%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);
+  border:1px solid rgba(255,255,255,.28);border-radius:var(--radius);padding:22px clamp(14px,4vw,34px);margin-top:10px;box-shadow:0 24px 60px -16px rgba(0,0,0,.6)}
 html.ss-scene-on #chars-error{color:#b00020;font-weight:700}
 html[data-tier=teens].ss-scene-on #chars-error,html[data-tier=adult].ss-scene-on #chars-error{color:#ff8a9b}
 .steps li{cursor:pointer}
 .steps li:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+@media (min-width:900px){html.ss-scene-on #s-age,html.ss-scene-on #s-genre,html.ss-scene-on #s-chars,html.ss-scene-on #s-length,html.ss-scene-on #s-story{padding:30px 34px}}
+@media (prefers-reduced-transparency:reduce){
+  html.ss-scene-on #s-age,html.ss-scene-on #s-genre,html.ss-scene-on #s-chars,html.ss-scene-on #s-length,html.ss-scene-on #s-story,html.ss-scene-on .top,html.ss-scene-on .steps{
+    background:var(--bg1);-webkit-backdrop-filter:none;backdrop-filter:none}}
+
+/* ---- 3D genre cards with real previews ---- */
+.ss-g-romance{--ss-thumb:url(bg/romance-1-t.webp)}.ss-g-darkromance{--ss-thumb:url(bg/darkromance-1-t.webp)}.ss-g-horror{--ss-thumb:url(bg/horror-1-t.webp)}
+.ss-g-fantasy{--ss-thumb:url(bg/fantasy-1-t.webp);--ss-thumb-k:url(bg/fantasy-1-t.webp)}.ss-g-mystery{--ss-thumb:url(bg/mystery-1-t.webp)}.ss-g-thriller{--ss-thumb:url(bg/mystery-1-t.webp)}.ss-g-adventure{--ss-thumb:url(bg/adventure-1-t.webp);--ss-thumb-k:url(bg/adventure-1-t.webp)}
+#genre-grid{perspective:900px}
+#genre-grid>.ss-tile{background:linear-gradient(0deg,rgba(0,0,0,.62),rgba(0,0,0,.05) 62%),var(--ss-thumb,none),var(--ss-bg,linear-gradient(135deg,#4c1d95,#7c3aed));
+  background-size:cover;background-position:center;transform-style:preserve-3d;
+  transform:perspective(700px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease,box-shadow .25s ease;will-change:transform}
+#genre-grid>.ss-tile:hover,#genre-grid>.ss-tile:focus-visible{transform:perspective(700px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(14px) scale(1.03);
+  box-shadow:0 24px 40px -14px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.35)}
+#genre-grid>.ss-tile::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .25s;
+  background:radial-gradient(circle at var(--gx,50%) var(--gy,30%),rgba(255,255,255,.35),transparent 55%)}
+#genre-grid>.ss-tile:hover::before{opacity:1}
+#genre-grid>.ss-g-romance .ss-art,#genre-grid>.ss-g-darkromance .ss-art,#genre-grid>.ss-g-horror .ss-art,#genre-grid>.ss-g-fantasy .ss-art,
+#genre-grid>.ss-g-mystery .ss-art,#genre-grid>.ss-g-thriller .ss-art,#genre-grid>.ss-g-adventure .ss-art{display:none}   /* photo replaces the drawing */
+.btn{transition:transform .2s ease,box-shadow .2s ease,filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.btn:active{transform:translateY(0)}
+
+/* ---- transitions between steps and when the story appears ---- */
+@keyframes ssRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes ssReveal{0%{opacity:0;transform:scale(.97) translateY(14px);filter:blur(8px)}60%{filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
+html.ss-motion #s-age:not([hidden]),html.ss-motion #s-genre:not([hidden]),html.ss-motion #s-chars:not([hidden]),html.ss-motion #s-length:not([hidden]){animation:ssRise .5s cubic-bezier(.2,.7,.2,1) both}
+html.ss-motion #s-story:not([hidden]){animation:ssReveal 1.1s cubic-bezier(.2,.7,.2,1) both}
+
+/* ---- loading screen ---- */
+#ss-load{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:24px;
+  background:radial-gradient(ellipse at 50% 45%,rgba(8,6,14,.55),rgba(4,3,8,.9));-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  color:#fff;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s}
+#ss-load.on{opacity:1;visibility:visible}
+#ss-load .ss-ld-title{font:600 clamp(22px,5vw,34px)/1.2 "Lora",Georgia,serif;letter-spacing:.02em;text-shadow:0 2px 20px rgba(0,0,0,.6)}
+#ss-load .ss-ld-line{font:500 15px/1.4 system-ui,sans-serif;opacity:.85;min-height:1.4em}
+#ss-load .ss-ld-bar{width:min(260px,70vw);height:3px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden}
+#ss-load .ss-ld-bar i{display:block;height:100%;width:40%;border-radius:3px;background:linear-gradient(90deg,transparent,#fff,transparent);animation:ssBar 1.3s ease-in-out infinite}
+@keyframes ssBar{from{transform:translateX(-120%)}to{transform:translateX(320%)}}
+@media (prefers-reduced-motion:reduce){
+  #ss-scene .ss-photo{animation:none}#ss-load .ss-ld-bar i{animation:none;width:100%}
+  #genre-grid>.ss-tile,#genre-grid>.ss-tile:hover{transform:none}}
+
+/* dark age groups: let more of the environment show through (still >= 4.5:1 text contrast) */
+html[data-tier=teens].ss-scene-on #s-age,html[data-tier=teens].ss-scene-on #s-genre,html[data-tier=teens].ss-scene-on #s-chars,html[data-tier=teens].ss-scene-on #s-length,html[data-tier=teens].ss-scene-on #s-story,
+html[data-tier=adult].ss-scene-on #s-age,html[data-tier=adult].ss-scene-on #s-genre,html[data-tier=adult].ss-scene-on #s-chars,html[data-tier=adult].ss-scene-on #s-length,html[data-tier=adult].ss-scene-on #s-story{
+  background:rgba(8,6,12,.62)}
+html[data-tier=teens].ss-scene-on .top,html[data-tier=teens].ss-scene-on .steps,html[data-tier=adult].ss-scene-on .top,html[data-tier=adult].ss-scene-on .steps{background:rgba(8,6,12,.6)}
+@media print{#ss-scene,#ss-load,#ss-hint{display:none!important}
+  html.ss-scene-on #s-story{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important}}
+
+/* younger readers keep the friendly drawn cards for the grown-up genres */
+html[data-tier=tiny] #genre-grid>.ss-tile,html[data-tier=kids] #genre-grid>.ss-tile{--ss-thumb:none}
+html[data-tier=tiny] #genre-grid>.ss-tile:not(.ss-g-fantasy):not(.ss-g-adventure) .ss-art,html[data-tier=kids] #genre-grid>.ss-tile:not(.ss-g-fantasy):not(.ss-g-adventure) .ss-art{display:block}
+html[data-tier=kids] #genre-grid>.ss-g-fantasy,html[data-tier=kids] #genre-grid>.ss-g-adventure{--ss-thumb:var(--ss-thumb-k)}

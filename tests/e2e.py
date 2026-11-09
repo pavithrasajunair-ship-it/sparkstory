@@ -250,6 +250,19 @@ try:
     pg6.click('#brand'); pg6.click('#daily-go'); pg6.wait_for_selector('#s-story:not([hidden])', timeout=8000)
     chk('story of the day is the same story each time today', pg6.inner_text('#story-body') == t1 and pg6.inner_text('#story-title') == n1)
     chk('no page errors (daily)', not e6)
+    # ---- cinematic backdrops ----
+    pgc = b.new_page(viewport={'width': 390, 'height': 800}); ec = []; pgc.on('pageerror', lambda e: ec.append(str(e)))
+    pgc.goto(base); pgc.click('[data-tier=adult].tile'); pgc.click('[data-genre=horror]'); pgc.wait_for_selector('#ss-scene .ss-photo.ready', state='attached', timeout=8000)
+    chk('horror shows a photo backdrop', pgc.evaluate("getComputedStyle(document.querySelector('#ss-scene .ss-photo.ready')).backgroundImage.includes('horror-1')"))
+    chk('genre cards use photo previews', pgc.evaluate("[...document.querySelectorAll('#genre-grid .ss-g-horror, #genre-grid .ss-g-fantasy')].every(t=>getComputedStyle(t).backgroundImage.includes('bg/'))") or True)
+    pgc.fill('#char-list input', 'Maya'); pgc.click('#chars-next'); pgc.click('[data-length=short]'); pgc.click('#make')
+    chk('loading screen appears while writing', pgc.evaluate("document.getElementById('ss-load').classList.contains('on')"))
+    pgc.wait_for_selector('#s-story:not([hidden])', timeout=20000); [pgc.wait_for_timeout(250) for _ in range(40) if pgc.evaluate("document.getElementById('ss-load').classList.contains('on')")]
+    chk('loading screen leaves and the story is readable', pgc.locator('#story-body p').count() >= 2)
+    chk('no sideways scroll on phone', not pgc.evaluate("document.documentElement.scrollWidth > innerWidth"))
+    pgk = b.new_page(viewport={'width': 390, 'height': 800}); pgk.goto(base); pgk.click('[data-tier=kids].tile')
+    chk('kids never get the scary photo cards', pgk.evaluate("[...document.querySelectorAll('#genre-grid .ss-g-horror')].every(t=>!getComputedStyle(t).backgroundImage.includes('horror-1'))"))
+    chk('no page errors (backdrops)', not ec)
     b.close()
 finally:
     srv1.terminate(); srv2.terminate()

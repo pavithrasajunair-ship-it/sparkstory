@@ -130,9 +130,21 @@
     psych: { bg: 'radial-gradient(100% 80% at 50% 40%,#4a1a7a 0,#1b0e45 60%,#0a0620 100%)', fx: 'rings', light: '230,170,255', dim: .3 },
     humor: { bg: 'linear-gradient(150deg,#ff9f1c,#ff4f8b)', fx: 'confetti', light: '255,255,255', dim: .12 },
     drama: { bg: 'linear-gradient(#2b1408,#6b3a14 70%,#2b1408)', art: artDrama, fx: 'dust', light: '255,225,160', dim: .35 },
+    adventure: { bg: 'linear-gradient(#10261c,#3c6a3a 60%,#15261a)', fx: 'dust', light: '255,225,160', dim: .28 },
     bedtime: { bg: 'linear-gradient(#171347,#4a3fa8 70%,#2b2370)', art: artBedtime, fx: 'stars', light: '220,215,255', dim: .22 }
   };
   SC.friends = SC.romance; SC.animals = SC.fantasy; SC.adventure = SC.fantasy; SC.hero = SC.thriller;
+
+  /* real photo backdrops (files in /bg: -p portrait, -l landscape); every other genre keeps its drawn scene */
+  var PH = { romance: ['romance-1', 'romance-2'], darkromance: ['darkromance-1', 'darkromance-2'], horror: ['horror-1'], fantasy: ['fantasy-1', 'fantasy-2'], mystery: ['mystery-1'], thriller: ['mystery-1'], adventure: ['adventure-1'] };
+  var picked = {};
+  function photoFor(key) {
+    var list = PH[key]; if (!list) return '';
+    var tier = document.documentElement.getAttribute('data-tier');
+    if ((tier === 'tiny' || tier === 'kids') && /^(horror|darkromance|mystery|thriller|romance)$/.test(key)) return '';   // photos for these are for older readers only
+    if (picked[key] == null || picked[key] >= list.length) picked[key] = Math.floor(Math.random() * list.length);
+    return 'bg/' + list[picked[key]] + (W >= H ? '-l' : '-p') + '.webp';
+  }
 
   /* ---------------------------------------------------- particles */
   var P = [], mode = '', last = 0, rafId = 0, flashT = 0, sirenA = 0;
@@ -170,7 +182,7 @@
       else if (mode === 'fog' && count < 6) spawn('fog');
       else if (mode === 'rain' && count < lim) for (var i = 0; i < rate * dt && count < lim; i++) spawn('rain');
       else if (count < lim && Math.random() < rate * dt) spawn(mode, mode === 'fireflies' || mode === 'dust' ? undefined : undefined);
-      if (state.key === 'darkromance') state.candles.forEach(function (c) { if (c.on && Math.random() < 2 * dt) { var r = cvPos(c); spawn('ember', r.x + rnd(-3, 3), r.y); } });
+      if (state.key === 'darkromance' && layers[cur] && layers[cur].svg) state.candles.forEach(function (c) { if (c.on && Math.random() < 2 * dt) { var r = cvPos(c); spawn('ember', r.x + rnd(-3, 3), r.y); } });
     }
     ctx.clearRect(0, 0, W, H);
     for (var k = P.length - 1; k >= 0; k--) {
@@ -201,7 +213,7 @@
     state.px += (state.tx - state.px) * Math.min(1, dt * 6); state.py += (state.ty - state.py) * Math.min(1, dt * 6);
     if (lightEl) { var cfg = SC[state.key] || SC['default']; lightEl.style.background = 'radial-gradient(circle ' + (state.key === 'mystery' ? 190 : 300) + 'px at ' + (state.px * 100).toFixed(1) + '% ' + (state.py * 100).toFixed(1) + '%,rgba(' + cfg.light + ',' + (state.key === 'mystery' ? .3 : .2) + '),rgba(' + cfg.light + ',0) 70%)'; }
     var L = layers[cur], dx = (state.px - .5) * -16, dy = (state.py - .5) * -10;
-    if (L) { if (L.svg) L.svg.style.transform = 'translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0)'; if (L.bgd) L.bgd.style.transform = 'translate3d(' + (dx * .4).toFixed(1) + 'px,' + (dy * .4).toFixed(1) + 'px,0)'; }
+    if (L) { if (L.svg) L.svg.style.transform = 'translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0)'; if (L.bgd) { var pf = L.photo ? 1.5 : .4; L.bgd.style.transform = 'translate3d(' + (dx * pf).toFixed(1) + 'px,' + (dy * pf).toFixed(1) + 'px,0)'; } }
     if (state.key === 'darkromance' && L && L.svg) {
       state.candles.forEach(function (c) {
         var fl = L.svg.querySelector('#fl' + c.id), gl = L.svg.querySelector('#gl' + c.id); if (!fl) return;
@@ -220,8 +232,17 @@
   }
   function build(L, key, keepOpacity) {
     var cfg = SC[key] || SC['default']; L.key = key; L.bgd.style.background = cfg.bg;
-    var old = L.el.querySelector('.ss-svg'); if (old) old.remove(); L.svg = null;
-    if (cfg.art) { var tmp = document.createElement('div'); tmp.innerHTML = cfg.art(W, H); L.svg = tmp.firstChild; L.vb = { w: W, h: H }; L.el.appendChild(L.svg); }
+    var old = L.el.querySelector('.ss-svg'); if (old) old.remove(); L.svg = null; L.photo = null;
+    var oldP = L.bgd.querySelector('.ss-photo'); if (oldP) oldP.remove();
+    var addArt = function () { if (cfg.art && !L.svg && L.key === key) { var tmp = document.createElement('div'); tmp.innerHTML = cfg.art(W, H); L.svg = tmp.firstChild; L.vb = { w: W, h: H }; L.el.appendChild(L.svg); } };
+    var url = photoFor(key);
+    if (url) {
+      var ph = document.createElement('div'); ph.className = 'ss-photo'; L.bgd.appendChild(ph); L.photo = ph;
+      var img = new Image();
+      img.onload = function () { if (L.photo === ph) { ph.style.backgroundImage = 'url("' + url + '")'; ph.classList.add('ready'); } };
+      img.onerror = function () { if (L.photo === ph) { ph.remove(); L.photo = null; addArt(); } };   // photo failed: drawn scene instead
+      img.src = url;
+    } else addArt();
   }
   function setScene(key, opts) {
     if (!root) return; var cfg = SC[key] || SC['default']; if (key === state.key && root.classList.contains('on')) return;
@@ -230,7 +251,7 @@
     mode = cfg.fx; P = P.filter(function (p) { return p.m === 'ember' || p.m === 'petals' && mode === 'petals'; });
     dimEl.style.background = 'radial-gradient(ellipse at 50% 45%,rgba(0,0,0,' + (cfg.dim || .3) + ') 20%,rgba(0,0,0,' + Math.max(0, (cfg.dim || .3) - .25) + ') 100%)';
     if (!root.classList.contains('on')) { root.classList.add('on'); document.documentElement.classList.add('ss-scene-on'); }
-    if (cfg.hint) showHint(cfg.hint); else hideHint();
+    if (cfg.hint && L.svg) showHint(cfg.hint); else hideHint();
   }
   function hideScene() { if (!root) return; root.classList.remove('on'); document.documentElement.classList.remove('ss-scene-on'); state.key = ''; hideHint(); }
   var hintT = 0; function showHint(t) { if (!hint) return; hint.textContent = t; hint.classList.add('on'); clearTimeout(hintT); hintT = setTimeout(hideHint, 6000); } function hideHint() { if (hint) hint.classList.remove('on'); }
@@ -238,7 +259,7 @@
   function point(e) { var t = e.touches ? e.touches[0] : e; if (!t) return; state.tx = t.clientX / W; state.ty = t.clientY / H; state.moved = true; }
   function down(e) {
     point(e); state.down = true; var t = e.touches ? e.touches[0] : e; if (!t || interactive(e.target)) return; var x = t.clientX, y = t.clientY;
-    if (state.key === 'darkromance') {
+    if (state.key === 'darkromance' && layers[cur] && layers[cur].svg) {
       for (var i = 0; i < state.candles.length; i++) { var c = state.candles[i], cp = cvPos(c); if (Math.hypot(cp.x - x, cp.y - y) < Math.max(34, c.r * (W < 700 ? .9 : 1.3))) { c.on = !c.on; if (!c.on) for (var k = 0; k < 6; k++) { var s = { m: 'ember', x: cp.x, y: cp.y, a: 0, life: 0, max: 2.4, s: 1, vx: rnd(-6, 6), vy: -rnd(14, 34), sz: rnd(2, 4) }; P.push(s); } return; } }
       for (var j = 0; j < 14; j++) { spawn('petals', x + rnd(-10, 10), y + rnd(-10, 10), true); P[P.length - 1].burst = true; }
     } else if (mode === 'hearts' || mode === 'confetti' || mode === 'sparkle' || mode === 'fireflies') { for (var m = 0; m < 14; m++) { spawn(mode, x, y, true); } }

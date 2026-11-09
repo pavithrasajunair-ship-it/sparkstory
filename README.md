@@ -36,6 +36,7 @@ Type in your characters, pick who the story is for and what kind of story you wa
 - **Voice and speed:** pick any voice your device has and how fast it reads.
 - **Keep your stories safe:** star favourites, download a story as a text file, and back up or restore your whole library as one file.
 - **Photo covers:** romance, dark romance, horror, fantasy, mystery and adventure stories get a real photo cover (files in `covers/`). Other genres keep a drawn scene.
+- **Cinematic backdrops:** choosing romance, dark romance, horror, fantasy, mystery, thriller or adventure fills the whole screen with a photo that drifts slowly and shifts with your finger or mouse, plus genre particles (petals, fog, rain, fireflies). Forms and stories sit on frosted glass so text stays readable. The genre cards are 3D and lean towards the pointer. A short loading screen plays while the story is written. Photos for horror, dark romance, mystery and romance are never shown to the toddler and kids age groups. If a photo fails to load, the drawn scene is used. Reduced-motion settings turn the movement off.
 - **Word level:** choose simpler or richer words for any age group. It swaps vocabulary in the built-in maker; it does not rewrite the story.
 - **All free:** no accounts, no database, no paid services needed.
 - **Works with no setup.** The built-in story maker runs on the device with no network.
