@@ -1,0 +1,23 @@
+{
+ "romance": {
+  "mobile": true
+ },
+ "darkromance": {
+  "mobile": true
+ },
+ "horror": {
+  "mobile": true
+ },
+ "mystery": {
+  "mobile": true
+ },
+ "thriller": {
+  "mobile": true
+ },
+ "fantasy": {
+  "mobile": true
+ },
+ "adventure": {
+  "mobile": true
+ }
+}

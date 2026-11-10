@@ -316,7 +316,7 @@
     $("story-title").textContent = s.title;
     const words = s.text.split(/\s+/).length;
     const g = D.GENRES[s.params.genre];
-    $("story-meta").textContent = (g ? g.emoji + " " + g.name + " · " : "") + Math.max(1, Math.round(words / 150)) + " min read" + (s.episode ? " · Episode " + s.episode : "") + (s.params.dedication ? " · 💝 Made for " + s.params.dedication : "") + (s.params.bedtime ? " · 🌙 Bedtime" : "") + (s.ai ? " · written with AI ✨" : "");
+    $("story-meta").textContent = (g ? g.emoji + " " + g.name + " · " : "") + Math.max(1, Math.round(words / 200)) + " min read" + (s.episode ? " · Episode " + s.episode : "") + (s.params.dedication ? " · 💝 Made for " + s.params.dedication : "") + (s.params.bedtime ? " · 🌙 Bedtime" : "") + (s.ai ? " · written with AI ✨" : "");
     const n = $("story-notice"); n.textContent = notice || ""; n.hidden = !notice;
     const body = $("story-body"); body.textContent = "";
     s.chapters.forEach((c) => {

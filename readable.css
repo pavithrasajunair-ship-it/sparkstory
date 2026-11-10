@@ -1,0 +1,19 @@
+/* Keeps every form and the story readable on top of the cinematic backgrounds: frosted panel in the age group's own colours */
+html.ss-scene-on #s-age, html.ss-scene-on #s-genre, html.ss-scene-on #s-chars, html.ss-scene-on #s-length, html.ss-scene-on #s-lib, html.ss-scene-on #s-story{
+  background:color-mix(in srgb,var(--bg1) 86%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25);
+  border:1px solid rgba(255,255,255,.35);border-radius:var(--radius);padding:20px 16px;margin-top:10px;
+  box-shadow:0 18px 50px -12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.35);color:var(--ink)}
+html.ss-scene-on .top,html.ss-scene-on .steps{background:color-mix(in srgb,var(--bg1) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 8px 6px 14px}
+html.ss-scene-on .steps{width:fit-content;max-width:100%;padding:6px 8px}
+html[data-tier=teens].ss-scene-on #s-age,html[data-tier=teens].ss-scene-on #s-genre,html[data-tier=teens].ss-scene-on #s-chars,html[data-tier=teens].ss-scene-on #s-length,html[data-tier=teens].ss-scene-on #s-lib,html[data-tier=teens].ss-scene-on #s-story,
+html[data-tier=adult].ss-scene-on #s-age,html[data-tier=adult].ss-scene-on #s-genre,html[data-tier=adult].ss-scene-on #s-chars,html[data-tier=adult].ss-scene-on #s-length,html[data-tier=adult].ss-scene-on #s-lib,html[data-tier=adult].ss-scene-on #s-story{background:rgba(8,6,12,.62)}
+html[data-tier=teens].ss-scene-on .top,html[data-tier=teens].ss-scene-on .steps,html[data-tier=adult].ss-scene-on .top,html[data-tier=adult].ss-scene-on .steps{background:rgba(8,6,12,.6)}
+html.ss-scene-on #chars-error{color:#b00020;font-weight:700}
+html[data-tier=teens].ss-scene-on #chars-error,html[data-tier=adult].ss-scene-on #chars-error{color:#ff8a9b}
+.steps li{cursor:pointer}
+.steps li:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+@media (min-width:900px){html.ss-scene-on #s-age,html.ss-scene-on #s-genre,html.ss-scene-on #s-chars,html.ss-scene-on #s-length,html.ss-scene-on #s-lib,html.ss-scene-on #s-story{padding:30px 34px}}
+@media (prefers-reduced-transparency:reduce){
+  html.ss-scene-on #s-age,html.ss-scene-on #s-genre,html.ss-scene-on #s-chars,html.ss-scene-on #s-length,html.ss-scene-on #s-lib,html.ss-scene-on #s-story,html.ss-scene-on .top,html.ss-scene-on .steps{background:var(--bg1);-webkit-backdrop-filter:none;backdrop-filter:none}}
+@media print{html.ss-scene-on #s-story{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important}}

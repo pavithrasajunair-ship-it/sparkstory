@@ -49,7 +49,7 @@
 
   const LENGTHS = {
     short:  { name: "Short", note: "About 4 minutes (~875 words)", emoji: "⚡" },
-    medium: { name: "Medium", note: "About 6 minutes (~1,300 words)", emoji: "📖" },
+    medium: { name: "Medium", note: "About 7 minutes (~1,300 words)", emoji: "📖" },
     long:   { name: "Long", note: "About 10 minutes (~2,000 words)", emoji: "📚" },
   };
 
