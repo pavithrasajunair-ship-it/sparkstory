@@ -48,9 +48,9 @@
   ];
 
   const LENGTHS = {
-    short:  { name: "Short", note: "About 1 minute", emoji: "⚡" },
-    medium: { name: "Medium", note: "About 3 minutes", emoji: "📖" },
-    long:   { name: "Long", note: "Chapters to settle into", emoji: "📚" },
+    short:  { name: "Short", note: "About 4 minutes (~875 words)", emoji: "⚡" },
+    medium: { name: "Medium", note: "About 6 minutes (~1,300 words)", emoji: "📖" },
+    long:   { name: "Long", note: "About 10 minutes (~2,000 words)", emoji: "📚" },
   };
 
   const SUGGEST = {

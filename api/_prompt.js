@@ -27,9 +27,9 @@ const RULES = {
   adult: "The reader is an adult (17+). Mature themes are allowed: dread, dark psychology, danger, obsession, grief, morally grey characters. Keep any romance non-explicit (no graphic sexual content), no sexual content involving minors, no gratuitous gore, nothing that gives real-world instructions for harm, and no hateful content. Literary, atmospheric language.",
 };
 const SIZE = {
-  short: { tiny: "about 180 to 250 words", other: "about 300 to 400 words", tokens: 900 },
-  medium: { tiny: "about 350 to 450 words", other: "about 700 to 900 words", tokens: 1800 },
-  long: { tiny: "2 short chapters, about 250 words each", other: "3 to 4 chapters of about 450 words each", tokens: 4200 },
+  short: { tiny: "between 850 and 900 words", other: "between 850 and 900 words", tokens: 1800 },
+  medium: { tiny: "about 1300 words", other: "about 1300 words", tokens: 2800 },
+  long: { tiny: "2 chapters, about 2000 words in total", other: "3 to 4 chapters, about 2000 words in total", tokens: 4600 },
 };
 
 function buildPrompt(v) {

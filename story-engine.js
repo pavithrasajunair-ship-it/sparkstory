@@ -1,9 +1,9 @@
 /* StorySpark story maker. Builds a complete story from characters, an age group, a genre and a length,
    entirely on the device (no AI, no network). Works in the browser (window.SSEngine) and in Node. */
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) module.exports = factory(require("./story-data.js"));
-  else root.SSEngine = factory(root.SSData);
-})(typeof self !== "undefined" ? self : this, function (D) {
+  if (typeof module === "object" && module.exports) module.exports = factory(require("./story-data.js"), require("./story-expand.js"));
+  else root.SSEngine = factory(root.SSData, root.SSExpand);
+})(typeof self !== "undefined" ? self : this, function (D, EXP) {
   const { TIERS, GENRES, LEX } = D;
   const NAMES = ["Aarav", "Neel", "Zoya", "Mira", "Kabir", "Anaya", "Rohan", "Isla", "Theo", "Naina", "Luca", "Sana"];
 
@@ -28,7 +28,7 @@
     return text
       .replace(/\s+/g, " ")
       .replace(/(^|[.!?]\s+)(["“']?)([a-z])/g, (m, a, q, c) => a + q + c.toUpperCase())
-      .replace(/([.!?,]["”]\s+)(?!(?:said|asked|replied|whispered|called|cried|shouted|answered|came|laughed|thought|added|says)\b)([a-z])/g, (m, a, c) => a + c.toUpperCase())
+      .replace(/([.!?,]["”]\s+)(?!(?:said|asked|replied|whispered|called|cried|shouted|answered|came|laughed|thought|added|says|yelled|squeaked|giggled|sang|hooted|groaned|sighed|grinned|muttered|declared|announced|gasped|exclaimed|moaned|chirped|roared|growled|cheered|murmured|snapped|begged|warned|wailed|hissed|sniffed|beamed|chuckled|continued|insisted|suggested|offered|promised|agreed|nodded|smiled|breathed|stammered|blurted|demanded|pleaded|admitted|breathes|replies|whispers|laughs|asks|tells|told|barked|boomed|teased|joked|sobbed|mumbled|urged|cautioned|reminded|repeated|reasoned|wondered|ventured|prompted|conceded|observed|noted|remarked)\b)([a-z])/g, (m, a, c) => a + c.toUpperCase())
       .replace(/\s+([,.!?])/g, "$1")
       .trim();
   }
@@ -660,6 +660,7 @@
       ctx.L = li ? li.name : rt.draw("names", NAMES.filter((n) => n !== hero.name));
     }
     ctx.A = allies.length ? allies.shift().name : rt.draw("A", lex.A);
+    ctx.hasA2 = allies.length > 0;
     ctx.A2 = allies.length ? allies.shift().name : rt.draw("A", lex.A);
     if (ctx.A2 === ctx.A) ctx.A2 = rt.draw("A", lex.A);
     ctx.V = villains.length ? villains.shift().name : rt.draw("V", lex.V);
@@ -703,6 +704,113 @@
       const a = aOrAn(out);
       return (art[0] === "A" ? a[0].toUpperCase() + a.slice(1) : a) + " " + out;
     });
+  }
+
+
+  // ---------- length: stories are woven out to about 875 / 1300 / 2000 words ----------
+  const WORD_TARGET = { short: 875, medium: 1300, long: 2000 };
+  const countWords = (t) => (String(t).match(/\S+/g) || []).length;
+  const PATTERNS = [
+    ["setting", "action", "talk", "feeling"],
+    ["action", "talk", "setting", "trouble"],
+    ["trouble", "feeling", "action", "talk"],
+    ["talk", "trouble", "action", "feeling"],
+    ["trouble", "action", "talk", "hope"],
+    ["hope", "feeling", "talk", "action"],
+  ];
+  // a beat that comes round twice must not repeat the same sentence: keep the first, drop later copies
+  function dedupeSentences(chapters, tailCount) {
+    const seen = new Set(); let total = chapters.reduce((n, c) => n + c.paragraphs.length, 0), gi = 0;
+    chapters.forEach((c) => { c.paragraphs = c.paragraphs.map((p) => {
+      const inTail = gi++ >= total - tailCount;
+      const parts = p.match(/[^.!?]+[.!?]+["”]?\s*/g);
+      if (!parts || parts.join("").length < p.length - 2) return p;       // unusual text: leave alone
+      const keep = parts.filter((x) => { const k = x.trim().toLowerCase(); if (k.length < 25) return true; if (seen.has(k)) return false; seen.add(k); return true; });
+      return keep.length ? keep.join("").trim() : (inTail ? p : "");
+    }).filter(Boolean); });
+    chapters.forEach((c) => { if (!c.paragraphs.length) c.paragraphs.push(""); });
+  }
+
+  function expandStory(chapters, tailCount, target, tier, shapeName, reg, ctx, lex, rt, gid) {
+    const X = (EXP && EXP[shapeName]) || {}, G = (EXP && EXP.generic) || {};
+    const pickReg = (o) => (o && (o[reg] || (reg === "simple" ? o.rich : o.simple))) || null;
+    const XS = pickReg(X), GS = pickReg(G);
+    if (!XS && !GS) return;
+    const usable = (u) => {
+      for (const m of u.matchAll(/\{(\w+)\}/g)) {
+        const k = m[1];
+        if (["P2", "W", "T"].includes(k) && !(lex[k] && lex[k].length)) return false;
+        if (k === "L" && !ctx.L) return false;
+        if (k === "A2" && !ctx.hasA2) return false;   // do not bring in a character the reader never asked for
+      }
+      return true;
+    };
+    const decks = {}, CATS = ["setting", "action", "talk", "feeling", "trouble", "hope"];
+    const refill = (cat) => {
+      const d = [].concat((XS && XS[cat]) || [], (GS && GS[cat]) || []).filter(usable);
+      for (let i = d.length - 1; i > 0; i--) { const j = Math.floor(rt.r() * (i + 1)); [d[i], d[j]] = [d[j], d[i]]; }
+      return (decks[cat] = d);
+    };
+    CATS.forEach(refill);
+    // never repeat a line inside one story: when a category runs dry, borrow from the fullest one; reshuffle only when all are empty
+    const nextUnit = (cat) => {
+      if (!decks[cat].length) {
+        const richest = CATS.slice().sort((a, b) => decks[b].length - decks[a].length)[0];
+        if (decks[richest].length) cat = richest; else { CATS.forEach(refill); }
+      }
+      return decks[cat].pop() || "";
+    };
+    const makeUnit = (cat) => { const u = nextUnit(cat); return u ? tidy(fill(u, ctx, lex, rt, gid)) : ""; };
+
+    const all = chapters.reduce((n, c) => n + c.paragraphs.length, 0);
+    const lastSlot = all - tailCount - 1;               // we never insert inside the closing paragraphs
+    if (lastSlot < 0) return;
+    const slots = [];                                    // a slot sits after existing paragraph #i (global index)
+    let gi = 0;
+    chapters.forEach((c, ci) => c.paragraphs.forEach((p, pi) => { if (gi <= lastSlot) slots.push({ ci, pi, gi, add: [] }); gi++; }));
+    const total0 = chapters.reduce((n, c) => n + countWords(c.paragraphs.join(" ")), 0);
+    let need = target - total0;
+    if (need <= 0) return;
+    const weights = slots.map((s, i) => 0.55 + Math.sin(Math.PI * (i + 0.5) / slots.length));
+    const wsum = weights.reduce((a, b) => a + b, 0);
+    const perPara = tier === "tiny" ? [2, 3] : [3, 5];
+    let added = 0, guard = 0;
+    const pat = () => PATTERNS[Math.floor(rt.r() * PATTERNS.length)];
+    slots.forEach((s, i) => {
+      const quota = Math.round(need * weights[i] / wsum);
+      let got = 0;
+      while (got < quota && guard++ < 4000) {
+        const prog = (i + 0.5) / slots.length;
+        // early paragraphs open scenes, late ones resolve them
+        const cats = prog < 0.2 ? PATTERNS[0] : prog > 0.8 ? PATTERNS[5] : pat();
+        const n = perPara[0] + Math.floor(rt.r() * (perPara[1] - perPara[0] + 1));
+        const units = [];
+        for (let k = 0; k < n && k < cats.length; k++) { const u = makeUnit(cats[k]); if (u) units.push(u); }
+        const para = units.join(" ");
+        if (!para) break;
+        s.add.push(para); got += countWords(para); added += countWords(para);
+      }
+    });
+    // top up or trim so the total lands within a few words of the target
+    const midSlot = slots[Math.floor(slots.length / 2)];
+    let spin = 0;
+    while (target - (total0 + added) > 12 && spin++ < 200) {
+      const cats = pat(); const units = cats.slice(0, 3).map(makeUnit).filter(Boolean); if (!units.length) break;
+      const para = units.join(" "); midSlot.add.push(para); added += countWords(para);
+    }
+    spin = 0;
+    while (total0 + added - target > 12 && spin++ < 200) {
+      // drop the last sentence of the longest added paragraph, but never empty it
+      let best = null;
+      slots.forEach((s) => s.add.forEach((p, k) => { if (!best || countWords(p) > countWords(best.p)) best = { s, k, p }; }));
+      if (!best) break;
+      const sentences = best.p.match(/[^.!?]+[.!?]["”]?\s*/g) || [best.p];
+      if (sentences.length < 2) { best.s.add.splice(best.k, 1); added -= countWords(best.p); continue; }
+      const cut = sentences.pop(); const np = sentences.join("").trim();
+      added -= countWords(best.p) - countWords(np); best.s.add[best.k] = np;
+    }
+    // insert from the back so earlier indexes stay valid
+    for (let i = slots.length - 1; i >= 0; i--) { const s = slots[i]; if (s.add.length) chapters[s.ci].paragraphs.splice(s.pi + 1, 0, ...s.add); }
   }
 
   function generate(params) {
@@ -799,6 +907,11 @@
       ];
       last.push(wind[Math.floor(rt.r() * wind.length)]);
       last.push(allNames.length ? allNames.map((n) => `Goodnight, ${n}.`).join(" ") + " Sleep tight." : "Goodnight. Sleep tight.");
+    }
+    {
+      const tail = 1 + (endKind ? 1 : 0) + (bed ? (bed.today ? 1 : 0) + 1 : 0);
+      dedupeSentences(chapters, tail);
+      expandStory(chapters, tail, WORD_TARGET[length], tier, g.shape, reg, ctx, lex, rt, gid);
     }
     const level = LEVELS[params.level] ? params.level : "";
     if (level) chapters.forEach((c) => { c.paragraphs = c.paragraphs.map((x) => levelize(x, level)); });
