@@ -14,7 +14,15 @@
    "A hush settled over {P}. Across the room, a laugh rose and fell, and {H} found it was the only sound worth following.",
    "Rain tapped at the windows near {P2}, steady as a metronome, and {H} realised with some alarm that the smiling had been going on for several minutes.",
    "{P} looked different in this light, softer and a little braver. Nearby, {W}, and {H} let it be beautiful.",
-   "Footsteps echoed through {P2}, a shortcut {H} had taken a hundred times without noticing it. Tonight every stone seemed to have an opinion."
+   "Footsteps echoed through {P2}, a shortcut {H} had taken a hundred times without noticing it. Tonight every stone seemed to have an opinion.",
+   "The light at {P} had turned the colour of late-afternoon honey, and everything it touched looked like a held memory.",
+   "Music drifted from somewhere nearby, soft enough that it felt meant only for the two of them.",
+   "The night was cool and wide open, full of the kind of quiet that makes whispering feel natural.",
+   "Rain traced slow lines down the window, and inside {P} the air was warm and close and smelled faintly of coffee.",
+   "Streetlights came on one by one outside {P}, as if the evening were arranging itself around them.",
+   "A small, warm hush had settled over {P}, the sort that falls when two people have so much to say that neither dares begin.",
+   "The air near {P2} was charged and still, like the moment before a storm decides to break.",
+   "{P} emptied slowly, until only a few lamps and two people remained."
   ],
   "action": [
    "{H} rearranged the same few things on the table three times, just so there would be something to do with both hands when {L} looked over.",
@@ -30,7 +38,15 @@
    "Pretending to study the view, {H} tracked {L}'s reflection in the glass, noting every small movement with embarrassing accuracy.",
    "{H} slipped through the crowd at {P} and found a spot with a clear line of sight, which was either clever or deeply unwise.",
    "Together, {H} and {L} walked the length of {P2} without once speaking about where they were going. Neither seemed in a hurry to arrive.",
-   "{H} tied and retied a loose lace, an excuse so thin that {A} raised an eyebrow from across {P}."
+   "{H} tied and retied a loose lace, an excuse so thin that {A} raised an eyebrow from across {P}.",
+   "{H} caught the corner of a smile before it could escape, and studied something very interesting on the floor.",
+   "{L} slid {H}'s dropped scarf back across the table, fingers lingering a second longer than they needed to.",
+   "{H} reached for a reply and found {L}'s hand already there, warm, steady, unhurried.",
+   "{L} walked on the side of the road nearest the traffic without saying why. {H} noticed, said nothing, and carried the small kindness around for the rest of the night.",
+   "{H} wrote three words on a napkin, folded it small, and slid it into a pocket for another day. Courage had limits, and tonight was one of them.",
+   "{L} fell into step beside {H}, matching their pace exactly, as if they had been walking this road together for years.",
+   "{H} tucked the moment away carefully, the exact warmth of it, to be taken out and held later in the dark.",
+   "{L} turned the borrowed jacket over in their hands, then held it out, and the sleeve brushed {H}'s fingers on purpose."
   ],
   "talk": [
    "\"You keep looking at the door,\" {L} said quietly. \"I'm waiting to see who leaves first,\" {H} answered, and neither of them moved.",
@@ -46,12 +62,20 @@
    "\"You don't have to say anything,\" {L} murmured. \"I know,\" said {H}, \"but I'd like to. I just need a minute to find where I put the words.\"",
    "\"Everyone's watching,\" {H} muttered. \"Let them,\" said {L}, with a look that made the whole of {P} feel suddenly small.",
    "\"Did someone put you up to this?\" {L} asked. \"No,\" said {H}, a little too fast. \"Well. Slightly. Mostly I put myself up to it.\"",
-   "\"Is this a bad time?\" \"It's the worst time,\" {L} said, already smiling. \"Please don't go.\""
+   "\"Is this a bad time?\" \"It's the worst time,\" {L} said, already smiling. \"Please don't go.\"",
+   "\"Can I tell you something?\" {L} asked. \"Always,\" said {H}, and was startled by how true it was.",
+   "\"You make everything feel easier,\" {L} said. \"Even breathing.\" {H} laughed, then went quiet, because it didn't sound like a joke.",
+   "\"I keep thinking about what you said,\" {H} admitted. \"All of it. Every word.\" {L} looked down, smiling. \"Good,\" {L} said. \"Me too.\"",
+   "\"Stay a little longer,\" {L} said. It was not a question and it was not an order. It was something softer than both.",
+   "\"I'm not good at this,\" {H} said. \"Good at what?\" {L} asked. \"Being this happy,\" {H} said, and the whole room softened.",
+   "\"You're staring,\" said {L}. \"I know,\" {H} replied. \"I'm not sorry.\"",
+   "\"Promise me something,\" {L} said quietly. \"If this ever gets complicated, we tell each other the truth first.\" {H} nodded. \"Truth first.\"",
+   "\"Do you ever wish time would slow down?\" {L} asked. \"Only when you're here,\" {H} said, and then wished the words back, and then didn't."
   ],
   "feeling": [
    "{H} had spent years building a careful, sensible life, and was dismayed to find that one smile from {L} could rearrange all of it.",
    "It was ridiculous, how much {H} remembered: the exact tilt of {L}'s head, the pause before a laugh, the way the room seemed to lean in.",
-   "{H} told {H}'s heart to be sensible. The heart, as usual, paid no attention and went on racing.",
+   "{H} told that unruly heart to be sensible. The heart, as usual, paid no attention and went on racing.",
    "Doubt crept in like cold under a door. Maybe {L} was only being kind. Maybe kindness was all it had ever been.",
    "There was a version of this where {H} said nothing and stayed safe. {H} had lived in that version for years, and it had begun to feel like a very small house.",
    "{H} thought of how long it had taken to feel brave about anything. Somehow {L} made it look easy to try, even when trying might hurt.",
@@ -62,7 +86,15 @@
    "{H} wondered how a person could feel both light and heavy at once, as though carrying a secret that was also a gift.",
    "Fear of {V} pressed at the edges of {H}'s thoughts, but each time {L} came to mind, the fear lost some of its volume.",
    "{H} had always believed that love announced itself with trumpets. It turned out to be quieter: a held door, a remembered name, a glance across {P}.",
-   "Had {L} noticed? {H} turned the question over, hopeful and horrified in equal measure, until it wore smooth as a pebble."
+   "Had {L} noticed? {H} turned the question over, hopeful and horrified in equal measure, until it wore smooth as a pebble.",
+   "{H} had never felt so seen. It was terrifying and wonderful in equal measure, like standing at the edge of the sea with the tide coming in.",
+   "Somewhere under the nerves was a warmth that had no business being so large. It spread through {H} the way morning spreads through a cold house.",
+   "{H} found that happiness had a strange side effect: every ordinary thing suddenly seemed worth noticing.",
+   "It frightened {H} how much {L} mattered. It wasn't the fear of losing something small. It was the fear of losing a whole, unrepeatable kind of light.",
+   "{H} wondered when {L}'s name had become the first thought of the day and the last thought of the night. It had happened quietly, without asking permission.",
+   "There was a sweet, aching quality to the moment, as if {H} were already missing it while it was still happening.",
+   "For the first time in a long while, {H} wasn't trying to be someone else. Near {L}, being {H} felt like enough.",
+   "{H}'s heart did the thing it only did around {L}: stumbled, recovered, and hurried on, pretending nothing had happened."
   ],
   "trouble": [
    "Trouble arrived in the shape of {V}, and every easy word between {H} and {L} turned careful and thin.",
@@ -78,7 +110,15 @@
    "{H} reached out, hesitated, and the moment slipped away. It was such a small failure, and it felt enormous; {V} seemed to grow in the space it left.",
    "Old habits surfaced at the worst time: a joke where honesty belonged, a shrug where a hand should have reached. {L} noticed, and did not say so.",
    "The invitation had gone to the wrong person, the wrong word had gone to the right one, and {H} stood in the middle of {P} wondering how to explain any of it.",
-   "What stung was not the lie itself but how neatly it fit. {H} turned it over, looking for the seam, while {V} loomed over everything."
+   "What stung was not the lie itself but how neatly it fit. {H} turned it over, looking for the seam, while {V} loomed over everything.",
+   "A small silence grew between them, and {H} could not tell whether it was shyness or the beginning of something worse.",
+   "Doubt crept in, as it always does, wearing the voice of every reason this could go wrong.",
+   "A careless remark, a misread look: nothing, really. But it settled between them and refused to leave.",
+   "{L} went quiet in the way people do when they are deciding whether to be honest, and {H} felt the floor tilt.",
+   "Pride rose in {H}'s throat, stubborn and unwelcome, ready to say the exact thing that would hurt most.",
+   "Neither of them said what they meant. Both said something close instead, and the gap between the two grew by the hour.",
+   "{H} caught sight of {L} across the way and saw, with a hot flash of uncertainty, that {L} was not smiling.",
+   "{H} had once believed that love would feel simple. The longer it lasted, the clearer it became that simple had never been the point."
   ],
   "hope": [
    "{L} laughed, really laughed, at one of {H}'s worst jokes, and the whole evening seemed to tilt gently toward the light.",
@@ -94,7 +134,15 @@
    "It was easy, for once, to be honest. {L} had a way of listening that made the truth feel safe to say aloud.",
    "{L} offered {H} half of something small and sweet, saying nothing, and it became the most meaningful gift of the week.",
    "They laughed until the laughter ran out and left a warm, shy quiet. In it, {H} felt hope sit down like a guest who meant to stay.",
-   "{H} caught a glimpse of a reflection and was startled to find it smiling. Somewhere between the first hello and now, the nerves had turned into something brighter."
+   "{H} caught a glimpse of a reflection and was startled to find it smiling. Somewhere between the first hello and now, the nerves had turned into something brighter.",
+   "{L}'s smile arrived slowly, like sunrise, and {H} felt every worry soften at its edges.",
+   "A message arrived, only a few words long, and {H} read it so many times the words wore soft.",
+   "{L} tucked {H}'s cold hand into a warm pocket, as if it were the most natural thing in the world. It was.",
+   "Something loosened in {H}'s chest, a knot tied long ago, finally giving way to the idea that being loved might be safe.",
+   "They laughed until it hurt, and when the laughter stopped, the quiet that followed was the warmest {H} could remember.",
+   "{H} dared, just for a second, to picture a future with {L} in it. The picture was clear, and kind, and entirely worth hoping for.",
+   "{L} squeezed {H}'s hand once, a tiny, private signal. It said everything. It said: still here.",
+   "For the first time in days, {H} felt light. The world hadn't changed. {H} had simply remembered that it could."
   ]
  }
 }

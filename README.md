@@ -25,7 +25,7 @@ Type in your characters, pick who the story is for and what kind of story you wa
 - **Story of the day:** a fresh idea on the first screen, the same for everyone on a given date.
 - **Asks who it's for first:** little ones (3 to 6), kids (7 to 12), teens (13 to 16) or grown-ups (17+). The whole app changes its look, and only offers story types that fit that age group.
 - **24 story types:** bedtime, animal friends, fairy tales, silly, kindness and magic for little ones; adventure, fantasy, mystery, space, spooky-not-too-scary and superheroes for kids; romance, dystopian, friendship and more for teens; horror, dark romance, thriller, psychological, drama and historical for grown-ups.
-- **Short, medium or long:** long stories come in chapters, and **Keep going** adds another one.
+- **Short, medium or long:** about 2 minutes (~450 words), 6 minutes (~1,300) or 10 minutes (~2,000). Long stories come in chapters, and **Keep going** adds another one.
 - **Read, listen, keep:** bigger/smaller text, read aloud, copy, and save to **My stories** (kept in the browser).
 - **Your own cast:** save characters (💾) and reuse them in any story.
 - **Ongoing series:** a new episode with a "Last time" recap; characters can grow up into the next age group.
@@ -37,7 +37,8 @@ Type in your characters, pick who the story is for and what kind of story you wa
 - **Keep your stories safe:** star favourites, download a story as a text file, and back up or restore your whole library as one file.
 - **Photo covers:** romance, dark romance, horror, fantasy, mystery and adventure stories get a real photo cover (files in `covers/`). Other genres keep a drawn scene.
 - **Cinematic backdrops:** choosing romance, dark romance, horror, fantasy, mystery, thriller or adventure fills the whole screen with a photo that drifts slowly and shifts with your finger or mouse, plus genre particles (petals, fog, rain, fireflies). Forms and stories sit on frosted glass so text stays readable. The genre cards are 3D and lean towards the pointer. A short loading screen plays while the story is written. Photos for horror, dark romance, mystery and romance are never shown to the toddler and kids age groups. If a photo fails to load, the drawn scene is used. Reduced-motion settings turn the movement off.
-- **Word level:** choose simpler or richer words for any age group. It swaps vocabulary in the built-in maker; it does not rewrite the story.
+- **Word level:** choose simpler or richer words for any age group. **Simpler words** swaps hard words for easy ones, and for teens and grown-ups it also picks the easier lines and splits long sentences, so the story stays easy to read. It does not rewrite the story.
+- **Deeper romance:** sweet romance (teens), romance and dark romance (grown-ups) follow a real love-story arc: first spark, a quiet moment of closeness, doubt and distance, a brave gesture, and a warm ending. Teen romance stays tender and clean; grown-up romance is more intense but never explicit.
 - **All free:** no accounts, no database, no paid services needed.
 - **Works with no setup.** The built-in story maker runs on the device with no network.
 - **Optional Magic mode (AI).** Add an `ANTHROPIC_API_KEY` and the app offers one-of-a-kind AI stories. If it fails, or the answer isn't suitable for the age group, it falls back to the built-in maker.

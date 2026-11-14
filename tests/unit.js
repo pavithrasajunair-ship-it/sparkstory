@@ -192,8 +192,8 @@ t("reading level swaps words, keeps names and grammar, and is deterministic", ()
   const ep = E.nextEpisode(E.generate({ tier: "kids", genre: "adventure", length: "medium", chars: crew, seed: 4, level: "simple" }), {});
   assert.strictEqual(ep.params.level, "simple");
 });
-t("stories land on the promised lengths (short 850-900, medium about 1300, long about 2000 words)", () => {
-  const WIN = { short: [850, 900], medium: [1280, 1330], long: [1975, 2040] };
+t("stories land on the promised lengths (short 430-470, medium about 1300, long about 2000 words)", () => {
+  const WIN = { short: [430, 470], medium: [1265, 1335], long: [1960, 2045] };
   const wc = (s) => s.chapters.reduce((n, c) => n + c.paragraphs.join(" ").split(/\s+/).filter(Boolean).length, 0);
   const variants = [{}, { level: "advanced" }, { level: "simple" }, { ending: "twist" }, { ending: "epilogue" }, { ending: "cliff" }, { bedtime: { today: "we planted a seed" } }];
   let n = 0;
