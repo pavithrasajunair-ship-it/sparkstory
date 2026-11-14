@@ -1,7 +1,4 @@
 /* Little-kid themes (tiny + kids): bright, solid, high-contrast panels. Loaded last so it wins over the dark "cinema" styling. */
-html[data-tier=tiny],html[data-tier=kids]{--kid-ink:#17254d;--kid-sub:#3a4d78;--kid-paper:#fffdf8;--kid-line:#5b6fa6}
-html[data-tier=tiny]{--kid-accent:#b8135f;--kid-ink:#2c1a52;--kid-sub:#53407c;--kid-line:#8a5fb8}
-html[data-tier=kids]{--kid-accent:#b34700}
 html[data-tier=tiny].ss-scene-on,html[data-tier=kids].ss-scene-on{--ink:var(--kid-ink);--muted:var(--kid-sub);color:var(--kid-ink)}
 html[data-tier=tiny].ss-scene-on :is(#s-age,#s-genre,#s-chars,#s-length,#s-lib,#s-story),
 html[data-tier=kids].ss-scene-on :is(#s-age,#s-genre,#s-chars,#s-length,#s-lib,#s-story){background:rgba(255,253,248,.96);color:var(--kid-ink);-webkit-backdrop-filter:none;backdrop-filter:none;border:3px solid #fff}

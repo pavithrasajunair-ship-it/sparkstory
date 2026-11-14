@@ -2,28 +2,6 @@
 @font-face{font-family:"Poppins";src:url(fonts/Poppins-Bold.ttf) format("truetype");font-weight:700;font-display:swap}
 @font-face{font-family:"Lora";src:url(fonts/Lora-Variable.ttf) format("truetype");font-weight:400 700;font-display:swap}
 
-:root{
-  --bg1:#f3ecff;--bg2:#e6f6ff;--ink:#2a1b4d;--muted:#6b5f86;--card:#fff;--line:#d9ccf5;
-  --accent:#7c3aed;--accent-ink:#fff;--accent2:#ff4fa3;--radius:22px;--shadow:0 10px 30px rgba(80,40,160,.14);
-  --head:"Poppins",system-ui,sans-serif;--body:"Poppins",system-ui,sans-serif;--read:19px;--lh:1.7;--gap:16px;
-}
-html[data-tier=tiny]{
-  --bg1:#fff3c9;--bg2:#ffdff0;--ink:#3b2a5a;--muted:#7a5f9a;--card:#fff;--line:#ffb8dc;
-  --accent:#ff5fa8;--accent2:#4cc3ff;--radius:34px;--shadow:0 12px 0 rgba(255,95,168,.22);--read:26px;--lh:1.75;
-}
-html[data-tier=kids]{
-  --bg1:#dff3ff;--bg2:#fff1d6;--ink:#17325c;--muted:#4a6690;--card:#fff;--line:#9fd2ff;
-  --accent:#ff7a00;--accent2:#2b7bff;--radius:26px;--shadow:0 10px 0 rgba(43,123,255,.18);--read:21px;
-}
-html[data-tier=teens]{
-  --bg1:#120a2a;--bg2:#2b0f55;--ink:#f6f0ff;--muted:#b9a9e6;--card:rgba(255,255,255,.07);--line:rgba(255,255,255,.2);
-  --accent:#ff3df0;--accent-ink:#1a0630;--accent2:#22e4ff;--radius:20px;--shadow:0 0 28px rgba(255,61,240,.25);--read:19px;
-}
-html[data-tier=adult]{
-  --bg1:#0a0a0c;--bg2:#181112;--ink:#efe6d5;--muted:#a89b86;--card:#141214;--line:#34292b;
-  --accent:#c9a24a;--accent-ink:#161006;--accent2:#9b1d2f;--radius:10px;--shadow:0 10px 40px rgba(0,0,0,.6);
-  --head:"Lora",Georgia,serif;--body:"Lora",Georgia,serif;--read:20px;--lh:1.85;
-}
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
@@ -128,7 +106,7 @@ html[data-tier=adult] .story-body>p:first-of-type::first-letter{float:left;font-
 .top .btn{font-size:15px!important;padding:9px 14px!important;white-space:nowrap;min-height:40px;border-width:2px!important}
 body.reading .deco{opacity:.12}
 html[data-tier=teens] .deco,html[data-tier=kids] .deco{opacity:.4}
-html[data-tier=teens]{--card:rgba(26,12,52,.88)}
+
 
 .cast h2{font:700 18px var(--head);margin:8px 0 2px}
 .cast .suggest{margin-top:8px}
