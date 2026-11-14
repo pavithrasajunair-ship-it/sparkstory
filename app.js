@@ -302,7 +302,7 @@
       await new Promise((r) => setTimeout(r, 700));
       story = E.generate(params(dailySeed != null ? dailySeed : Math.floor(Math.random() * 2 ** 31))); dailySeed = null;
     }
-    state.story = story; state.saved = false;
+    state.story = story; state.saved = false; state.fromLib = false;
     renderStory(notice);
     show("story");
   }
@@ -406,7 +406,7 @@
       const fav = document.createElement("button"); fav.type = "button"; fav.className = "btn btn-ghost"; fav.textContent = it.fav ? "⭐" : "☆"; fav.setAttribute("aria-pressed", it.fav ? "true" : "false"); fav.setAttribute("aria-label", (it.fav ? "Remove favourite: " : "Favourite: ") + it.story.title);
       fav.addEventListener("click", () => { store.set(SAVE_KEY, lib().map((x) => x.id === it.id ? Object.assign({}, x, { fav: !x.fav }) : x)); showLib(); });
       const open = document.createElement("button"); open.type = "button"; open.className = "btn btn-soft"; open.textContent = "Read";
-      open.addEventListener("click", () => { setTier(it.story.params.tier); state.genre = it.story.params.genre; state.length = it.story.params.length; state.chars = (it.story.params.chars || []).map((c) => ({ name: c.name, role: c.role })); if (!state.chars.length) state.chars = [{ name: "", role: "hero" }]; state.place = it.story.params.place || ""; state.item = it.story.params.item || ""; state.story = it.story; state.saved = true; renderStory(""); show("story"); });
+      open.addEventListener("click", () => { setTier(it.story.params.tier); state.genre = it.story.params.genre; state.length = it.story.params.length; state.chars = (it.story.params.chars || []).map((c) => ({ name: c.name, role: c.role })); if (!state.chars.length) state.chars = [{ name: "", role: "hero" }]; state.place = it.story.params.place || ""; state.item = it.story.params.item || ""; state.story = it.story; state.saved = true; state.fromLib = true; renderStory(""); show("story"); });
       const del = document.createElement("button"); del.type = "button"; del.className = "btn btn-ghost"; del.textContent = "Delete"; del.setAttribute("aria-label", "Delete " + it.story.title);
       del.addEventListener("click", () => { store.set(SAVE_KEY, lib().filter((x) => x.id !== it.id)); updateCount(); showLib(); });
       acts.append(fav, open, del); li.append(left, acts); ul.appendChild(li);
@@ -509,7 +509,7 @@
     if (!m) return;
     try {
       const st = await decodeStory(m[1]);
-      setTier(st.params.tier); state.story = st; state.saved = false; renderStory(""); show("story");
+      setTier(st.params.tier); state.story = st; state.saved = false; state.fromLib = false; state.chars = []; renderStory(""); show("story");
     } catch (e) { history.replaceState(null, "", location.pathname); const n = document.createElement("p"); n.className = "notice"; n.textContent = "That shared link could not be opened. Ask for a new one."; $("s-age").prepend(n); }
   }
 
@@ -522,6 +522,12 @@
       else if (to === "genre") { buildGenres(); show("genre"); }
       else if (to === "chars") { buildChars(); show("chars"); }
     }));
+    $("story-back").addEventListener("click", () => {
+      stopSpeak();
+      if (state.fromLib) { showLib(); return; }
+      if (state.story && state.chars && state.chars.length && state.chars[0].name) { show("length"); return; }
+      setTier(""); show("age");
+    });
     $("brand").addEventListener("click", () => { stopSpeak(); setTier(""); show("age"); });
     $("btn-lib").addEventListener("click", showLib);
     initDaily(); $("daily-go").addEventListener("click", readDaily);
