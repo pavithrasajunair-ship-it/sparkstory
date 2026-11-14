@@ -7,6 +7,7 @@ const VERSION = 'storyspark-v6';
 const CORE = ['index.html', 'styles.css', 'app.js', 'story-data.js', 'story-expand.js', 'story-engine.js', 'extras.js', 'favicon.svg', 'manifest.webmanifest', 'pwa.js', 'pwa.css', 'aesthetic.css', 'aesthetic.js', 'scene.css', 'scene.js', 'cinema.css', 'readable.css', 'cinema.js', 'scenes/manifest.json', 'scenes/romance-m.webp', 'scenes/darkromance-m.webp', 'scenes/horror-m.webp', 'scenes/mystery-m.webp', 'scenes/thriller-m.webp', 'scenes/fantasy-m.webp', 'scenes/adventure-m.webp', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'covers/romance-1.webp', 'covers/romance-2.webp', 'covers/darkromance-1.webp', 'covers/darkromance-2.webp', 'covers/horror-1.webp', 'covers/fantasy-1.webp', 'covers/fantasy-2.webp', 'covers/mystery-1.webp', 'covers/adventure-1.webp'];
 
 self.addEventListener('install', e => {
+  self.skipWaiting();
   e.waitUntil(caches.open(VERSION).then(c => Promise.all(CORE.map(u => c.add(new Request(u, { cache: 'reload' })).catch(() => {})))));
 });
 
@@ -61,7 +62,16 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  e.respondWith((async () => {                         // scripts, styles, fonts, images
+  if (/\.(css|js|webmanifest)$/.test(u.pathname)) {      // code and styles: newest first, cache only when offline
+    e.respondWith((async () => {
+      const c = await caches.open(VERSION);
+      try { const res = await fetch(r); if (res.ok && res.type === 'basic') c.put(r, res.clone()); return res; }
+      catch (_) { return (await c.match(r)) || Response.error(); }
+    })());
+    return;
+  }
+
+  e.respondWith((async () => {                         // fonts and images: cache first
     const c = await caches.open(VERSION);
     const hit = await c.match(r);
     const net = fetch(r).then(res => { if (res.ok && res.type === 'basic') c.put(r, res.clone()); return res; }).catch(() => null);
