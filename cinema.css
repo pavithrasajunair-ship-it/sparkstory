@@ -9,7 +9,6 @@
 #genre-grid>.ss-tile:hover::before,#genre-grid>.ss-tile:focus-visible::before{opacity:1}
 #genre-grid>.ss-tile:hover{box-shadow:0 34px 60px -26px rgba(0,0,0,.9),0 0 38px -8px var(--ss-glow,rgba(255,255,255,.25)),inset 0 1px 0 rgba(255,255,255,.3)}
 #genre-grid>.ss-tile .ss-art{transform:translate3d(calc(var(--ry,0deg) * -.9),calc(var(--rx,0deg) * .9),0) scale(1.04);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
-.ss-g-darkromance{--ss-glow:rgba(225,40,80,.55)}.ss-g-horror{--ss-glow:rgba(120,200,220,.45)}.ss-g-romance{--ss-glow:rgba(255,150,180,.6)}.ss-g-fantasy{--ss-glow:rgba(170,140,255,.6)}
 
 /* glass interface over the living scene */
 html.ss-scene-on .screen h1,html.ss-scene-on .screen .lead,html.ss-scene-on .fine{text-shadow:0 2px 20px rgba(0,0,0,.75)}

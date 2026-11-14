@@ -1,0 +1,156 @@
+/* =====================================================================
+   StorySpark colours: this is the ONLY file you need to edit to recolour the site.
+   Open it in Notepad. Change a colour code like #7c3aed, save, and refresh the page.
+   (After you upload the site, press Ctrl+Shift+R once so the browser loads the new file.)
+
+   How colour codes work: #rrggbb. Look up "color picker" in Google to find codes.
+   rgba(255,255,255,.2) means white at 20% strength (the last number is see-through-ness).
+
+   Variable cheat sheet (used by every age group):
+     --bg1, --bg2   background (two colours that blend)
+     --ink          main text colour          --muted   quieter text
+     --card         panel/card background     --line    borders
+     --accent       main button / highlight   --accent-ink  text ON the accent colour
+     --accent2      second highlight colour
+   ===================================================================== */
+
+/* ---------- 1. DEFAULT palette (used before an age is chosen) ---------- */
+:root{
+  --bg1:#f3ecff;
+  --bg2:#e6f6ff;
+  --ink:#2a1b4d;
+  --muted:#6b5f86;
+  --card:#fff;
+  --line:#d9ccf5;
+  --accent:#7c3aed;
+  --accent-ink:#fff;
+  --accent2:#ff4fa3;
+  --radius:22px;
+  --shadow:0 10px 30px rgba(80,40,160,.14);
+  --head:"Poppins",system-ui,sans-serif;
+  --body:"Poppins",system-ui,sans-serif;
+  --read:19px;
+  --lh:1.7;
+  --gap:16px;
+}
+
+/* ---------- 2. LITTLE ONES (ages 0-5) ---------- */
+html[data-tier=tiny]{
+  --bg1:#fff3c9;
+  --bg2:#ffdff0;
+  --ink:#3b2a5a;
+  --muted:#7a5f9a;
+  --card:#fff;
+  --line:#ffb8dc;
+  --accent:#ff5fa8;
+  --accent2:#4cc3ff;
+  --radius:34px;
+  --shadow:0 12px 0 rgba(255,95,168,.22);
+  --read:26px;
+  --lh:1.75;
+}
+
+/* ---------- 3. KIDS (6-10) ---------- */
+html[data-tier=kids]{
+  --bg1:#dff3ff;
+  --bg2:#fff1d6;
+  --ink:#17325c;
+  --muted:#4a6690;
+  --card:#fff;
+  --line:#9fd2ff;
+  --accent:#ff7a00;
+  --accent2:#2b7bff;
+  --radius:26px;
+  --shadow:0 10px 0 rgba(43,123,255,.18);
+  --read:21px;
+}
+
+/* ---------- 4. TEENS ---------- */
+html[data-tier=teens]{
+  --bg1:#120a2a;
+  --bg2:#2b0f55;
+  --ink:#f6f0ff;
+  --muted:#b9a9e6;
+  --card:rgba(255,255,255,.07);
+  --line:rgba(255,255,255,.2);
+  --accent:#ff3df0;
+  --accent-ink:#1a0630;
+  --accent2:#22e4ff;
+  --radius:20px;
+  --shadow:0 0 28px rgba(255,61,240,.25);
+  --read:19px;
+}
+
+/* ---------- 5. GROWN-UPS ---------- */
+html[data-tier=adult]{
+  --bg1:#0a0a0c;
+  --bg2:#181112;
+  --ink:#efe6d5;
+  --muted:#a89b86;
+  --card:#141214;
+  --line:#34292b;
+  --accent:#c9a24a;
+  --accent-ink:#161006;
+  --accent2:#9b1d2f;
+  --radius:10px;
+  --shadow:0 10px 40px rgba(0,0,0,.6);
+  --head:"Lora",Georgia,serif;
+  --body:"Lora",Georgia,serif;
+  --read:20px;
+  --lh:1.85;
+}
+html[data-tier=teens]{--card:rgba(26,12,52,.88)}
+
+/* ---------- 6. Kids + little ones: extra colours (their panels are bright cream, so text is dark) ---------- */
+html[data-tier=tiny],html[data-tier=kids]{--kid-ink:#17254d;--kid-sub:#3a4d78;--kid-paper:#fffdf8;--kid-line:#5b6fa6}
+html[data-tier=tiny]{--kid-accent:#b8135f;--kid-ink:#2c1a52;--kid-sub:#53407c;--kid-line:#8a5fb8}
+html[data-tier=kids]{--kid-accent:#b34700}
+
+/* ---------- 7. Teens + grown-ups: extra colours used on top of the photo backgrounds ---------- */
+:root{
+  --gold:#f3c97c;            /* "Keep going" button and highlights */
+  --on-gold:#1b1030;         /* text on the gold button */
+  --name-color:#ffd9a0;      /* character names inside stories */
+  --pill-bg:rgba(10,8,22,.78);  /* dark label behind genre names */
+  --pill-ink:#fff;
+  --helper:#f0eafc;          /* small helper lines on dark screens */
+  --step-on-bg:#fff;         /* the active step pill (Genre / Characters / Length) */
+  --step-on-ink:#1b1030;
+}
+
+/* ---------- 8. Genre cards: the colour of each story-type tile (change the two colours in each gradient) ---------- */
+.ss-g-darkromance{ --ss-bg:radial-gradient(120% 90% at 85% 10%,#a3153d 0,#5c0a22 45%,#1d0510 100%)}
+.ss-g-horror{ --ss-bg:linear-gradient(160deg,#0f2a3d,#1e4a5f 55%,#3a6b6b)}
+.ss-g-humor{ --ss-bg:linear-gradient(150deg,#ff9f1c,#ff5d8f)}
+.ss-g-fantasy{ --ss-bg:linear-gradient(155deg,#3b1d8f,#8b5cf6 60%,#c4b5fd)}
+.ss-g-romance{ --ss-bg:linear-gradient(150deg,#ff6b9a,#e0307a)}
+.ss-g-mystery{ --ss-bg:linear-gradient(155deg,#1f3a4d,#2a7f86)}
+.ss-g-adventure{ --ss-bg:linear-gradient(150deg,#1f8a4c,#7bc043)}
+.ss-g-scifi{ --ss-bg:linear-gradient(155deg,#0a3a78,#12a4d9)}
+.ss-g-bedtime{ --ss-bg:linear-gradient(155deg,#4b3f9e,#9b8cf2)}
+.ss-g-animals{ --ss-bg:linear-gradient(150deg,#2f9e6f,#9be0b5)}
+.ss-g-psych{ --ss-bg:linear-gradient(155deg,#2b2a7a,#b5379b)}
+.ss-g-thriller{ --ss-bg:linear-gradient(155deg,#123a6b,#c2412d)}
+.ss-g-friends{ --ss-bg:linear-gradient(150deg,#f472b6,#fbbf24)}
+.ss-g-hero{ --ss-bg:linear-gradient(150deg,#d62839,#273c75)}
+.ss-g-drama{ --ss-bg:linear-gradient(150deg,#a2562c,#e0a458)}
+.ss-g-other0{ --ss-bg:linear-gradient(150deg,#0e7c86,#4cc9a8)}
+.ss-g-other1{ --ss-bg:linear-gradient(150deg,#7a2dbb,#e56bb0)}
+.ss-g-other2{ --ss-bg:linear-gradient(150deg,#d9480f,#f4a259)}
+.ss-g-other3{ --ss-bg:linear-gradient(150deg,#1d4ed8,#60a5fa)}
+
+/* ---------- 9. Story title / name colour for each genre ---------- */
+#s-story.ss-theme-darkromance{--ss-accent:#e7b86a}
+#s-story.ss-theme-horror{--ss-accent:#4fb6a8}
+#s-story.ss-theme-fantasy{--ss-accent:#7c3aed}
+#s-story.ss-theme-romance{--ss-accent:#d6336c}
+#s-story.ss-theme-humor{--ss-accent:#e8590c}
+#s-story.ss-theme-mystery{--ss-accent:#1b7f86}
+#s-story.ss-theme-bedtime{--ss-accent:#6d5bd0}
+#s-story.ss-theme-scifi{--ss-accent:#0b7bb5}
+
+/* ---------- 10. Glow behind a genre card when you hover it ---------- */
+.ss-g-darkromance{--ss-glow:rgba(225,40,80,.55)}
+.ss-g-horror{--ss-glow:rgba(120,200,220,.45)}
+.ss-g-romance{--ss-glow:rgba(255,150,180,.6)}
+.ss-g-fantasy{--ss-glow:rgba(170,140,255,.6)}

@@ -17,3 +17,17 @@ html[data-tier=teens].ss-scene-on #chars-error,html[data-tier=adult].ss-scene-on
 @media (prefers-reduced-transparency:reduce){
   html.ss-scene-on #s-age,html.ss-scene-on #s-genre,html.ss-scene-on #s-chars,html.ss-scene-on #s-length,html.ss-scene-on #s-lib,html.ss-scene-on #s-story,html.ss-scene-on .top,html.ss-scene-on .steps{background:var(--bg1);-webkit-backdrop-filter:none;backdrop-filter:none}}
 @media print{html.ss-scene-on #s-story{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important}}
+/* contrast fixes for the cinematic scenes (teens and adults) */
+html.ss-scene-on .steps li.on{background:var(--step-on-bg);color:var(--step-on-ink);border-color:var(--step-on-bg);font-weight:700}
+html.ss-scene-on .steps li.done{background:rgba(10,8,14,.7);color:#fff;border-color:#fff}
+html.ss-scene-on .steps li{color:#f1ecfa}
+html.ss-scene-on .btn-primary{background:var(--accent);color:var(--accent-ink);opacity:1}
+html.ss-scene-on :is(.back,#length-grid small,.fine){color:#e6dff5}
+html.ss-scene-on #t-episode,html.ss-scene-on .btn-primary.gen-only{background:var(--gold);color:var(--on-gold);border-color:var(--gold);opacity:1}
+html.ss-scene-on #s-story:not(.ss-theme-darkromance) #story-body .ss-nm{color:var(--name-color)}
+/* genre tile labels sit on a dark pill so they read over any artwork */
+#genre-grid>.ss-tile b{display:inline-block;background:var(--pill-bg);color:var(--pill-ink);padding:5px 11px;border-radius:10px;text-shadow:none;position:relative;z-index:4}
+/* no drop cap: it broke the first line into awkward pieces */
+#story-body>p:first-of-type::first-letter,.story-body>p:first-of-type::first-letter{float:none!important;font-size:inherit!important;line-height:inherit!important;padding:0!important;color:inherit!important;font-weight:inherit!important}
+html.ss-scene-on .screen :is(.lead,.sub,p.fine,.hint){color:var(--helper)}
+html.ss-scene-on details.more summary{color:var(--name-color)}

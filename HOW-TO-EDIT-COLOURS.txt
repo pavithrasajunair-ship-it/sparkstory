@@ -1,0 +1,11 @@
+HOW TO CHANGE STORYSPARK COLOURS (no VS Code needed)
+
+1. Open the project folder in Windows File Explorer.
+2. Right-click  theme.css  ->  Open with  ->  Notepad.
+3. Change a colour code (for example #7c3aed) to another one. Find codes by searching "color picker" on Google.
+4. Press Ctrl+S to save, then upload/commit the file the same way you upload the site.
+5. On the website press Ctrl+Shift+R once to see the new colours.
+
+Each age group has its own block: LITTLE ONES, KIDS, TEENS, GROWN-UPS.
+Inside every block:  --bg1/--bg2 = background,  --ink = text,  --accent = buttons,  --card = panels.
+Keep text colours very different from the colour behind them (dark on light, or light on dark).
