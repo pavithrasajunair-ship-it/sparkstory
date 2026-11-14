@@ -43,6 +43,7 @@ html[data-tier=tiny].ss-scene-on #chars-error,html[data-tier=kids].ss-scene-on #
 html[data-tier=tiny].ss-scene-on .foot,html[data-tier=kids].ss-scene-on .foot{background:rgba(255,253,248,.95);color:var(--kid-ink);border-radius:999px;padding:8px 16px;width:fit-content;max-width:92%;margin:18px auto}
 
 .kid-only{display:none!important}
+html[data-tier] #t-sfx{display:inline-flex!important}
 html[data-tier=tiny] .kid-only,html[data-tier=kids] .kid-only{display:inline-flex!important}
 html[data-tier=tiny] p.kid-only,html[data-tier=kids] p.kid-only{display:block!important;text-align:center;font-weight:700}
 html[data-tier=tiny] #story-body p,html[data-tier=kids] #story-body p{cursor:pointer}

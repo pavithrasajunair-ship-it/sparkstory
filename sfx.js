@@ -8,6 +8,7 @@
   var ac = null, master = null, on = true, noiseBuf = null, lastCue = 0;
   function tier() { return document.documentElement.getAttribute("data-tier") || ""; }
   function kid() { var t = tier(); return t === "tiny" || t === "kids"; }
+  function any() { return !!tier(); }
   try { on = localStorage.getItem(KEY) !== "off"; } catch (e) {}
   function ensure() {
     if (ac) { if (ac.state === "suspended") ac.resume(); return true; }
@@ -56,10 +57,22 @@
     wind: function (t) { burst(t, 1.6, 0.28, "bandpass", 300, 900, 0.8); },
     creak: function (t) { tone("sawtooth", 140, 260, t, 0.7, 0.14, 0.1); },
     snore: function (t) { burst(t, 0.9, 0.18, "lowpass", 300, 150); },
+    heartbeat: function (t) { [0, 0.18, 0.9, 1.08].forEach(function (d, i) { tone("sine", 70, 45, t + d, 0.14, i % 2 ? 0.45 : 0.7, 0.05); }); },
+    gunshot: function (t) { burst(t, 0.35, 0.8, "lowpass", 5000, 200); tone("sine", 120, 40, t, 0.25, 0.6, 0.1); },
+    phone: function (t) { [0, 0.25, 0.7, 0.95].forEach(function (d) { tone("square", 1400, 1400, t + d, 0.1, 0.12); tone("square", 1100, 1100, t + d, 0.1, 0.1); }); },
+    glass: function (t) { burst(t, 0.5, 0.35, "highpass", 4000, 6000); [3200, 4100, 5200].forEach(function (f, i) { tone("sine", f, f * 0.98, t + i * 0.05, 0.4, 0.1, 0.3); }); },
+    tick: function (t) { for (var i = 0; i < 4; i++) tone("square", 1800, 1500, t + i * 0.5, 0.03, 0.12); },
+    sting: function (t) { tone("sawtooth", 220, 233, t, 1.1, 0.16, 0.3); tone("sawtooth", 233, 247, t, 1.1, 0.12, 0.3); },
     twinkle: function (t) { [1568, 1976, 2349].forEach(function (f, i) { tone("sine", f, f, t + i * 0.1, 0.35, 0.12, 0.4); }); }
   };
   /* word -> effect. First matches win; at most 2 per paragraph so it never gets noisy. */
   var CUES = [
+    [/\b(heart(?:beat)?|pulse|pounding|trembl\w*|shiver\w*|terrif\w*|afraid|dread)\b/i, "heartbeat"],
+    [/\b(gun\w*|shot|fired|bullet|scream\w*|shriek\w*)\b/i, "gunshot"],
+    [/\b(phone|rang|ringing|call came|text message|buzz\w*)\b/i, "phone"],
+    [/\b(glass|shatter\w*|window broke|smash\w*)\b/i, "glass"],
+    [/\b(clock|ticking|midnight|countdown|deadline)\b/i, "tick"],
+    [/\b(suddenly|stranger|shadow\w*|vanish\w*|disappear\w*|missing|body|murder\w*|blood|dark\w*)\b/i, "sting"],
     [/\b(roar\w*|growl\w*|dragon|monster|lion|bear)\b/i, "roar"],
     [/\b(thunder|lightning|storm)\b/i, "thunder"],
     [/\b(boom\w*|bang\w*|crash\w*|rumbl\w*|explod\w*)\b/i, "boom"],
@@ -85,7 +98,7 @@
     return out;
   }
   function play(name, delay) {
-    if (!on || !kid() || !FX[name] || !ensure()) return false;
+    if (!on || !any() || !FX[name] || !ensure()) return false;
     try { FX[name](ac.currentTime + (delay || 0.02)); } catch (e) {} return true;
   }
   function cue(text) {
@@ -110,7 +123,7 @@
     }, true);
     /* tap a paragraph to hear its sounds */
     var body = document.getElementById("story-body");
-    if (body) body.addEventListener("click", function (e) { var p = e.target.closest && e.target.closest("p"); if (!p || !kid()) return; if (!cue(p.textContent).length) play("tap"); });
+    if (body) body.addEventListener("click", function (e) { var p = e.target.closest && e.target.closest("p"); if (!p || !any()) return; if (!cue(p.textContent).length) play("tap"); });
   });
   window.SFX = { cue: cue, play: play, cuesFor: cuesFor, get on() { return on; }, setOn: setOn, names: Object.keys(FX) };
 })();
