@@ -37,8 +37,7 @@ html[data-tier=tiny].ss-scene-on #story-title,html[data-tier=kids].ss-scene-on #
 html[data-tier=tiny].ss-scene-on #story-body,html[data-tier=kids].ss-scene-on #story-body,html[data-tier=tiny].ss-scene-on #story-body p,html[data-tier=kids].ss-scene-on #story-body p{color:var(--kid-ink)}
 html[data-tier=tiny].ss-scene-on #s-story .ss-glance,html[data-tier=kids].ss-scene-on #s-story .ss-glance{background:#eef3ff;border-color:#c0cff2;color:var(--kid-ink)}
 html[data-tier=tiny].ss-scene-on #s-story .ss-chip,html[data-tier=kids].ss-scene-on #s-story .ss-chip{background:var(--kid-ink);color:#fff}
-html[data-tier=tiny].ss-scene-on #s-story #story-body .ss-nm,html[data-tier=kids].ss-scene-on #s-story #story-body .ss-nm,
-html[data-tier=tiny].ss-scene-on #s-story #story-body>p:first-of-type::first-letter,html[data-tier=kids].ss-scene-on #s-story #story-body>p:first-of-type::first-letter{color:var(--kid-accent)}
+html[data-tier=tiny].ss-scene-on #s-story #story-body .ss-nm,html[data-tier=kids].ss-scene-on #s-story #story-body .ss-nm{color:var(--kid-accent)}
 html[data-tier=tiny].ss-scene-on #chars-error,html[data-tier=kids].ss-scene-on #chars-error{color:#a8001c}
 /* footer pill so it is readable over the dark scene */
 html[data-tier=tiny].ss-scene-on .foot,html[data-tier=kids].ss-scene-on .foot{background:rgba(255,253,248,.95);color:var(--kid-ink);border-radius:999px;padding:8px 16px;width:fit-content;max-width:92%;margin:18px auto}
@@ -55,3 +54,4 @@ html[data-tier=tiny].ss-scene-on #length-grid *,html[data-tier=kids].ss-scene-on
 html[data-tier=tiny].ss-scene-on #length-grid small,html[data-tier=kids].ss-scene-on #length-grid small{color:var(--kid-sub)!important}
 html[data-tier=tiny].ss-scene-on summary,html[data-tier=kids].ss-scene-on summary{color:#8a3500!important;opacity:1!important}
 html[data-tier=tiny].ss-scene-on #ss-music,html[data-tier=kids].ss-scene-on #ss-music{opacity:1!important;background:#17254d!important;color:#fff!important}
+html[data-tier=tiny] #genre-grid>.ss-tile b,html[data-tier=kids] #genre-grid>.ss-tile b{background:var(--kid-ink)!important;color:#fff!important;font-size:19px}
