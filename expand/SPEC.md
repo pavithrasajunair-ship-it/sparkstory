@@ -1,6 +1,6 @@
 # Story expansion text: spec
 
-StorySpark builds stories from templates. Stories must now be ~875 / ~1300 / ~2000 words, so we need large pools of
+StorySpark builds stories from templates. Stories must now be ~450 / ~1300 / ~2000 words, so we need large pools of
 extra "units" (1-2 sentences each) that the engine weaves between the existing story beats.
 
 ## File format

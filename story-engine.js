@@ -30,6 +30,8 @@
       .replace(/(^|[.!?]\s+)(["“']?)([a-z])/g, (m, a, q, c) => a + q + c.toUpperCase())
       .replace(/([.!?,]["”]\s+)(?!(?:said|asked|replied|whispered|called|cried|shouted|answered|came|laughed|thought|added|says|yelled|squeaked|giggled|sang|hooted|groaned|sighed|grinned|muttered|declared|announced|gasped|exclaimed|moaned|chirped|roared|growled|cheered|murmured|snapped|begged|warned|wailed|hissed|sniffed|beamed|chuckled|continued|insisted|suggested|offered|promised|agreed|nodded|smiled|breathed|stammered|blurted|demanded|pleaded|admitted|breathes|replies|whispers|laughs|asks|tells|told|barked|boomed|teased|joked|sobbed|mumbled|urged|cautioned|reminded|repeated|reasoned|wondered|ventured|prompted|conceded|observed|noted|remarked)\b)([a-z])/g, (m, a, c) => a + c.toUpperCase())
       .replace(/\s+([,.!?])/g, "$1")
+      // a speech tag that begins with a newly introduced person ("A wise grandmother called Nani asked") reads better in lower case
+      .replace(/([?!,]")\s+(A|An)\s+([^.!?"\u201c\u201d]{3,60}?\s(?:asked|said|replied|whispered|added|answered|warned|laughed|called))\b/g, (m, q, a, rest) => q + " " + a.toLowerCase() + " " + rest)
       .trim();
   }
 
@@ -345,46 +347,87 @@
       opening: [
         "{H} had a rule about {P}: expect nothing. It was a good rule, right up until {L} walked in.",
         "It was supposed to be an ordinary evening at {P}. Then {L} laughed at something {H} hadn't meant to be funny, and the evening quietly stopped being ordinary.",
+        "Nobody warns you that a whole life can tilt on one ordinary sentence. For {H}, it was {L} at {P}, asking, \"Is this seat taken?\"",
+        "{H} had been invisible for so long that being noticed by {L} felt like stepping into warm sunlight after a very long winter.",
+        "The first thing {H} noticed about {L} was the voice. The second was that {H} had stopped breathing properly. This was going to be a problem.",
+        "{P} had always been the place {H} came to be alone. Then {L} sat down across from {H}, and alone began to sound like a word from another life.",
       ],
       meet: [
         "They kept running into each other. {W}. By the third time, {H} stopped calling it a coincidence.",
         "{L} turned out to be impossible to read and even harder to forget. {A} watched {H} fail to pretend otherwise.",
+        "{L} remembered things nobody remembers: how {H} took tea, which song made {H} go quiet, the name of a dog in a story told once, in passing. Being listened to this closely was its own kind of tenderness.",
+        "They talked until the lights changed twice, and neither of them mentioned leaving. {W}.",
+        "It turned out {L} was afraid of exactly the things {H} was afraid of. They compared lists, laughing, and found the lists matched almost to the line.",
+        "{H} told {L} something true, small and unguarded, and waited to be judged. Instead {L} said, \"Me too,\" very quietly, and something in {H} came gently unlocked.",
       ],
       spark: [
         "Something small happened near {P2}: a shared umbrella, a held door, {I} passed from one hand to another. After that, {H} noticed everything.",
         "It was nothing, really. A glance at {P2}, a smile held a second too long. But it was the kind of nothing that keeps a person awake.",
+        "Their hands touched reaching for the same thing, and neither pulled away fast enough to call it an accident. The air near {P2} went very still.",
+        "{L} tucked a stray strand of hair behind {H}'s ear, then froze, as if surprised by their own hand. \"Sorry,\" {L} said. \"Don't be,\" said {H}, and meant it more than anything said all year.",
+        "It was a glance across {P2}, held a heartbeat past polite. After that, every room {H} walked into had one person in it who mattered.",
+        "{L} laughed, and {H} thought: I would do almost anything to be the reason for that sound again. It was a frightening thought. It was also, undeniably, wonderful.",
+      ],
+      closer: [
+        "Late that night, with {P2} dark and the world far away, {L} said, \"Tell me something you've never told anyone.\" {H} did. {L} listened as if every word were precious, and did not look away once.",
+        "They sat so close that {H} could feel the warmth of {L}'s shoulder, and neither moved an inch. Some distances are chosen, and this one was being chosen by both of them.",
+        "{L} took {H}'s hand, slowly, giving every chance to say no. {H} said nothing at all, and laced their fingers together instead. Nobody has ever said so much with so little.",
+        "{H} caught {L} watching and did not look away. For one long, trembling moment the whole world narrowed to a pair of eyes and a held breath.",
+        "{L} leaned in to hear over the noise, and {H} forgot the question entirely. There was only the nearness, and the quiet thunder of a heart that no longer felt like it belonged to {H} alone.",
+        "\"I like who I am when you're around,\" {L} said, as if confessing a crime. {H} could not answer, because the same sentence was already living in {H}'s chest.",
       ],
       obstacle: [
         "Then {V} complicated everything. What had been easy became careful, and what had been honest became half-sentences.",
         "And then {V} got in between them, as if the universe had decided simple was boring.",
+        "{V} stepped between them, and the easy warmth thinned into careful politeness. It is astonishing how fast two people can become strangers when each is afraid of being the first to reach.",
+        "{V} had a way of turning up exactly when things were soft and fragile. {H} watched {L} pull back, a small step, a smaller smile, and felt the whole evening crack.",
+        "Something was said, in the wrong tone, at the wrong moment, and {V} did the rest. By midnight both of them were certain the other had stopped caring, and both of them were wrong.",
+        "{H} wanted to say, Stay. Instead {H} said, \"It's fine,\" which is the most dishonest sentence in the language, and {L} heard exactly what it meant and left anyway.",
       ],
       distance: [
         "For a week they barely spoke. {H} told {A} it was fine, which was how {A} knew it wasn't.",
         "The silence stretched. {H} typed three messages and deleted all of them, then walked past {P} twice, on purpose, for no reason.",
+        "The days were quieter without {L}, but not peaceful. Every song had a corner where {L} was hiding, and {H} stopped listening to most of them.",
+        "{H} drafted a message, and another, and a third. They all said the same thing in different, clumsier words, and none were sent. Pride, it turns out, is heavy to carry and heavier to put down.",
+        "At {P}, someone laughed in a way that sounded like {L}. {H} turned too fast, hoping, and the ache of finding a stranger there followed {H} all the way home.",
+        "Missing someone isn't loud. It's the cup left out for two, the half-turn at a door, the phone checked once too often. {H} was learning all the quiet shapes of it.",
       ],
       realize: [
         "It was {A2} who said it plainly: \"You're not angry. You're scared.\" {H} stared at the floor, because it was true.",
         "Somewhere between midnight and morning, {H} stopped arguing with the truth. It was {L}. It had always been {L}.",
+        "{A} said, very gently, \"You know you're allowed to want this, right?\" {H} opened a mouth to argue, and found there was nothing left to argue with.",
+        "It arrived without drama, the way real things do: {H} simply knew. It wasn't a crush, and it wasn't a phase. It was {L}, steady and certain, like a door that had always been there, waiting to be opened.",
+        "{H} understood then that being afraid of losing {L} was only another way of saying how much {L} mattered. Fear and love were, it turned out, the same road seen from different sides.",
+        "Somewhere in the long hours of the night, {H} stopped making lists of reasons it wouldn't work. The only list left had one line on it, and the line was a name.",
       ],
       gesture: [
         "So {H} went to {P}, and chose to {T}. It was the bravest, most embarrassing thing {H} had ever done.",
         "{H} didn't plan what to say. {H} just went to {P}, took a breath, and decided to {T}.",
+        "So {H} went to {P}, heart pounding hard enough to hear, and chose to {T}. Courage, it turns out, mostly looks like shaking hands that keep going.",
+        "{H} had rehearsed a speech. It lasted exactly as long as it took to see {L}, and then every word was gone but the true ones. {H} chose to {T}.",
+        "There was no grand plan. There was only {H}, standing at {P}, deciding that a lifetime of what-ifs was worse than one honest, terrifying moment. So {H} chose to {T}.",
       ],
       ending: [
         "{L} didn't say anything at first. Then {L} smiled, the slow kind, and took out {I} as if it had been waiting all along. \"I was hoping you'd come,\" {L} said. {M}",
         "{L} laughed, a little breathless, and stepped closer. For once, nobody was thinking about rules. {M}",
+        "\"I'm sorry,\" {H} said. \"Don't be,\" said {L}, closing the space between them. \"Just stay.\" And {H} did, hands held, forehead to forehead, two people who had finally stopped pretending. {M}",
+        "{L} held {H}'s face as if it were something precious and breakable, and kissed {H} softly, once, like a promise. When they drew apart, both were smiling, a little stunned, and entirely sure. {M}",
+        "Neither of them said \"I love you,\" not yet. They didn't need to. It was in the way {L} held on, and the way {H} held back nothing, and the way the whole night seemed to hold its breath for them. {M}",
+        "{L} laughed softly against {H}'s shoulder. \"You came,\" {L} said, as if it were a miracle. \"I'd always come,\" {H} answered, and found it was the truest thing ever said. {M}",
       ],
       endingDark: [
         "{L} said nothing at all, which was worse, and better. Whatever came next, neither of them would walk away unmarked. {H} found, to no one's surprise, that they didn't mind.",
         "{L} reached out, and the world narrowed to that one gesture. It would end badly, probably. They both knew it. They took each other's hands anyway.",
+        "They kissed like people who had run out of reasons to be careful: slowly at first, then like a confession neither could hold back any longer. Whatever it cost, it was already worth it.",
+        "\"This is a terrible idea,\" {L} whispered, a breath away. \"The worst,\" {H} agreed, and closed the distance. Some risks are the only things that make a life feel lived.",
       ],
     },
-    seq: ["opening", "meet", "spark", "obstacle", "distance", "realize", "gesture", "ending"],
-    short: ["opening", "spark", "obstacle", "gesture", "ending"],
+    seq: ["opening", "meet", "spark", "closer", "obstacle", "distance", "realize", "gesture", "ending"],
+    short: ["opening", "spark", "closer", "obstacle", "gesture", "ending"],
     tiny: ["opening", "spark", "obstacle", "gesture", "ending"],
-    extra: ["meet", "spark", "distance"],
-    long: { first: ["opening", "meet"], mids: [["spark", "meet"], ["obstacle", "distance"]], last: ["realize", "gesture", "ending"] },
-    darkAfter: ["spark", "obstacle"],
+    extra: ["meet", "spark", "closer", "distance"],
+    long: { first: ["opening", "meet"], mids: [["spark", "closer"], ["obstacle", "distance"]], last: ["realize", "gesture", "ending"] },
+    darkAfter: ["spark", "closer", "obstacle"],
   };
   S.romance.simple = S.romance.rich;
 
@@ -684,6 +727,8 @@
   // ---------- reading level: swaps words for easier or richer ones (same story, different vocabulary) ----------
   const LEVEL_UP = { big: "enormous", huge: "colossal", happy: "delighted", sad: "sorrowful", scared: "frightened", tired: "weary", angry: "furious", strange: "peculiar", pretty: "lovely", shiny: "gleaming", quiet: "hushed", brave: "courageous", clever: "resourceful", funny: "hilarious", fast: "swift", quickly: "swiftly", shouted: "exclaimed", looked: "gazed", found: "discovered", tried: "attempted", dark: "shadowy", old: "weathered", nice: "pleasant", smart: "astute", noise: "racket", afraid: "apprehensive" };
   const LEVEL_DOWN = { extraordinary: "amazing", enormous: "huge", colossal: "huge", tremendous: "huge", delighted: "happy", exhausted: "tired", furious: "very angry", terrified: "very scared", frightened: "scared", mysterious: "strange", magnificent: "wonderful", ancient: "very old", whispered: "said softly", murmured: "said softly", hesitated: "waited", peculiar: "odd", immediately: "right away", discovered: "found", determined: "sure", courageous: "brave", sorrowful: "sad", gleaming: "shiny", resourceful: "clever", hilarious: "funny", swift: "fast", swiftly: "quickly", exclaimed: "said", gazed: "looked", attempted: "tried", shadowy: "dark", weathered: "old", astute: "smart", apprehensive: "afraid", unexpectedly: "suddenly", surprising: "unexpected", wonderful: "great", incredible: "amazing", marvellous: "great", marvelous: "great", curious: "keen", fortunate: "lucky", reluctantly: "slowly", gradually: "slowly", enormously: "very", seized: "grabbed", peered: "looked", clutched: "held", glanced: "looked", wandered: "walked", gasped: "said" };
+  // extra easy-word swaps (teens and grown-ups: "simpler words" should really be simple)
+  Object.assign(LEVEL_DOWN, {"unease": "worry", "uneasy": "worried", "deliberate": "careful", "deliberately": "on purpose", "flickered": "flashed", "surfaced": "came back", "accidental": "unplanned", "unbidden": "uninvited", "gratitude": "thanks", "underneath": "under", "caretaker": "keeper", "evidence": "proof", "sheltered": "kept safe", "disaster": "mess", "battered": "worn", "director": "boss", "occurred": "happened", "appeared": "showed up", "fiercely": "strongly", "cliffside": "cliff", "muttered": "mumbled", "recognise": "know", "divided": "split", "strangely": "oddly", "pretending": "acting", "opinion": "view", "convincing": "believable", "thickened": "grew thick", "slackened": "eased", "narrowed": "shrank", "certainty": "being sure", "staircase": "stairs", "mattered": "counted", "expectant": "hopeful", "belonged": "fit", "polished": "shiny", "softening": "getting softer", "direction": "way", "metallic": "metal", "unmistakably": "clearly", "rummaged": "searched", "reflection": "image", "wonderfully": "very well", "tentatively": "shyly", "inspection": "check", "apartment": "flat", "conversation": "talk", "barely": "hardly", "suggested": "said", "travelled": "went", "brilliant": "great", "confidence": "courage", "argument": "fight", "announced": "said", "quality": "kind", "impossible": "not possible", "otherwise": "or else", "skittered": "ran", "uneven": "bumpy", "deliver": "bring", "instantly": "at once", "shimmered": "glowed", "property": "place", "several": "a few", "glittered": "sparkled", "movement": "move", "clarity": "clearness", "supposed": "meant", "handwriting": "writing", "comforting": "warm", "mentioned": "said", "rehearsing": "practising", "rehearsed": "practised", "observed": "saw", "ridiculous": "silly", "unravel": "come apart", "generation": "age", "forbidden": "not allowed", "corrected": "fixed", "footsteps": "steps", "particular": "certain", "believing": "thinking", "photographed": "snapped", "scrambled": "hurried", "collapsed": "fell", "mechanical": "machine-like", "crouching": "bending low", "possibly": "maybe", "exchanged": "traded", "straightened": "stood straight", "evenly": "steadily", "signature": "name", "muttering": "mumbling", "outwitted": "tricked", "strangest": "oddest", "gathered": "picked up", "grumbling": "complaining", "rearranged": "moved around", "broadcast": "message", "explaining": "telling", "situation": "problem", "intelligence": "smarts", "unkindly": "meanly", "timeline": "plan", "arrival": "coming", "expression": "look", "photograph": "picture", "invisible": "unseen", "universe": "world", "accuracy": "care", "reflected": "showed", "information": "facts", "convenient": "handy", "instructions": "steps", "competitive": "eager", "analysis": "study", "encrypted": "locked", "politely": "kindly", "entirely": "fully", "disappointing": "sad", "disappears": "vanishes", "silently": "quietly", "preferably": "best", "transmitting": "sending", "commander": "leader", "occupied": "busy", "reasonable": "fair", "discarding": "throwing away", "produced": "made", "recently": "lately", "memorised": "learned by heart", "discovering": "finding", "completely": "fully", "confident": "sure", "statement": "words", "percentage": "share", "existed": "was", "heavily": "deeply", "overheard": "heard", "involved": "part", "differently": "another way", "unmarked": "clean", "complicated": "tricky", "optimistic": "hopeful", "discovery": "find", "wrongness": "wrong feeling", "corrupted": "broken", "underfoot": "below", "intended": "meant", "unspoken": "unsaid", "coincidence": "chance", "edited": "changed", "necessary": "needed", "misunderstanding": "mix-up", "humiliating": "awful", "unusual": "odd", "diagnostics": "checks", "adjusted": "changed", "perfectly": "just", "grateful": "thankful", "arranged": "set up", "frightens": "scares", "pocketed": "tucked away", "disappointed": "let down", "unpacked": "took out", "intruder": "stranger", "dignity": "pride", "murmuring": "mumbling", "conveniently": "handily", "respectable": "decent", "fascinating": "very interesting", "consider": "think about", "altered": "changed", "solution": "answer", "resisting": "fighting", "careless": "not careful", "recalibrated": "reset", "insisting": "saying firmly", "suspected": "guessed", "catalogued": "listed", "applauded": "clapped", "ironically": "oddly", "gravely": "seriously", "unfamiliar": "new", "colourful": "bright", "graceful": "smooth", "manuscript": "pages", "preferred": "liked better", "unmistakable": "clear", "traditional": "old", "inadvisable": "unwise", "location": "place", "avoided": "dodged", "professionalism": "skill", "unnatural": "odd", "reality": "real life", "unwelcome": "unwanted", "increasing": "growing", "described": "told", "aftermath": "after", "adopted": "took on", "vibrating": "shaking", "practical": "sensible", "embarrassment": "shame", "arithmetic": "maths", "calculate": "work out", "announces": "says", "lingered": "stayed", "unbearable": "too much", "unison": "together", "precisely": "exactly", "distrusted": "doubted", "merely": "only", "suggestion": "idea", "discourage": "put off", "resolution": "decision", "unreasonable": "unfair", "identical": "the same", "defeated": "beaten", "amounted": "added up", "rational": "sensible", "explanations": "reasons", "reversed": "turned around", "plausible": "believable", "explanation": "reason", "deduction": "guess", "assumption": "guess", "rearrange": "move around", "stillness": "quiet", "ambitious": "driven", "unnoticed": "unseen", "considered": "thought about", "reluctantly": "unwillingly", "editing": "changing", "improving": "getting better", "processed": "handled", "compliant": "obedient", "disagreed": "argued", "properly": "right", "mischievous": "playful", "irrational": "silly", "cooperation": "teamwork", "colleague": "co-worker", "commitment": "promise", "unafraid": "not afraid", "witnesses": "people who saw", "mismatched": "odd", "specific": "exact", "physical": "body", "remained": "stayed", "accusation": "blame", "disturbed": "upset", "admitting": "owning up", "grudgingly": "unwillingly", "absolutely": "totally", "overkill": "too much", "machinery": "machines", "protecting": "guarding", "refusing": "saying no", "approached": "neared", "approaching": "nearing", "exhaling": "breathing out", "automated": "automatic", "announcement": "news", "impressive": "great", "adulthood": "grown-up life", "scattered": "spread", "horrified": "shocked", "intention": "plan", "attraction": "pull", "defending": "guarding", "absurdly": "wildly", "absurd": "silly", "unexpectedly": "out of nowhere", "triggered": "set off", "expectation": "hope", "however": "but", "punctuated": "broken", "occasional": "now and then", "conditioning": "training", "remaining": "left", "unguarded": "open", "unimportant": "small", "rewritten": "changed", "designed": "made", "luxury": "comfort", "loyalties": "loyalty", "employers": "bosses", "directly": "straight", "suspicious": "doubtful", "unworthy": "not good enough", "agreeable": "pleasant", "atmosphere": "mood", "excellent": "great", "animated": "lively", "hovering": "floating", "concerned": "worried", "accounted": "explained", "repaired": "fixed", "grievance": "complaint", "frightening": "scary", "absolute": "total", "algorithm": "rule", "tightening": "getting tight", "unanswered": "left open", "fluorescent": "bright", "complexion": "skin", "enormously": "hugely", "structure": "shape", "cherished": "loved", "softened": "got soft", "insisted": "said firmly", "helplessly": "with no way out", "opinions": "views", "unquestioning": "trusting", "marginally": "slightly", "functioning": "working", "apologise": "say sorry", "unforgiving": "hard", "unexpected": "surprising", "untouched": "left alone", "forgivable": "okay", "confidante": "close friend", "cynical": "doubtful", "overly": "too", "loosened": "relaxed", "refused": "said no", "curiosity": "interest", "landscape": "view", "abandoned": "empty", "realised": "saw", "steadying": "calming", "tiredness": "being tired", "corporate": "office", "footprints": "prints", "dismayed": "upset", "rehearse": "practise", "tentative": "shy", "wistful": "sad", "sombre": "sad", "brooding": "moody", "reluctant": "unwilling", "relentless": "nonstop", "fleeting": "brief", "vulnerable": "open", "vulnerability": "openness", "yearning": "longing", "tenderness": "care", "bewildered": "confused", "exasperated": "fed up", "apprehension": "fear", "anticipation": "hope", "trembling": "shaking", "unravelling": "coming apart", "composure": "calm", "acknowledged": "admitted", "contemplated": "thought about", "resolve": "courage", "dread": "fear", "longing": "wish", "poised": "ready", "faltered": "stumbled", "wavered": "wobbled", "smouldering": "burning", "lingering": "staying", "enveloped": "wrapped", "scarcely": "hardly", "uncertain": "unsure", "uncertainty": "doubt", "exquisite": "lovely", "delicate": "gentle", "luminous": "glowing", "tranquil": "calm", "solemn": "serious", "sincere": "true", "sincerity": "honesty"});
   const LEVELS = { simple: LEVEL_DOWN, advanced: LEVEL_UP };
   const aOrAn = (w) => (/^[aeiou]/i.test(w) ? "an" : "a");
   function levelize(text, level) {
@@ -699,6 +744,8 @@
         const before = whole.slice(0, off).replace(/[\s"“'‘(]+$/, "");
         if (before && !/[.!?:]$/.test(before)) return m;
       }
+      // "whispered a plan" cannot become "said softly a plan": only swap these when nothing is whispered directly
+      if ((w.toLowerCase() === "whispered" || w.toLowerCase() === "murmured") && !/^\s*(?:[.,!?;:"\u201d]|$|to\b|that\b|with\b|and\b|as\b|in\b|into\b|back\b)/.test(whole.slice(off + m.length))) return m;
       const out = cap ? rep[0].toUpperCase() + rep.slice(1) : rep;
       if (!art) return out;
       const a = aOrAn(out);
@@ -707,8 +754,51 @@
   }
 
 
-  // ---------- length: stories are woven out to about 875 / 1300 / 2000 words ----------
-  const WORD_TARGET = { short: 875, medium: 1300, long: 2000 };
+  // "simpler words" for teens and grown-ups: shorter sentences on top of the easy-word swaps
+  function easify(text) {
+    const parts = String(text).split(/(["\u201c\u201d])/);
+    let inQ = false;
+    const up = (c) => c.toUpperCase();
+    return parts.map((seg) => {
+      if (/^["\u201c\u201d]$/.test(seg)) { inQ = !inQ; return seg; }
+      if (inQ) return seg;
+      seg = seg.replace(/;\s+([a-z])/g, (m, c) => ". " + up(c));
+      seg = seg.replace(/:\s+([a-z])/g, (m, c) => ". " + up(c));
+      seg = seg.replace(/([^.!?]{70,}?), (and|but|so|yet) (?=(?:the|a|an|it|they|we|i|you|he|she|everyone|nobody|nothing|something|[A-Z][a-z]+)\b)/g, (m, a, w) => a + ". " + w[0].toUpperCase() + w.slice(1) + " ");
+      return seg;
+    }).join("");
+  }
+  const simplify = (text, level, tier) => {
+    const t = levelize(text, level);
+    return level === "simple" && (tier === "teens" || tier === "adult") ? easify(t) : t;
+  };
+
+  // how hard a line is to read: longest sentence (after splitting) plus long, unswapped words
+  const syl3 = (w) => { w = w.toLowerCase().replace(/[^a-z]/g, ""); if (w.length <= 3) return 1; w = w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, "").replace(/^y/, ""); const m = w.match(/[aeiouy]{1,2}/g); return m ? m.length : 1; };
+  function easyScore(line) {
+    const t = easify(line.replace(/\{\w+\}/g, "Aanya"));
+    const sents = t.match(/[^.!?]+[.!?]+/g) || [t];
+    const longest = Math.max(...sents.map((x) => (x.match(/[A-Za-z']+/g) || []).length));
+    const words = t.toLowerCase().match(/[a-z']+/g) || [];
+    const hard = words.filter((w) => syl3(w) >= 4 && !LEVEL_DOWN[w]).length;
+    return longest + 4 * hard;
+  }
+  // keep the easier lines of a pool (at least 4, or the easiest ~70%)
+  function easierOf(arr) {
+    if (!Array.isArray(arr) || arr.length < 6) return arr;
+    const scored = arr.map((l, i) => ({ l, i, s: easyScore(l) })).sort((a, b) => a.s - b.s || a.i - b.i);
+    const keep = Math.max(4, Math.ceil(arr.length * 0.7));
+    const ok = new Set(scored.slice(0, keep).map((x) => x.i));
+    return arr.filter((_, i) => ok.has(i));
+  }
+  function easierPool(pool) {
+    const out = {};
+    for (const [k, v] of Object.entries(pool)) out[k] = easierOf(v);
+    return out;
+  }
+
+  // ---------- length: stories are woven out to about 450 / 1300 / 2000 words ----------
+  const WORD_TARGET = { short: 450, medium: 1300, long: 2000 };
   const countWords = (t) => (String(t).match(/\S+/g) || []).length;
   const PATTERNS = [
     ["setting", "action", "talk", "feeling"],
@@ -731,8 +821,8 @@
     chapters.forEach((c) => { if (!c.paragraphs.length) c.paragraphs.push(""); });
   }
 
-  function expandStory(chapters, tailCount, target, tier, shapeName, reg, ctx, lex, rt, gid) {
-    const X = (EXP && EXP[shapeName]) || {}, G = (EXP && EXP.generic) || {};
+  function expandStory(chapters, tailCount, target, tier, shapeName, reg, ctx, lex, rt, gid, easyMode) {
+    const X = (EXP && EXP[shapeName]) || {}, G = shapeName === "romance" ? {} : ((EXP && EXP.generic) || {});   // romance keeps to its own love-story lines (generic ones are about quests and maps)
     const pickReg = (o) => (o && (o[reg] || (reg === "simple" ? o.rich : o.simple))) || null;
     const XS = pickReg(X), GS = pickReg(G);
     if (!XS && !GS) return;
@@ -747,7 +837,8 @@
     };
     const decks = {}, CATS = ["setting", "action", "talk", "feeling", "trouble", "hope"];
     const refill = (cat) => {
-      const d = [].concat((XS && XS[cat]) || [], (GS && GS[cat]) || []).filter(usable);
+      let d = [].concat((XS && XS[cat]) || [], (GS && GS[cat]) || []).filter(usable);
+      if (easyMode) d = easierOf(d);
       for (let i = d.length - 1; i > 0; i--) { const j = Math.floor(rt.r() * (i + 1)); [d[i], d[j]] = [d[j], d[i]]; }
       return (decks[cat] = d);
     };
@@ -800,14 +891,20 @@
     }
     spin = 0;
     while (total0 + added - target > 12 && spin++ < 200) {
-      // drop the last sentence of the longest added paragraph, but never empty it
-      let best = null;
-      slots.forEach((s) => s.add.forEach((p, k) => { if (!best || countWords(p) > countWords(best.p)) best = { s, k, p }; }));
-      if (!best) break;
-      const sentences = best.p.match(/[^.!?]+[.!?]["”]?\s*/g) || [best.p];
-      if (sentences.length < 2) { best.s.add.splice(best.k, 1); added -= countWords(best.p); continue; }
-      const cut = sentences.pop(); const np = sentences.join("").trim();
-      added -= countWords(best.p) - countWords(np); best.s.add[best.k] = np;
+      // drop the last sentence of the longest added paragraph that stays tidy (never leave a quote open), else drop a whole paragraph
+      const cands = [];
+      slots.forEach((s) => s.add.forEach((p, k) => cands.push({ s, k, p })));
+      if (!cands.length) break;
+      cands.sort((x, y) => countWords(y.p) - countWords(x.p));
+      let done = false;
+      for (const c of cands) {
+        const sentences = c.p.match(/[^.!?]+[.!?]["”]?\s*/g) || [c.p];
+        if (sentences.length < 2) continue;
+        sentences.pop(); const np = sentences.join("").trim();
+        if ((np.match(/["“”]/g) || []).length % 2) continue;
+        added -= countWords(c.p) - countWords(np); c.s.add[c.k] = np; done = true; break;
+      }
+      if (!done) { const c = cands[cands.length - 1]; c.s.add.splice(c.k, 1); added -= countWords(c.p); }
     }
     // insert from the back so earlier indexes stay valid
     for (let i = slots.length - 1; i >= 0; i--) { const s = slots[i]; if (s.add.length) chapters[s.ci].paragraphs.splice(s.pi + 1, 0, ...s.add); }
@@ -820,7 +917,9 @@
     const lex = LEX[g.lex];
     const shape = S[g.shape];
     const reg = tier === "tiny" || tier === "kids" ? "simple" : "rich";
-    const pool = shape[reg] || shape.rich;
+    const easyOn = params.level === "simple" && (tier === "teens" || tier === "adult");
+    let pool = shape[reg] || shape.rich;
+    if (easyOn) pool = easierPool(pool);
     const length = D.LENGTHS[params.length] ? params.length : "medium";
     const seed = (params.seed == null ? Math.floor(Math.random() * 2 ** 31) : params.seed) >>> 0;
     const rt = setup({ seed });
@@ -911,10 +1010,10 @@
     {
       const tail = 1 + (endKind ? 1 : 0) + (bed ? (bed.today ? 1 : 0) + 1 : 0);
       dedupeSentences(chapters, tail);
-      expandStory(chapters, tail, WORD_TARGET[length], tier, g.shape, reg, ctx, lex, rt, gid);
+      expandStory(chapters, tail, WORD_TARGET[length], tier, g.shape, reg, ctx, lex, rt, gid, easyOn);
     }
     const level = LEVELS[params.level] ? params.level : "";
-    if (level) chapters.forEach((c) => { c.paragraphs = c.paragraphs.map((x) => levelize(x, level)); });
+    if (level) chapters.forEach((c) => { c.paragraphs = c.paragraphs.map((x) => simplify(x, level, tier)); });
     const titleKey = g.shape === "haunt" && reg === "simple" ? "hauntKid" : g.shape;
     const title = titleCase(tidy(fill(rt.draw("title", TITLES[titleKey] || TITLES.quest), ctx, lex, rt, gid)));
     const story = { title, chapters, params: { tier, genre: gid, length, chars: params.chars, place: params.place || "", item: params.item || "", seed, bedtime: bed ? { today: bed.today } : null, ending: endKind, level, dedication: String(params.dedication || "").slice(0, 40) }, ctx: { ...ctx } };
@@ -934,7 +1033,7 @@
     const mids = shape.long.mids.reduce((a, b) => a.concat(b), []);
     const beats = [mids[Math.floor(rt.r() * mids.length)], mids[Math.floor(rt.r() * mids.length)], "ending"]
       .filter((b, i, a) => pool[b] && a.indexOf(b) === i);
-    const texts = beats.map((b) => levelize(tidy(fill(rt.draw("c:" + b, pool[b]), ctx, lex, rt, p.genre)), p.level));
+    const texts = beats.map((b) => simplify(tidy(fill(rt.draw("c:" + b, pool[b]), ctx, lex, rt, p.genre)), p.level, tier));
     const paras = tier === "tiny" ? texts : (() => { const o = []; for (let i = 0; i < texts.length; i += 2) o.push(texts.slice(i, i + 2).join(" ")); return o; })();
     const n = story.chapters.length + 1;
     const chapters = story.chapters.length === 1 && !story.chapters[0].title ? [{ title: "Chapter 1", paragraphs: story.chapters[0].paragraphs }] : story.chapters.slice();
