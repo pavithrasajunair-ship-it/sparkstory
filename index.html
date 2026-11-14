@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="scene.css">
 <link rel="stylesheet" href="cinema.css">
 <link rel="stylesheet" href="readable.css">
+<link rel="stylesheet" href="kids.css">
 </head>
 <body>
 <div class="deco" id="deco" aria-hidden="true"></div>
@@ -118,6 +119,7 @@
     </article>
     <div class="toolbar" role="toolbar" aria-label="Story tools">
       <button class="btn btn-soft" id="t-listen" type="button">🔊 Listen</button>
+      <button class="btn btn-soft kid-only" id="t-sfx" type="button" aria-pressed="true">🔔 Sound effects: On</button>
       <label class="sleepsel" id="voice-wrap" hidden>Voice <select id="voice" aria-label="Voice"></select></label>
       <label class="sleepsel" id="speed-wrap" hidden>Speed <select id="speed" aria-label="Reading speed"><option value="0.7">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label>
       <button class="btn btn-soft" id="t-smaller" type="button" aria-label="Smaller text">A−</button>
@@ -142,6 +144,7 @@
     </div>
     <label class="grow gen-only" id="grow-row" hidden><input type="checkbox" id="grow"> <span id="grow-text">They've grown up: make the next episode for the next age group</span></label>
     <section class="quiz" id="quiz" hidden aria-labelledby="quiz-h"><h2 id="quiz-h">🧠 Story quiz</h2><div id="quiz-body"></div></section>
+    <p class="fine kid-only" id="sfx-hint">🔔 Tap any paragraph to hear its sound effects!</p>
     <p class="fine" id="story-status" role="status"></p>
   </section>
 
@@ -165,6 +168,7 @@
 <script src="story-expand.js"></script>
 <script src="story-engine.js"></script>
 <script src="extras.js"></script>
+<script src="sfx.js"></script>
 <script src="app.js"></script>
 <script src="aesthetic.js"></script>
 <script src="scene.js"></script>

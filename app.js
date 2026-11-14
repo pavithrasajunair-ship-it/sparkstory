@@ -312,7 +312,7 @@
   let fontStep = store.get(FONT_KEY, 0);
   function applyFont() { $("story-body").style.fontSize = "calc(var(--read) + " + fontStep * 2 + "px)"; }
   function renderStory(notice) {
-    const s = state.story;
+    const s = state.story; if (window.SFX) SFX.play("ready", 0.25);
     $("story-title").textContent = s.title;
     const words = s.text.split(/\s+/).length;
     const g = D.GENRES[s.params.genre];
@@ -363,7 +363,7 @@
     const vc = pickedVoice();
     items.forEach((it, i) => {
       const u = new SpeechSynthesisUtterance(it.t); u.rate = rate; if (vc) u.voice = vc;
-      u.onstart = () => { document.querySelectorAll(".speaking").forEach((p) => p.classList.remove("speaking")); if (it.el) it.el.classList.add("speaking"); };
+      u.onstart = () => { if (it.el && window.SFX) SFX.cue(it.t); document.querySelectorAll(".speaking").forEach((p) => p.classList.remove("speaking")); if (it.el) it.el.classList.add("speaking"); };
       if (i === items.length - 1) u.onend = () => stopSpeak();
       speechSynthesis.speak(u);
     });

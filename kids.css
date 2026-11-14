@@ -1,0 +1,57 @@
+/* Little-kid themes (tiny + kids): bright, solid, high-contrast panels. Loaded last so it wins over the dark "cinema" styling. */
+html[data-tier=tiny],html[data-tier=kids]{--kid-ink:#17254d;--kid-sub:#3a4d78;--kid-paper:#fffdf8;--kid-line:#5b6fa6}
+html[data-tier=tiny]{--kid-accent:#b8135f;--kid-ink:#2c1a52;--kid-sub:#53407c;--kid-line:#8a5fb8}
+html[data-tier=kids]{--kid-accent:#b34700}
+html[data-tier=tiny].ss-scene-on,html[data-tier=kids].ss-scene-on{--ink:var(--kid-ink);--muted:var(--kid-sub);color:var(--kid-ink)}
+html[data-tier=tiny].ss-scene-on :is(#s-age,#s-genre,#s-chars,#s-length,#s-lib,#s-story),
+html[data-tier=kids].ss-scene-on :is(#s-age,#s-genre,#s-chars,#s-length,#s-lib,#s-story){background:rgba(255,253,248,.96);color:var(--kid-ink);-webkit-backdrop-filter:none;backdrop-filter:none;border:3px solid #fff}
+html[data-tier=tiny].ss-scene-on :is(.top,.steps),html[data-tier=kids].ss-scene-on :is(.top,.steps){background:rgba(255,253,248,.97);-webkit-backdrop-filter:none;backdrop-filter:none;border:2px solid #fff;color:var(--kid-ink)}
+html[data-tier=tiny].ss-scene-on .brand,html[data-tier=kids].ss-scene-on .brand{color:var(--kid-ink)}
+/* headings and plain text on panels */
+html[data-tier=tiny].ss-scene-on :is(.screen h1,.screen h2,.screen .lead,.fine,label,.meta,#story-meta,.field label,legend),
+html[data-tier=kids].ss-scene-on :is(.screen h1,.screen h2,.screen .lead,.fine,label,.meta,#story-meta,.field label,legend){color:var(--kid-ink);text-shadow:none}
+html[data-tier=tiny].ss-scene-on :is(.fine,.meta,#story-meta),html[data-tier=kids].ss-scene-on :is(.fine,.meta,#story-meta){color:var(--kid-sub)}
+/* step pills */
+html[data-tier=tiny].ss-scene-on .steps li,html[data-tier=kids].ss-scene-on .steps li{background:#fff;color:var(--kid-ink);border:2px solid var(--kid-line);backdrop-filter:none;font-weight:700}
+html[data-tier=tiny].ss-scene-on .steps li.on,html[data-tier=kids].ss-scene-on .steps li.on{background:var(--kid-ink);color:#fff;border-color:var(--kid-ink)}
+html[data-tier=tiny].ss-scene-on .steps li.done,html[data-tier=kids].ss-scene-on .steps li.done{background:#d9f6e2;color:#0a4d25;border-color:#2e8b57}
+/* buttons */
+html[data-tier=tiny].ss-scene-on :is(.btn-soft,.btn-ghost,.back,.suggest button,#add-char),
+html[data-tier=kids].ss-scene-on :is(.btn-soft,.btn-ghost,.back,.suggest button,#add-char){background:#fff;color:var(--kid-ink);border:2px solid var(--kid-line);backdrop-filter:none;font-weight:700}
+html[data-tier=tiny].ss-scene-on :is(.btn-soft,.btn-ghost,.back,.suggest button,#add-char):hover,
+html[data-tier=kids].ss-scene-on :is(.btn-soft,.btn-ghost,.back,.suggest button,#add-char):hover{background:#eef3ff}
+html[data-tier=tiny].ss-scene-on .btn-primary,html[data-tier=kids].ss-scene-on .btn-primary{background:var(--kid-accent);color:#fff;border-color:var(--kid-accent);text-shadow:none}
+html[data-tier=tiny].ss-scene-on :is(.btn,.btn-soft,.back,.steps li):focus-visible,html[data-tier=kids].ss-scene-on :is(.btn,.btn-soft,.back,.steps li):focus-visible{outline:4px solid #ffb400;outline-offset:2px}
+/* option tiles */
+html[data-tier=tiny].ss-scene-on :is(#length-grid>*,.tile,.chip),html[data-tier=kids].ss-scene-on :is(#length-grid>*,.tile,.chip){background:#fff;color:var(--kid-ink);border:3px solid var(--kid-line);backdrop-filter:none}
+html[data-tier=tiny].ss-scene-on :is(#length-grid>*,.tile,.chip) :is(small,span,p,.sub),html[data-tier=kids].ss-scene-on :is(#length-grid>*,.tile,.chip) :is(small,span,p,.sub){color:var(--kid-sub)}
+html[data-tier=tiny].ss-scene-on :is(.tile,.chip)[aria-pressed=true],html[data-tier=kids].ss-scene-on :is(.tile,.chip)[aria-pressed=true],
+html[data-tier=tiny].ss-scene-on #length-grid>.on,html[data-tier=kids].ss-scene-on #length-grid>.on,html[data-tier=tiny].ss-scene-on #length-grid>[aria-checked=true],html[data-tier=kids].ss-scene-on #length-grid>[aria-checked=true]{background:#fff3d6;border-color:var(--kid-accent);box-shadow:0 0 0 3px var(--kid-accent)}
+/* inputs */
+html[data-tier=tiny].ss-scene-on :is(input,select,textarea),html[data-tier=kids].ss-scene-on :is(input,select,textarea){background:#fff;color:var(--kid-ink);border:2px solid var(--kid-line);backdrop-filter:none}
+html[data-tier=tiny].ss-scene-on ::placeholder,html[data-tier=kids].ss-scene-on ::placeholder{color:#5c6a8c;opacity:1}
+html[data-tier=tiny].ss-scene-on :is(.ai-row,details.more,.cast),html[data-tier=kids].ss-scene-on :is(.ai-row,details.more,.cast){background:#f4f7ff;color:var(--kid-ink);border:2px solid #c9d6f5;backdrop-filter:none}
+/* the story itself: paper, dark ink */
+html[data-tier=tiny].ss-scene-on #s-story .story,html[data-tier=kids].ss-scene-on #s-story .story{background:#fff;color:var(--kid-ink);border:2px solid #d9e2f8;backdrop-filter:none;box-shadow:0 10px 30px -14px rgba(20,30,80,.45)}
+html[data-tier=tiny].ss-scene-on #story-title,html[data-tier=kids].ss-scene-on #story-title{color:var(--kid-accent);text-shadow:none}
+html[data-tier=tiny].ss-scene-on #story-body,html[data-tier=kids].ss-scene-on #story-body,html[data-tier=tiny].ss-scene-on #story-body p,html[data-tier=kids].ss-scene-on #story-body p{color:var(--kid-ink)}
+html[data-tier=tiny].ss-scene-on #s-story .ss-glance,html[data-tier=kids].ss-scene-on #s-story .ss-glance{background:#eef3ff;border-color:#c0cff2;color:var(--kid-ink)}
+html[data-tier=tiny].ss-scene-on #s-story .ss-chip,html[data-tier=kids].ss-scene-on #s-story .ss-chip{background:var(--kid-ink);color:#fff}
+html[data-tier=tiny].ss-scene-on #s-story #story-body .ss-nm,html[data-tier=kids].ss-scene-on #s-story #story-body .ss-nm,
+html[data-tier=tiny].ss-scene-on #s-story #story-body>p:first-of-type::first-letter,html[data-tier=kids].ss-scene-on #s-story #story-body>p:first-of-type::first-letter{color:var(--kid-accent)}
+html[data-tier=tiny].ss-scene-on #chars-error,html[data-tier=kids].ss-scene-on #chars-error{color:#a8001c}
+/* footer pill so it is readable over the dark scene */
+html[data-tier=tiny].ss-scene-on .foot,html[data-tier=kids].ss-scene-on .foot{background:rgba(255,253,248,.95);color:var(--kid-ink);border-radius:999px;padding:8px 16px;width:fit-content;max-width:92%;margin:18px auto}
+
+.kid-only{display:none!important}
+html[data-tier=tiny] .kid-only,html[data-tier=kids] .kid-only{display:inline-flex!important}
+html[data-tier=tiny] p.kid-only,html[data-tier=kids] p.kid-only{display:block!important;text-align:center;font-weight:700}
+html[data-tier=tiny] #story-body p,html[data-tier=kids] #story-body p{cursor:pointer}
+html[data-tier=tiny] #story-body p.speaking,html[data-tier=kids] #story-body p.speaking{background:#fff3b8;border-radius:14px;box-shadow:0 0 0 6px #fff3b8}
+html[data-tier=tiny].ss-scene-on :is(.char-list input,.field input,#s-chars input),html[data-tier=kids].ss-scene-on :is(.char-list input,.field input,#s-chars input){background:#fff!important;color:var(--kid-ink)!important;border:2px solid var(--kid-line)!important;font-weight:700}
+html[data-tier=tiny].ss-scene-on summary,html[data-tier=kids].ss-scene-on summary{color:var(--kid-accent);font-weight:700}
+html[data-tier=tiny].ss-scene-on #ss-music,html[data-tier=kids].ss-scene-on #ss-music{background:var(--kid-ink);color:#fff}
+html[data-tier=tiny].ss-scene-on #length-grid *,html[data-tier=kids].ss-scene-on #length-grid *{color:var(--kid-ink)!important;opacity:1!important}
+html[data-tier=tiny].ss-scene-on #length-grid small,html[data-tier=kids].ss-scene-on #length-grid small{color:var(--kid-sub)!important}
+html[data-tier=tiny].ss-scene-on summary,html[data-tier=kids].ss-scene-on summary{color:#8a3500!important;opacity:1!important}
+html[data-tier=tiny].ss-scene-on #ss-music,html[data-tier=kids].ss-scene-on #ss-music{opacity:1!important;background:#17254d!important;color:#fff!important}
