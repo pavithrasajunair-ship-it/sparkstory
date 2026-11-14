@@ -17,3 +17,11 @@ html[data-tier=teens].ss-scene-on #chars-error,html[data-tier=adult].ss-scene-on
 @media (prefers-reduced-transparency:reduce){
   html.ss-scene-on #s-age,html.ss-scene-on #s-genre,html.ss-scene-on #s-chars,html.ss-scene-on #s-length,html.ss-scene-on #s-lib,html.ss-scene-on #s-story,html.ss-scene-on .top,html.ss-scene-on .steps{background:var(--bg1);-webkit-backdrop-filter:none;backdrop-filter:none}}
 @media print{html.ss-scene-on #s-story{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important}}
+/* contrast fixes for the cinematic scenes (teens and adults) */
+html.ss-scene-on .steps li.on{background:#fff;color:#1b1030;border-color:#fff;font-weight:700}
+html.ss-scene-on .steps li.done{background:rgba(10,8,14,.7);color:#fff;border-color:#fff}
+html.ss-scene-on .steps li{color:#f1ecfa}
+html.ss-scene-on .btn-primary{background:var(--accent);color:var(--accent-ink);opacity:1}
+html.ss-scene-on :is(.back,#length-grid small,.fine){color:#e6dff5}
+html.ss-scene-on #t-episode,html.ss-scene-on .btn-primary.gen-only{background:#f3c97c;color:#1b1030;border-color:#f3c97c;opacity:1}
+html.ss-scene-on #s-story:not(.ss-theme-darkromance) #story-body .ss-nm{color:#ffd9a0}
