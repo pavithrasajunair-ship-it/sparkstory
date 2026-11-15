@@ -1,4 +1,6 @@
 # Run: python3 tests/e2e.py   (needs playwright + chromium)
+import itertools
+_c = itertools.count()
 import subprocess, os, sys, time
 from playwright.sync_api import sync_playwright
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,7 +31,7 @@ try:
     csp = []
     pg.on('console', lambda m: csp.append(m.text) if 'Content Security Policy' in m.text else None)
     base = 'http://localhost:8821/index.html'
-    pg.goto(base); pg.wait_for_timeout(400)
+    pg.goto(base + f'?r={next(_c)}#start'); pg.wait_for_timeout(400)
     chk('title', 'StorySpark' in pg.title())
     chk('asks who it is for first', pg.locator('#h-age').is_visible() and pg.locator('#age-grid .tile').count() == 4)
     chk('no theme before choosing', pg.get_attribute('html', 'data-tier') == '')
@@ -37,17 +39,17 @@ try:
     expect_in = {'tiny': ['bedtime', 'fairy'], 'kids': ['adventure', 'space'], 'teens': ['romance', 'dystopian'], 'adult': ['horror', 'darkromance']}
     expect_out = {'tiny': ['horror', 'romance', 'darkromance', 'thriller'], 'kids': ['horror', 'darkromance', 'romance', 'thriller', 'comedy'], 'teens': ['horror', 'darkromance', 'bedtime'], 'adult': ['bedtime', 'fairy', 'magic', 'silly']}
     for tier in ['tiny', 'kids', 'teens', 'adult']:
-        pg.goto(base); pg.click(f'[data-tier={tier}].tile'); pg.wait_for_timeout(150)
+        pg.goto(base + f'?r={next(_c)}#start'); pg.click(f'[data-tier={tier}].tile'); pg.wait_for_timeout(150)
         chk(f'{tier} theme applied', pg.get_attribute('html', 'data-tier') == tier)
         ids = pg.evaluate("[...document.querySelectorAll('#genre-grid .tile')].map(e=>e.dataset.genre)")
         chk(f'{tier} offers its genres', all(g in ids for g in expect_in[tier]))
         chk(f'{tier} hides unsuitable genres', not any(g in ids for g in expect_out[tier]))
     # kids get no dark/romance wording anywhere in genre names
-    pg.goto(base); pg.click('[data-tier=tiny].tile')
+    pg.goto(base + f'?r={next(_c)}#start'); pg.click('[data-tier=tiny].tile')
     names = ' '.join(pg.evaluate("[...document.querySelectorAll('#genre-grid .tile b')].map(e=>e.textContent)")).lower()
     chk('tiny genre names are gentle', not any(w in names for w in ['horror', 'dark', 'thriller', 'romance']))
     # full flow (kids, adventure)
-    pg.goto(base); pg.click('[data-tier=kids].tile'); pg.click('[data-genre=adventure]')
+    pg.goto(base + f'?r={next(_c)}#start'); pg.click('[data-tier=kids].tile'); pg.click('[data-genre=adventure]')
     chk('characters screen', pg.locator('#h-chars').is_visible())
     pg.click('#chars-next'); chk('needs a main character name', pg.locator('#chars-error').is_visible())
     pg.fill('#char-list input', 'Aarav'); pg.click('#add-char'); pg.fill('#char-list .char:nth-child(2) input', 'Bruno')
@@ -86,26 +88,26 @@ try:
     chk('opening a saved story restores its theme', pg.get_attribute('html', 'data-tier') == 'kids' and 'Aarav' in pg.inner_text('#story-body'))
     pg.click('#btn-lib'); pg.click('#lib-list [aria-label^=Delete]'); chk('delete works', pg.locator('#lib-empty').is_visible())
     # new story resets to the question
-    tool(pg, '#t-new') if pg.locator('#t-new').is_visible() else pg.click('#brand')
+    tool(pg, '#t-new') if pg.locator('#t-new').is_visible() else (pg.click('#brand'), pg.click('#home-start'))
     chk('start over asks who again', pg.locator('#h-age').is_visible() and pg.get_attribute('html', 'data-tier') == '')
     # adult dark flow works
     pg.click('[data-tier=adult].tile'); pg.click('[data-genre=horror]'); pg.fill('#char-list input', 'Elena'); pg.click('#chars-next'); pg.click('[data-length=short]'); pg.click('#make')
     pg.wait_for_selector('#s-story:not([hidden])', timeout=6000)
     chk('adult story renders in adult theme', pg.get_attribute('html', 'data-tier') == 'adult' and 'Elena' in pg.inner_text('#story-body'))
     # tiny: simple look and the longer-bedtime wording
-    pg.goto(base); pg.click('[data-tier=tiny].tile'); pg.click('[data-genre=bedtime]'); pg.fill('#char-list input', 'Luna'); pg.click('#chars-next')
+    pg.goto(base + f'?r={next(_c)}#start'); pg.click('[data-tier=tiny].tile'); pg.click('[data-genre=bedtime]'); pg.fill('#char-list input', 'Luna'); pg.click('#chars-next')
     chk('tiny long is labelled as a bedtime story', 'bedtime' in pg.inner_text('[data-length=long]').lower())
     # HTML in names cannot inject
-    pg.goto(base); pg.click('[data-tier=kids].tile'); pg.click('[data-genre=fantasy]'); pg.fill('#char-list input', '<img src=x onerror=window.__x=1>')
+    pg.goto(base + f'?r={next(_c)}#start'); pg.click('[data-tier=kids].tile'); pg.click('[data-genre=fantasy]'); pg.fill('#char-list input', '<img src=x onerror=window.__x=1>')
     pg.click('#chars-next'); pg.click('#make'); pg.wait_for_selector('#s-story:not([hidden])', timeout=6000)
     chk('names cannot inject HTML', pg.evaluate("window.__x") is None and pg.locator('#story-body img').count() == 0)
     # ---- my cast (saved characters) ----
-    pg.goto(base); pg.evaluate("localStorage.clear()"); pg.reload(); pg.click('[data-tier=tiny].tile'); pg.click('[data-genre=bedtime]')
+    pg.goto(base + f'?r={next(_c)}#start'); pg.evaluate("localStorage.clear()"); pg.reload(); pg.click('[data-tier=tiny].tile'); pg.click('[data-genre=bedtime]')
     chk('no cast box before saving anyone', pg.locator('#cast-box').is_hidden())
     pg.fill('#char-list input', 'Luna'); pg.click('#add-char'); pg.fill('#char-list .char:nth-child(2) input', 'Nani'); pg.select_option('#char-list .char:nth-child(2) select', 'helper')
     pg.click('#char-list .char:nth-child(1) .save-c'); pg.click('#char-list .char:nth-child(2) .save-c')
     chk('saved characters appear in My cast', pg.locator('#cast-list .castchip').count() == 2)
-    pg.goto(base); pg.click('[data-tier=kids].tile'); pg.click('[data-genre=fantasy]')
+    pg.goto(base + f'?r={next(_c)}#start'); pg.click('[data-tier=kids].tile'); pg.click('[data-genre=fantasy]')
     chk('cast survives a reload and other age groups', pg.locator('#cast-list .castchip').count() == 2)
     pg.click('#cast-list .castchip >> nth=0'); pg.click('#cast-list .castchip >> nth=1')
     vals = pg.evaluate("[...document.querySelectorAll('#char-list input')].map(i=>i.value)")
@@ -113,18 +115,18 @@ try:
     pg.click('#cast-list .castchip >> nth=0'); chk('no duplicates', pg.locator('#char-list .char').count() == 2)
     pg.click('#cast-list .castchip >> nth=1 >> button >> nth=1'); chk('can remove someone from the cast', pg.locator('#cast-list .castchip').count() == 1)
     # ---- bedtime mode ----
-    pg.goto(base); pg.click('[data-tier=tiny].tile'); pg.click('[data-genre=bedtime]'); pg.fill('#char-list input', 'Luna'); pg.click('#chars-next')
+    pg.goto(base + f'?r={next(_c)}#start'); pg.click('[data-tier=tiny].tile'); pg.click('[data-genre=bedtime]'); pg.fill('#char-list input', 'Luna'); pg.click('#chars-next')
     chk('bedtime option is offered to little ones', pg.locator('#bed-row').is_visible())
     pg.check('#use-bed'); pg.fill('#bed-today', 'first day at school'); pg.click('[data-length=short]'); pg.click('#make')
     pg.wait_for_selector('#s-story:not([hidden])', timeout=6000); bt = pg.inner_text('#story-body')
     chk('bedtime story mentions the day and says goodnight', 'first day at school' in bt and 'Goodnight, Luna' in bt)
     chk('bedtime is shown in the story info', 'Bedtime' in pg.inner_text('#story-meta'))
-    pg.goto(base); pg.click('[data-tier=kids].tile'); pg.click('[data-genre=spooky]'); pg.fill('#char-list input', 'Zoe'); pg.click('#chars-next')
+    pg.goto(base + f'?r={next(_c)}#start'); pg.click('[data-tier=kids].tile'); pg.click('[data-genre=spooky]'); pg.fill('#char-list input', 'Zoe'); pg.click('#chars-next')
     chk('no bedtime option for spooky stories', pg.locator('#bed-row').is_hidden())
-    pg.goto(base); pg.click('[data-tier=adult].tile'); pg.click('[data-genre=horror]'); pg.fill('#char-list input', 'Elena'); pg.click('#chars-next')
+    pg.goto(base + f'?r={next(_c)}#start'); pg.click('[data-tier=adult].tile'); pg.click('[data-genre=horror]'); pg.fill('#char-list input', 'Elena'); pg.click('#chars-next')
     chk('no bedtime option for grown-ups', pg.locator('#bed-row').is_hidden())
     # ---- series: next episode, growing up ----
-    pg.goto(base); pg.click('[data-tier=tiny].tile'); pg.click('[data-genre=bedtime]'); pg.fill('#char-list input', 'Luna'); pg.click('#add-char'); pg.fill('#char-list .char:nth-child(2) input', 'Teddy')
+    pg.goto(base + f'?r={next(_c)}#start'); pg.click('[data-tier=tiny].tile'); pg.click('[data-genre=bedtime]'); pg.fill('#char-list input', 'Luna'); pg.click('#add-char'); pg.fill('#char-list .char:nth-child(2) input', 'Teddy')
     pg.click('#chars-next'); pg.click('[data-length=short]'); pg.click('#make'); pg.wait_for_selector('#s-story:not([hidden])', timeout=6000)
     t1 = pg.inner_text('#story-title'); chk('grow option offered for little ones', pg.locator('#grow-row').is_visible())
     tool(pg, '#t-episode'); pg.wait_for_timeout(200)
@@ -160,7 +162,7 @@ try:
     chk('shared story cannot inject HTML', pg3.evaluate("window.__y") is None and pg3.locator('#story-body img, #story-body script, #story-body b, #story-title img, #story-title b').count() == 0)
     pg3.close()
     # mobile layout: no sideways scroll on any screen
-    pg.goto(base); w = pg.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"); chk('no horizontal scroll (home)', w)
+    pg.goto(base + f'?r={next(_c)}#start'); w = pg.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"); chk('no horizontal scroll (home)', w)
     chk('no horizontal scroll (story)', pg.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"))
     # security headers + files
     r = pg.request.get('http://localhost:8821/index.html'); chk('CSP header present', "script-src 'self'" in r.headers.get('content-security-policy', ''))
@@ -169,7 +171,7 @@ try:
     chk('no page errors', not errs)
     # ---- AI mode against the stubbed API ----
     pg2 = ctx.new_page(); errs2 = []; pg2.on('pageerror', lambda e: errs2.append(str(e)))
-    base2 = 'http://localhost:8822/index.html'; pg2.goto(base2); pg2.wait_for_timeout(500)
+    base2 = 'http://localhost:8822/index.html'; pg2.goto(base2 + f'?r={next(_c)}#start'); pg2.wait_for_timeout(500)
     pg2.click('[data-tier=kids].tile'); pg2.click('[data-genre=adventure]'); pg2.fill('#char-list input', 'Zoe'); pg2.click('#chars-next')
     chk('AI switch appears when the server has a key', pg2.locator('#ai-row').is_visible())
     pg2.click('[data-length=short]'); pg2.click('#make'); pg2.wait_for_selector('#s-story:not([hidden])', timeout=8000)
@@ -183,7 +185,7 @@ try:
     chk('no page errors (AI page)', not errs2)
     # ---- new features: cover art, ending choice, quiz, sounds, surprise me, installable app ----
     pg4 = ctx.new_page(); e4 = []; pg4.on('pageerror', lambda e: e4.append(str(e)))
-    pg4.goto(base); pg4.click('[data-tier=kids].tile'); pg4.click('[data-genre=adventure]'); pg4.fill('#char-list input', 'Zoe'); pg4.click('#chars-next')
+    pg4.goto(base + f'?r={next(_c)}#start'); pg4.click('[data-tier=kids].tile'); pg4.click('[data-genre=adventure]'); pg4.fill('#char-list input', 'Zoe'); pg4.click('#chars-next')
     chk('ending choice is offered', pg4.locator('#in-end').is_visible())
     chk('word level choice is offered', pg4.locator('#in-lvl').is_visible() and pg4.locator('#in-lvl option').count() == 3)
     pg4.select_option('#in-end', 'cliff'); pg4.click('[data-length=short]'); pg4.click('#make'); pg4.wait_for_selector('#s-story:not([hidden])', timeout=8000)
@@ -197,13 +199,13 @@ try:
     chk('quiz shows a score at the end', 'out of' in pg4.inner_text('#quiz .score'))
     chk('right answer is marked', pg4.locator('#quiz .opt.right').count() >= n)
     pg5 = ctx.new_page(); e5 = []; pg5.on('pageerror', lambda e: e5.append(str(e)))
-    pg5.goto(base); pg5.click('[data-tier=tiny].tile'); pg5.click('[data-genre=bedtime]'); pg5.click('#chars-next')
+    pg5.goto(base + f'?r={next(_c)}#start'); pg5.click('[data-tier=tiny].tile'); pg5.click('[data-genre=bedtime]'); pg5.click('#chars-next')
     chk('empty name shows an error', pg5.locator('#chars-error').is_visible())
     cc = pg5.evaluate("(()=>{const e=document.querySelector('#s-chars h1'),b=getComputedStyle(document.querySelector('#s-chars')).backgroundColor,c=getComputedStyle(e).color;const p=s=>{const m=s.match(/[\\d.]+/g).slice(0,3).map(Number);return s.startsWith('color(')?m.map(v=>v*255):m},l=a=>{a=a.map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*a[0]+.7152*a[1]+.0722*a[2]};const x=l(p(b)),y=l(p(c));return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)})()")
     chk('form text is readable on the scene (contrast %.1f)' % cc, cc >= 4.5)
     pg5.click('.steps li[data-step="1"]'); chk('step pill goes back to Genre', pg5.locator('#s-genre').is_visible())
     pg5.click('[data-tier=kids]') if False else None
-    pg5.goto(base); pg5.click('[data-tier=kids].tile'); pg5.click('[data-genre=space]'); pg5.fill('#char-list input', 'Nova'); pg5.click('#chars-next')
+    pg5.goto(base + f'?r={next(_c)}#start'); pg5.click('[data-tier=kids].tile'); pg5.click('[data-genre=space]'); pg5.fill('#char-list input', 'Nova'); pg5.click('#chars-next')
     pg5.select_option('#in-lvl', 'advanced'); pg5.click('[data-length=short]'); pg5.click('#make'); pg5.wait_for_selector('#s-story:not([hidden])', timeout=20000)
     chk('genres without a photo keep the drawn cover', pg5.locator('#cover svg').count() == 1 and pg5.locator('#cover img').count() == 0)
     chk('no page errors (level + drawn cover)', not e5)
@@ -212,7 +214,7 @@ try:
     tool(pg4, '#t-new'); pg4.click('[data-tier=tiny].tile'); pg4.click('[data-genre=bedtime]'); pg4.fill('#char-list input', 'Mia'); pg4.click('#chars-next')
     chk('tiny cannot pick a cliffhanger', pg4.locator('#in-end option[value=cliff]').evaluate('e=>e.disabled'))
     pg4.check('#use-bed'); chk('ending choice hides in bedtime mode', not pg4.locator('#end-row').is_visible())
-    tool(pg4, '#t-new') if pg4.locator('#t-new').is_visible() else pg4.click('#brand')
+    tool(pg4, '#t-new') if pg4.locator('#t-new').is_visible() else (pg4.click('#brand'), pg4.click('#home-start'))
     pg4.click('[data-tier=teens].tile'); pg4.click('#surprise'); pg4.wait_for_selector('#s-story:not([hidden])', timeout=8000)
     chk('surprise me makes a story straight away', len(pg4.inner_text('#story-body')) > 200 and pg4.locator('#cover svg, #cover img').count() == 1)
     chk('manifest is valid', pg4.request.get('http://localhost:8821/manifest.webmanifest').json()['display'] == 'standalone')
@@ -221,7 +223,7 @@ try:
     chk('no page errors (new features)', not e4)
     # ---- batch 3: dedication, voice/speed, text download, favourites, backup and restore ----
     c5 = b.new_context(accept_downloads=True); pg5 = c5.new_page(); e5 = []; pg5.on('pageerror', lambda e: e5.append(str(e)))
-    pg5.goto(base); pg5.click('[data-tier=kids].tile'); pg5.click('[data-genre=adventure]'); pg5.fill('#char-list input', 'Zoe'); pg5.click('#chars-next')
+    pg5.goto(base + f'?r={next(_c)}#start'); pg5.click('[data-tier=kids].tile'); pg5.click('[data-genre=adventure]'); pg5.fill('#char-list input', 'Zoe'); pg5.click('#chars-next')
     pg5.fill('#in-ded', 'Aanya on her birthday'); pg5.click('[data-length=short]'); pg5.click('#make'); pg5.wait_for_selector('#s-story:not([hidden])', timeout=20000)
     chk('dedication shows on the story', 'Made for Aanya on her birthday' in pg5.inner_text('#story-meta'))
     with pg5.expect_download() as d: pg5.click('#t-txt')
@@ -244,21 +246,21 @@ try:
     chk('speed menu exists', pg5.locator('#speed option').count() == 3)
     # ---- story of the day ----
     pg6 = b.new_page(); e6 = []; pg6.on('pageerror', lambda e: e6.append(str(e)))
-    pg6.goto(base); pg6.wait_for_selector('#daily:not([hidden])', timeout=5000); chk('story of the day card shows', pg6.locator('#daily').is_visible() and len(pg6.inner_text('#daily-title')) > 5)
+    pg6.goto(base + f'?r={next(_c)}#start'); pg6.wait_for_selector('#daily:not([hidden])', timeout=5000); chk('story of the day card shows', pg6.locator('#daily').is_visible() and len(pg6.inner_text('#daily-title')) > 5)
     pg6.click('#daily-go'); pg6.wait_for_selector('#s-story:not([hidden])', timeout=8000); t1 = pg6.inner_text('#story-body'); n1 = pg6.inner_text('#story-title')
     chk('story of the day makes a story', len(t1) > 150 and 'Zoe' in t1 or len(t1) > 150)
-    pg6.click('#brand'); pg6.click('#daily-go'); pg6.wait_for_selector('#s-story:not([hidden])', timeout=8000)
+    pg6.click('#brand'); pg6.click('#home-start'); pg6.click('#daily-go'); pg6.wait_for_selector('#s-story:not([hidden])', timeout=8000)
     chk('story of the day is the same story each time today', pg6.inner_text('#story-body') == t1 and pg6.inner_text('#story-title') == n1)
     chk('no page errors (daily)', not e6)
     # ---- cinematic backdrops (photos listed in scenes/manifest.json) ----
     pgc = b.new_page(viewport={'width': 390, 'height': 800}); ec = []; pgc.on('pageerror', lambda e: ec.append(str(e)))
-    pgc.goto(base); pgc.click('[data-tier=adult].tile'); pgc.click('[data-genre=horror]'); pgc.wait_for_selector('#ss-scene .ss-photo', state='attached', timeout=8000)
+    pgc.goto(base + f'?r={next(_c)}#start'); pgc.click('[data-tier=adult].tile'); pgc.click('[data-genre=horror]'); pgc.wait_for_selector('#ss-scene .ss-photo', state='attached', timeout=8000)
     chk('horror shows a photo backdrop', pgc.evaluate("getComputedStyle(document.querySelector('#ss-scene .ss-photo')).backgroundImage.includes('scenes/horror')"))
     pgc.fill('#char-list input', 'Maya'); pgc.click('#chars-next'); pgc.click('[data-length=short]'); pgc.click('#make')
     pgc.wait_for_selector('#s-story:not([hidden])', timeout=25000)
     chk('story is readable after the reveal', pgc.locator('#story-body p').count() >= 4)
     chk('no sideways scroll on phone', not pgc.evaluate("document.documentElement.scrollWidth > innerWidth"))
-    pgk = b.new_page(viewport={'width': 390, 'height': 800}); pgk.goto(base); pgk.click('[data-tier=kids].tile'); pgk.click('[data-genre=spooky]'); pgk.wait_for_timeout(1500)
+    pgk = b.new_page(viewport={'width': 390, 'height': 800}); pgk.goto(base + f'?r={next(_c)}#start'); pgk.click('[data-tier=kids].tile'); pgk.click('[data-genre=spooky]'); pgk.wait_for_timeout(1500)
     chk('kids never get the scary photo', pgk.locator('#ss-scene .ss-photo').count() == 0)
     chk('no page errors (backdrops)', not ec)
     b.close()

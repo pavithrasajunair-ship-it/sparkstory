@@ -28,7 +28,7 @@
     return text
       .replace(/\s+/g, " ")
       .replace(/(^|[.!?]\s+)(["“']?)([a-z])/g, (m, a, q, c) => a + q + c.toUpperCase())
-      .replace(/([.!?,]["”]\s+)(?!(?:said|asked|replied|whispered|called|cried|shouted|answered|came|laughed|thought|added|says|yelled|squeaked|giggled|sang|hooted|groaned|sighed|grinned|muttered|declared|announced|gasped|exclaimed|moaned|chirped|roared|growled|cheered|murmured|snapped|begged|warned|wailed|hissed|sniffed|beamed|chuckled|continued|insisted|suggested|offered|promised|agreed|nodded|smiled|breathed|stammered|blurted|demanded|pleaded|admitted|breathes|replies|whispers|laughs|asks|tells|told|barked|boomed|teased|joked|sobbed|mumbled|urged|cautioned|reminded|repeated|reasoned|wondered|ventured|prompted|conceded|observed|noted|remarked)\b)([a-z])/g, (m, a, c) => a + c.toUpperCase())
+      .replace(/([.!?]["”]\s+)(?!(?:said|asked|replied|whispered|called|cried|shouted|answered|came|laughed|thought|added|says|yelled|squeaked|giggled|sang|hooted|groaned|sighed|grinned|muttered|declared|announced|gasped|exclaimed|moaned|chirped|roared|growled|cheered|murmured|snapped|begged|warned|wailed|hissed|sniffed|beamed|chuckled|continued|insisted|suggested|offered|promised|agreed|nodded|smiled|breathed|stammered|blurted|demanded|pleaded|admitted|breathes|replies|whispers|laughs|asks|tells|told|barked|boomed|teased|joked|sobbed|mumbled|urged|cautioned|reminded|repeated|reasoned|wondered|ventured|prompted|conceded|observed|noted|remarked)\b)([a-z])/g, (m, a, c) => a + c.toUpperCase())
       .replace(/\s+([,.!?])/g, "$1")
       // a speech tag that begins with a newly introduced person ("A wise grandmother called Nani asked") reads better in lower case
       .replace(/([?!,]")\s+(A|An)\s+([^.!?"\u201c\u201d]{3,60}?\s(?:asked|said|replied|whispered|added|answered|warned|laughed|called))\b/g, (m, q, a, rest) => q + " " + a.toLowerCase() + " " + rest)
@@ -430,6 +430,65 @@
     darkAfter: ["spark", "closer", "obstacle"],
   };
   S.romance.simple = S.romance.rich;
+
+  /* ---- heat beats: leaning in, the kiss, the embrace. Sensual and intense, never explicit. ---- */
+  const HEAT = {
+    lean: [
+      "{L} stepped closer, and {H} felt the whole room tilt. Neither of them spoke. {L} leaned in until their foreheads almost touched, close enough to feel each breath, and waited. Waiting was the cruelest, sweetest part.",
+      "{H} was backed against the wall at {P2}, and {L} had one hand beside {H}'s head, not touching, never quite touching. \"Tell me to stop,\" {L} murmured. {H} did not say it.",
+      "{L} reached up and traced the line of {H}'s jaw with one slow fingertip. {H}'s breath caught. Every careful rule {H} had ever made began to quietly come apart.",
+      "The space between them shrank to nothing: {L}'s hand at {H}'s waist, {H}'s fingers curled in {L}'s collar, both of them leaning in and neither one wanting to be the first to look away.",
+      "\"You're trembling,\" {L} said, low, a breath from {H}'s ear. \"So are you,\" {H} whispered back. {L} laughed, shaky and dark, and did not step away.",
+      "{L} slid a hand into {H}'s hair and tilted {H}'s face up. The look in {L}'s eyes was hungry and gentle all at once, as if {L} had been starving for this and was afraid of devouring it too fast.",
+    ],
+    kiss: [
+      "And then {L} kissed {H}, finally, slowly, like a question. {H} answered it by pulling {L} closer, and the kiss deepened until the world outside {P2} simply stopped existing.",
+      "The first kiss was soft. The second was not. {H} gripped {L}'s shirt, {L} held {H}'s face, and they kissed like two people breaking a very long fast, breathless, shaking, and not at all sorry.",
+      "Their lips met, and everything {H} had been holding back poured out in that one kiss: the want, the fear, the long, aching weeks of pretending. {L} kissed back as if that was the only thing in the world worth doing.",
+      "{L} kissed {H} against the cold wall, then against the warm curve of a smile, then at the pulse in {H}'s throat. {H} forgot every reason to be careful and let {L} lead.",
+      "It started as one kiss and became many: hurried, then tender, then desperate. When they finally drew apart, foreheads pressed together, lips swollen, hearts racing, {H} whispered, \"Again.\" {L} was happy to oblige.",
+      "{H} kissed {L} first, fiercely, before courage could change its mind. {L} made a low, surprised sound, then kissed back with a heat that left {H}'s knees unsteady and {H}'s heart completely, hopelessly lost.",
+    ],
+    embrace: [
+      "They held each other for a long time, {H}'s face in the curve of {L}'s neck, {L}'s arms locked tight, as if letting go were not an option anymore. Between kisses, in the dark, promises were whispered that neither would ever take back.",
+      "{L} pulled {H} close, and {H} melted into it: arms around shoulders, hands in hair, kisses trailing from lips to cheek to the soft place below the ear. Somewhere a door closed. Neither of them noticed, or cared.",
+      "The night folded around them. There was warmth, and skin under careful fingertips, and {L}'s voice saying {H}'s name like a prayer. Whatever happened next belonged only to the two of them.",
+      "{H} fell asleep tucked against {L}'s chest, one hand still tangled in {L}'s shirt. {L} stayed awake a long time, memorising the sound of {H} breathing, and kissed {H}'s hair once, gently, like sealing a vow.",
+    ],
+    sweetkiss: [
+      "{L} smiled, a little nervous, and leaned in. It was the softest kiss in the world, quick and shy, over almost before it began. {H} stood there blinking, smiling like a fool.",
+      "Their faces drifted closer, and closer. Then, very gently, {L} kissed {H}, one small, warm moment that made the whole street go quiet. When they pulled back, both of them were laughing from pure nerves and joy.",
+      "Under the lights at {P2}, {L} brushed {H}'s hair back and kissed {H}'s cheek. Then, slowly, as if asking permission, {L} kissed {H} properly. It was awkward and perfect, and {H} would remember it forever.",
+      "{H} leaned in. {L} leaned in too. Their noses bumped, they both laughed, and then they kissed: soft and sweet, hearts hammering, hands finding each other and holding on.",
+    ],
+  };
+  S.darkromance = Object.assign({}, S.romance, {
+    rich: Object.assign({}, S.romance.rich, HEAT),
+    seq: ["opening", "meet", "spark", "closer", "lean", "kiss", "obstacle", "distance", "realize", "gesture", "embrace", "ending"],
+    short: ["opening", "spark", "lean", "kiss", "obstacle", "gesture", "embrace", "ending"],
+    extra: ["meet", "closer", "lean", "distance"],
+    long: { first: ["opening", "meet"], mids: [["spark", "closer", "lean", "kiss"], ["obstacle", "distance"]], last: ["realize", "gesture", "embrace", "ending"] },
+    darkAfter: ["spark", "lean", "obstacle"],
+  });
+  S.darkromance.rich.opening = [
+    "Everyone at {P} knew the rule: stay away from {L}. {H} had never been good at rules.",
+    "{L} was the most dangerous person {H} had ever met, and {H} could not stop looking.",
+    "It started with a lie, a locked door and {L}'s eyes finding {H} across {P}. It ended somewhere much more reckless.",
+    "{H} swore this would be a quick, careless thing. Then {L} said {H}'s name like a secret, and nothing was careless anymore.",
+  ].concat(S.romance.rich.opening);
+  S.darkromance.simple = S.darkromance.rich;
+  S.adultromance = Object.assign({}, S.darkromance, { darkAfter: ["obstacle"] });
+  S.sweetromance = Object.assign({}, S.romance, {
+    rich: Object.assign({}, S.romance.rich, { kiss: HEAT.sweetkiss }),
+    seq: ["opening", "meet", "spark", "closer", "kiss", "obstacle", "distance", "realize", "gesture", "ending"],
+    short: ["opening", "spark", "kiss", "obstacle", "gesture", "ending"],
+    long: { first: ["opening", "meet"], mids: [["spark", "closer", "kiss"], ["obstacle", "distance"]], last: ["realize", "gesture", "ending"] },
+  });
+  S.sweetromance.rich.opening = [
+    "{H} had one rule: never fall for {L}. By the end of the week, {H} had broken it completely.",
+    "It began with one text, one smile and one terrible plan at {P}. {H} had no idea how much it would change.",
+  ].concat(S.romance.rich.opening);
+  S.sweetromance.simple = S.sweetromance.rich;
 
   S.comedy = {
     simple: {
@@ -915,7 +974,7 @@
     const gid = GENRES[params.genre] && GENRES[params.genre].tiers.includes(tier) ? params.genre : Object.keys(GENRES).find((k) => GENRES[k].tiers.includes(tier));
     const g = GENRES[gid];
     const lex = LEX[g.lex];
-    const shape = S[g.shape];
+    const shape = (g.shape === "romance" && { darkromance: S.darkromance, romance2: S.adultromance, romance: S.sweetromance }[gid]) || S[g.shape];
     const reg = tier === "tiny" || tier === "kids" ? "simple" : "rich";
     const easyOn = params.level === "simple" && (tier === "teens" || tier === "adult");
     let pool = shape[reg] || shape.rich;

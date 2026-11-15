@@ -1,0 +1,66 @@
+/* StorySpark home page: full-bleed photo carousel, mood strip, how it works. Colours here are meant to be edited too. */
+.home{--h-ink:#fff;--h-sub:#f2ecff;--h-accent:#ffd27a;--h-accent-ink:#1b1030;--h-panel:rgba(18,10,42,.72);--h-card:#1c1236;--h-line:rgba(255,255,255,.18);padding:0!important;max-width:none!important}
+.home .hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:min(86svh,780px);min-height:520px;overflow:hidden;background:#120a2a;touch-action:pan-y;user-select:none;-webkit-user-select:none;color:var(--h-ink)}
+.hslides{display:flex;height:100%;width:100%;transition:transform .9s cubic-bezier(.65,.05,.2,1);will-change:transform}
+.hslides.drag{transition:none}
+.hslide{flex:0 0 100%;position:relative;margin:0;height:100%;overflow:hidden}
+.hslide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 1s}
+.hslide.on img{animation:hkb 9s ease-out forwards}
+@keyframes hkb{from{transform:scale(1.02) translate3d(0,0,0)}to{transform:scale(1.14) translate3d(-1.5%,-1%,0)}}
+.hslide figcaption{position:absolute;right:max(20px,5vw);bottom:112px;display:flex;flex-direction:column;align-items:flex-end;text-align:right;gap:4px;max-width:min(420px,62vw);opacity:0;transform:translateY(16px);transition:opacity .7s .35s,transform .7s .35s}
+.hslide.on figcaption{opacity:1;transform:none}
+.htag{align-self:flex-end;font:700 12px var(--body);letter-spacing:.14em;text-transform:uppercase;background:var(--h-accent);color:var(--h-accent-ink);padding:5px 12px;border-radius:999px}
+.hline{font:700 clamp(18px,2.6vw,26px)/1.25 var(--display,var(--body));text-shadow:0 2px 14px rgba(0,0,0,.7)}
+.hsub{font-size:clamp(14px,1.7vw,16px);color:var(--h-sub);text-shadow:0 1px 10px rgba(0,0,0,.8)}
+.hshade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(10,5,24,.72) 0,rgba(10,5,24,.4) 42%,rgba(10,5,24,0) 75%),linear-gradient(0deg,rgba(10,5,24,.78),transparent 40%)}
+.hcopy{position:absolute;left:max(20px,5vw);top:50%;transform:translateY(-58%);max-width:min(560px,86vw);z-index:3}
+.hkick{font:700 14px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--h-accent);margin:0 0 10px}
+.hcopy h1{font:800 clamp(34px,6.4vw,66px)/1.04 var(--display,var(--body));margin:0 0 14px;text-shadow:0 4px 24px rgba(0,0,0,.65)}
+.hlead{font-size:clamp(15px,2vw,18px);line-height:1.55;color:var(--h-sub);margin:0 0 22px;text-shadow:0 1px 12px rgba(0,0,0,.75)}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+.home .hbtn{padding:14px 24px;font-size:17px;border-radius:999px}
+.home .btn-primary{background:var(--h-accent);color:var(--h-accent-ink);border:0;font-weight:800;box-shadow:0 10px 30px -8px rgba(255,210,122,.6)}
+.home .btn-soft{background:var(--h-panel);color:#fff;border:1px solid var(--h-line);backdrop-filter:blur(6px)}
+.harrow{position:absolute;top:50%;z-index:4;width:48px;height:48px;border-radius:50%;border:1px solid var(--h-line);background:var(--h-panel);color:#fff;font-size:30px;line-height:1;cursor:pointer;display:grid;place-items:center;transform:translateY(-50%)}
+.hprev{left:12px}.hnext{right:12px}
+.harrow:hover{background:#fff;color:#1b1030}
+.hdots{position:absolute;left:0;right:0;bottom:34px;display:flex;gap:10px;justify-content:center;z-index:4}
+.hdot{width:34px;height:6px;border-radius:6px;border:0;background:rgba(255,255,255,.4);cursor:pointer;padding:0;position:relative;overflow:hidden}
+.hdot.on{background:rgba(255,255,255,.35)}
+.hdot.on::after{content:"";position:absolute;inset:0;background:var(--h-accent);transform-origin:left;animation:hbar var(--hms,6s) linear forwards}
+.hdots.paused .hdot.on::after{animation:none;transform:none}
+@keyframes hbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.hswipe{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75);margin:0;z-index:4}
+.hsec{max-width:1100px;margin:0 auto;padding:44px max(16px,3vw) 8px}
+.hsec h2{font:800 clamp(26px,4vw,38px)/1.15 var(--display,var(--body));margin:0 0 6px;color:var(--h-ink)}
+.hsub2{margin:0 0 18px;color:var(--h-sub)}
+.moods{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 18px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.mood{position:relative;flex:0 0 min(220px,56vw);aspect-ratio:3/4;border:0;border-radius:22px;overflow:hidden;padding:0;cursor:pointer;scroll-snap-align:start;background:var(--h-card);transition:transform .35s,box-shadow .35s;box-shadow:0 18px 40px -20px rgba(0,0,0,.8)}
+.mood:hover,.mood:focus-visible{transform:translateY(-6px) scale(1.02)}
+.mood img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.mood:hover img{transform:scale(1.1)}
+.mood span{position:absolute;left:0;right:0;bottom:0;padding:44px 14px 14px;text-align:left;background:linear-gradient(0deg,rgba(8,4,20,.9),transparent);display:flex;flex-direction:column;gap:2px;color:#fff}
+.mood b{font-size:19px}.mood small{font-size:13px;color:#eee3ff}
+.hsteps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.hsteps li{background:var(--h-card);border:1px solid var(--h-line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:6px;color:#fff}
+.hsteps span{width:36px;height:36px;border-radius:50%;background:var(--h-accent);color:var(--h-accent-ink);font-weight:800;display:grid;place-items:center}
+.hsteps b{font-size:18px}.hsteps small{font-size:15px;line-height:1.5;color:var(--h-sub)}
+.htiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.htier{display:flex;flex-direction:column;gap:4px;text-align:left;padding:18px;border-radius:20px;border:1px solid var(--h-line);background:var(--h-card);color:#fff;cursor:pointer;transition:transform .25s,border-color .25s}
+.htier:hover{transform:translateY(-4px);border-color:var(--h-accent)}
+.htier span{font-size:34px}.htier b{font-size:18px}.htier small{color:var(--h-sub);font-size:14px}
+.hfoot{text-align:center;padding:34px 16px 50px;color:var(--h-sub)!important}
+/* the home page sits on a dark photo background, whatever age was picked before */
+body:has(#s-home:not([hidden])){background:#0e0820}
+@media (max-width:700px){
+  .home .hero{height:min(88svh,720px)}
+  .hcopy{top:44%}
+  .hslide figcaption{left:20px;right:20px;bottom:96px;align-items:flex-start;text-align:left;max-width:none}
+  .htag{align-self:flex-start}
+  .hshade{background:linear-gradient(0deg,rgba(10,5,24,.9) 0,rgba(10,5,24,.35) 55%,rgba(10,5,24,.55))}
+  .harrow{display:none}
+}
+@media (prefers-reduced-motion:reduce){.hslide.on img{animation:none}.hslides{transition:none}.hdot.on::after{animation:none;transform:none}}
+.home h1:focus{outline:none}
+body:has(#s-home:not([hidden])) .top .brand{color:#fff}
+body:has(#s-home:not([hidden])) .top .btn-ghost{color:#fff;border-color:rgba(255,255,255,.5)}
