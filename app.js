@@ -2,7 +2,7 @@
   "use strict";
   const D = window.SSData, E = window.SSEngine, X = window.SSExtras;
   const $ = (id) => document.getElementById(id);
-  const SCREENS = ["home", "age", "genre", "chars", "length", "loading", "story", "lib"];
+  const SCREENS = ["home", "age", "genre", "chars", "length", "loading", "story", "lib", "wall", "post"];
   const COPY = {
     tiny:  { genre: "What story shall we have?", chars: "Who is in the story?", charsLead: "Type the names. The first one is the star of the story!", length: "How long?", roles: { friend: "Friend", pet: "Pet or toy", helper: "Helper", villain: "Grumpy one" } },
     kids:  { genre: "Pick your story type", chars: "Who is in your story?", charsLead: "Add your characters. The first one is the hero.", length: "How long should it be?", roles: { friend: "Friend", pet: "Pet", helper: "Helper", villain: "Troublemaker" } },
@@ -521,6 +521,7 @@
       if (to === "age") { setTier(""); show("age"); }
       else if (to === "genre") { buildGenres(); show("genre"); }
       else if (to === "chars") { buildChars(); show("chars"); }
+      else if (to === "home") { setTier(""); show("home"); }
     }));
     $("story-back").addEventListener("click", () => {
       stopSpeak();

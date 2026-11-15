@@ -1,0 +1,26 @@
+/* Story wall. Colours come from theme.css variables. */
+.wtabs{display:flex;gap:.5rem;margin:1rem 0}
+.wtab{padding:.55rem 1rem;border-radius:999px;border:2px solid var(--line,#8886);background:transparent;color:inherit;font:inherit;cursor:pointer}
+.wtab.on{background:var(--accent,#7c5cff);color:#fff;border-color:transparent}
+.wgate{padding:1rem;border-radius:14px;border:2px solid var(--line,#8886);margin:0 0 1rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.wgate p{flex:1 1 100%;margin:0}
+.wlist{display:grid;gap:.8rem;margin:1rem 0 1.4rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.wcard{text-align:left;display:flex;flex-direction:column;gap:.3rem;padding:1rem;border-radius:16px;border:2px solid var(--line,#8886);background:var(--card,rgba(255,255,255,.06));color:inherit;font:inherit;cursor:pointer}
+.wcard:hover,.wcard:focus-visible{border-color:var(--accent,#7c5cff)}
+.wtier{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;opacity:.8}
+.wtitle{font-size:1.15rem}
+.wby{font-size:.85rem;opacity:.8}
+.wex{font-size:.95rem;opacity:.9;line-height:1.45}
+.wreader h2{margin:.6rem 0 .2rem}
+.wbody{max-width:68ch;line-height:1.7;font-size:1.1rem;margin:1rem 0}
+.wbody p{margin:0 0 1em}
+.wform{display:grid;gap:1rem;max-width:640px}
+.wform label{display:grid;gap:.35rem;font-weight:600}
+.wform input,.wform select,.wform textarea{font:inherit;padding:.7rem;border-radius:12px;border:2px solid var(--line,#8886);background:var(--card,rgba(255,255,255,.08));color:inherit}
+.wform .wcheck{display:flex;gap:.6rem;align-items:flex-start;font-weight:400}
+.wform .wcheck input{width:1.3rem;height:1.3rem;margin-top:.15rem}
+.wtrap{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.wbad{color:#ff8a8a;font-weight:600}
+.wgood{color:#6be28f;font-weight:600}
+.top{flex-wrap:wrap;gap:.4rem}
+@media (max-width:560px){.top .btn{padding:.4rem .7rem;font-size:.85rem}.top .brand{font-size:1.05rem}}
