@@ -312,7 +312,7 @@
   let fontStep = store.get(FONT_KEY, 0);
   function applyFont() { $("story-body").style.fontSize = "calc(var(--read) + " + fontStep * 2 + "px)"; }
   function renderStory(notice) {
-    const s = state.story; if (window.SFX) SFX.play("ready", 0.25);
+    const s = state.story; if (window.SFX) { SFX.play("ready", 0.25); setTimeout(SFX.decorate, 60); }
     $("story-title").textContent = s.title;
     const words = s.text.split(/\s+/).length;
     const g = D.GENRES[s.params.genre];
