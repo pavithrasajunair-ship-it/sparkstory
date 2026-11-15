@@ -244,6 +244,12 @@ t("stories land on the promised lengths (short 430-470, medium about 1300, long 
     let last; for (let i = 0; i < 5; i++) { last = mkRes(); await handler({ method: "POST", headers: { "x-forwarded-for": "9.9.9.9" }, body: goodBody }, last); }
     assert.strictEqual(last.code, 429); delete process.env.STORY_RATE_MAX;
   });
+  await ta("story wall rejects links, emails, phone numbers and short posts", async () => {
+    global.window = { }; global.document = { addEventListener() {}, getElementById() { return null; } };
+    delete require.cache[require.resolve("../wall.js")]; require("../wall.js"); const W = global.window.StoryWall || {};
+    const long = "A quiet little story about a fox. ".repeat(10);
+    if (W.problem) { assert.strictEqual(W.problem("Fox", long), ""); assert.ok(W.problem("Fox", "short")); assert.ok(W.problem("Fox", long + " see https://x.com")); assert.ok(W.problem("Fox", long + " mail me a@b.com")); assert.ok(W.problem("Fox", long + " call 98765 43210")); assert.ok(W.problem("", long)); }
+  });
   global.fetch = realFetch;
   console.log(process.exitCode ? "SOME TESTS FAILED" : "all " + n + " unit tests passed");
 })();

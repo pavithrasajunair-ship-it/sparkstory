@@ -25,12 +25,14 @@
 <link rel="stylesheet" href="readable.css">
 <link rel="stylesheet" href="kids.css">
 <link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="wall.css">
 </head>
 <body>
 <div class="deco" id="deco" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <button class="brand" id="brand" type="button" aria-label="StorySpark home"><span class="brand-star" aria-hidden="true">✨</span> StorySpark</button>
+  <button class="btn btn-ghost" id="btn-wall" type="button" data-wall>🌍 Story wall</button>
   <button class="btn btn-ghost" id="btn-lib" type="button">📚 My stories <span class="count" id="lib-count" hidden></span></button>
 </header>
 
@@ -73,7 +75,7 @@
         <p class="hkick">✨ StorySpark</p>
         <h1 id="h-home">Stories you can’t put down.</h1>
         <p class="hlead">Add your characters, pick a mood, and get a story you can read, listen to and keep. From bedtime tales to dark romance.</p>
-        <div class="hcta"><button class="btn btn-primary hbtn" id="home-start" type="button" data-start>Start your story →</button><button class="btn btn-soft hbtn" type="button" id="home-daily">🎁 Story of the day</button></div>
+        <div class="hcta"><button class="btn btn-primary hbtn" id="home-start" type="button" data-start>Start your story →</button><button class="btn btn-soft hbtn" type="button" id="home-daily">🎁 Story of the day</button><button class="btn btn-soft hbtn" type="button" data-wall>🌍 Read the Story wall</button></div>
       </div>
       <button class="harrow hprev" id="hprev" type="button" aria-label="Previous photo">‹</button>
       <button class="harrow hnext" id="hnext" type="button" aria-label="Next photo">›</button>
@@ -201,6 +203,7 @@
       <button class="btn btn-soft" id="t-pdf" type="button">📄 PDF</button>
       <button class="btn btn-soft" id="t-txt" type="button">⬇️ Text file</button>
       <button class="btn btn-soft" id="t-share" type="button">🔗 Share link</button>
+      <button class="btn btn-soft" id="t-wall" type="button">🌍 Post to wall</button>
       <button class="btn btn-soft" id="t-quiz" type="button" hidden>🧠 Story quiz</button>
     </div>
     <div class="toolbar sleepbar">
@@ -230,6 +233,53 @@
     <div class="toolbar" id="lib-tools"><button class="btn btn-soft" id="lib-export" type="button">⬇️ Back up my stories</button><button class="btn btn-soft" id="lib-import" type="button">⬆️ Restore from backup</button><input type="file" id="lib-file" accept="application/json,.json" hidden></div>
     <p class="fine" id="lib-status" role="status"></p>
   </section>
+  <!-- story wall -->
+  <section class="screen" id="s-wall" hidden aria-labelledby="h-wall">
+    <button class="back" type="button" data-back="home">← Back</button>
+    <h1 id="h-wall">🌍 Story wall</h1>
+    <p class="lead">Stories written by people like you. Read them, or share your own.</p>
+    <div id="wall-list-wrap">
+      <div class="wtabs" role="group" aria-label="Wall section">
+        <button class="wtab on" type="button" data-tab="family" aria-pressed="true">Everyone</button>
+        <button class="wtab" type="button" data-tab="adult" aria-pressed="false">Grown-ups 18+</button>
+      </div>
+      <div class="wgate" id="wall-adult-gate" hidden>
+        <p>This section has romance and darker stories for adults. Are you 18 or older?</p>
+        <button class="btn btn-primary" id="wall-adult-yes" type="button">Yes, I am 18+</button>
+        <button class="btn btn-soft" id="wall-adult-no" type="button">No</button>
+      </div>
+      <p class="lead" id="wall-msg" role="status"></p>
+      <div class="wlist" id="wall-list"></div>
+      <button class="btn btn-primary" id="wall-post-btn" type="button">✍️ Share your story</button>
+    </div>
+    <article class="wreader" id="wall-reader" hidden>
+      <button class="back" type="button" id="wall-reader-back">← All stories</button>
+      <h2 id="wall-reader-title"></h2>
+      <p class="meta" id="wall-reader-by"></p>
+      <div class="wbody" id="wall-reader-body"></div>
+      <button class="btn btn-soft" id="wall-reader-copy" type="button">📋 Copy story</button>
+    </article>
+  </section>
+
+  <!-- share a story -->
+  <section class="screen" id="s-post" hidden aria-labelledby="h-post">
+    <button class="back" type="button" data-post-back>← Back to the wall</button>
+    <h1 id="h-post">✍️ Share your story</h1>
+    <p class="lead">Write your own story, or post one you made here. We check every story before it appears.</p>
+    <form id="post-form" class="wform" autocomplete="off">
+      <label>Title <input id="post-title" maxlength="80" required></label>
+      <label>Your name (optional, a nickname is fine) <input id="post-author" maxlength="40" placeholder="A StorySpark reader"></label>
+      <label>Who is it for?
+        <select id="post-tier"><option value="kids">Kids</option><option value="tiny">Little ones</option><option value="teens">Teens</option><option value="adult">Grown-ups 18+</option></select>
+      </label>
+      <label>Your story <textarea id="post-body" rows="12" maxlength="8000" required></textarea></label>
+      <p class="fine" id="post-count">0 / 8000</p>
+      <input id="post-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="wtrap">
+      <label class="wcheck"><input type="checkbox" id="post-ok"> This story is mine to share. It has no links, phone numbers or private details.</label>
+      <button class="btn btn-primary" id="post-send" type="submit">Send for checking</button>
+      <p class="fine" id="post-status" role="status"></p>
+    </form>
+  </section>
 </main>
 <div class="sleep" id="sleep" hidden role="dialog" aria-label="Sleep mode">
   <div class="moon" aria-hidden="true">🌙</div>
@@ -243,6 +293,7 @@
 <script src="extras.js"></script>
 <script src="sfx.js"></script>
 <script src="home.js"></script>
+<script src="wall.js"></script>
 <script src="app.js"></script>
 <script src="aesthetic.js"></script>
 <script src="scene.js"></script>
