@@ -26,7 +26,7 @@ html.ss-scene-on :is(.back,#length-grid small,.fine){color:#e6dff5}
 html.ss-scene-on #t-episode,html.ss-scene-on .btn-primary.gen-only{background:var(--gold);color:var(--on-gold);border-color:var(--gold);opacity:1}
 html.ss-scene-on #s-story:not(.ss-theme-darkromance) #story-body .ss-nm{color:var(--name-color)}
 /* genre tile labels sit on a dark pill so they read over any artwork */
-#genre-grid>.ss-tile b{display:inline-block;background:var(--pill-bg);color:var(--pill-ink);padding:5px 11px;border-radius:10px;text-shadow:none;position:relative;z-index:4}
+html[data-tier=teens] #genre-grid>.ss-tile b{display:inline-block;background:var(--pill-bg);color:var(--pill-ink);padding:5px 11px;border-radius:10px;text-shadow:none;position:relative;z-index:4}
 /* no drop cap: it broke the first line into awkward pieces */
 #story-body>p:first-of-type::first-letter,.story-body>p:first-of-type::first-letter{float:none!important;font-size:inherit!important;line-height:inherit!important;padding:0!important;color:inherit!important;font-weight:inherit!important}
 html.ss-scene-on .screen :is(.lead,.sub,p.fine,.hint){color:var(--helper)}
