@@ -42,13 +42,11 @@
     var s = SS(); s.state.fromLib = false; s.show("wall");
     document.documentElement.setAttribute("data-tier", "");
     $("wall-reader").hidden = true; $("wall-list-wrap").hidden = false; load();
+    try { if (location.hash !== "#wall") history.replaceState(null, "", "#wall"); } catch (e) {}
   }
   function setTab(t) {
-    if (t === "adult" && !window.confirm_adult) {
-      $("wall-adult-gate").hidden = false; return;
-    }
     tab = t; [].forEach.call(document.querySelectorAll(".wtab"), function (b) { var on = b.dataset.tab === t; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); });
-    $("wall-adult-gate").hidden = true; load();
+    load();
   }
 
   /* ---------- posting ---------- */
@@ -92,11 +90,11 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     if (!$("s-wall")) return;
+    document.addEventListener("click", function (e) { if (location.hash === "#wall" && e.target.closest && e.target.closest("#brand,[data-back],[data-start],#btn-lib,#t-wall")) { try { history.replaceState(null, "", location.pathname + location.search); } catch (x) {} } }, true);
+    if (location.hash === "#wall") setTimeout(showWall, 0);
     [].forEach.call(document.querySelectorAll("[data-wall]"), function (b) { b.addEventListener("click", showWall); });
     $("wall-post-btn").addEventListener("click", function () { showPost(); });
     [].forEach.call(document.querySelectorAll(".wtab"), function (b) { b.addEventListener("click", function () { setTab(b.dataset.tab); }); });
-    $("wall-adult-yes").addEventListener("click", function () { window.confirm_adult = true; setTab("adult"); });
-    $("wall-adult-no").addEventListener("click", function () { $("wall-adult-gate").hidden = true; });
     $("wall-reader-back").addEventListener("click", function () { $("wall-reader").hidden = true; $("wall-list-wrap").hidden = false; });
     $("wall-reader-copy").addEventListener("click", function () { if (!current) return; var t = current.title + "\n\n" + current.body; var b = $("wall-reader-copy"); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { b.textContent = "Copied!"; }, function () { b.textContent = "Select the text to copy"; }); setTimeout(function () { b.textContent = "📋 Copy story"; }, 1800); });
     [].forEach.call(document.querySelectorAll("[data-post-back]"), function (b) { b.addEventListener("click", showWall); });

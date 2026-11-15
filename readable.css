@@ -31,3 +31,12 @@ html[data-tier=teens] #genre-grid>.ss-tile b{display:inline-block;background:var
 #story-body>p:first-of-type::first-letter,.story-body>p:first-of-type::first-letter{float:none!important;font-size:inherit!important;line-height:inherit!important;padding:0!important;color:inherit!important;font-weight:inherit!important}
 html.ss-scene-on .screen :is(.lead,.sub,p.fine,.hint){color:var(--helper)}
 html.ss-scene-on details.more summary{color:var(--name-color)}
+
+/* teens + grown-ups: no black boxes. Text floats on the picture with a soft shadow instead. */
+html:is([data-tier=teens],[data-tier=adult]).ss-scene-on :is(#s-age,#s-genre,#s-chars,#s-length,#s-lib,#s-story,.top,.steps){background:transparent!important;border-color:transparent!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html:is([data-tier=teens],[data-tier=adult]).ss-scene-on :is(#s-age,#s-genre,#s-chars,#s-length,#s-lib,#s-story,.top){text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 14px rgba(0,0,0,.65)}
+html:is([data-tier=teens],[data-tier=adult]).ss-scene-on .steps li{background:transparent;border:1px solid rgba(255,255,255,.65);color:#fff}
+html:is([data-tier=teens],[data-tier=adult]).ss-scene-on .steps li.on,html:is([data-tier=teens],[data-tier=adult]).ss-scene-on .steps li[aria-current]{background:#fff;color:#111;text-shadow:none}
+html:is([data-tier=teens],[data-tier=adult]) #genre-grid>.ss-tile b{background:transparent!important;padding:0!important;color:#fff!important;text-shadow:0 1px 3px #000,0 0 12px #000,0 0 22px rgba(0,0,0,.8)}
+html:is([data-tier=teens],[data-tier=adult]).ss-scene-on :is(.btn-soft,.btn-ghost,.chip,.ss-chip,input,textarea,details,summary){background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.6)!important;color:#fff}
+html:is([data-tier=teens],[data-tier=adult]).ss-scene-on :is(input,textarea)::placeholder{color:#e6dff5}

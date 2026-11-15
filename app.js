@@ -535,7 +535,7 @@
       if (t) { setTier(t); buildGenres(); show("genre"); } else { setTier(""); show("age"); }
     }));
     $("home-daily").addEventListener("click", () => { setTier(""); show("age"); const d = $("daily"); if (d && !d.hidden) $("daily-go").click(); });
-    if (location.hash) show("age"); else show("home");
+    if (location.hash && location.hash !== "#wall") show("age"); else show("home");
     $("btn-lib").addEventListener("click", showLib);
     initDaily(); $("daily-go").addEventListener("click", readDaily);
     $("t-txt").addEventListener("click", downloadTxt);
