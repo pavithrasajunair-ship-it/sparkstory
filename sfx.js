@@ -13,7 +13,7 @@
   function ensure() {
     if (ac) { if (ac.state === "suspended") ac.resume(); return true; }
     var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false;
-    try { ac = new AC(); master = ac.createGain(); master.gain.value = 0.5; var comp = ac.createDynamicsCompressor(); master.connect(comp); comp.connect(ac.destination); } catch (e) { ac = null; return false; }
+    try { ac = new AC(); master = ac.createGain(); master.gain.value = 1.0; var comp = ac.createDynamicsCompressor(); master.connect(comp); comp.connect(ac.destination); } catch (e) { ac = null; return false; }
     return true;
   }
   function noise() {
@@ -32,11 +32,11 @@
     n.connect(f); f.connect(g); g.connect(master); n.start(t0); n.stop(t0 + dur + 0.05);
   }
   var FX = {
-    tap: function (t) { tone("sine", 520, 780, t, 0.09, 0.22); },
-    pop: function (t) { tone("sine", 400, 1000, t, 0.1, 0.3); },
-    back: function (t) { tone("sine", 700, 420, t, 0.1, 0.2); },
-    sparkle: function (t) { [880, 1108, 1318, 1760, 2093].forEach(function (f, i) { tone("sine", f, f, t + i * 0.07, 0.18, 0.16, 0.2); }); },
-    ready: function (t) { [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { tone("triangle", f, f, t + i * 0.12, 0.32, 0.22, 0.3); }); },
+    tap: function (t) { tone("sine", 520, 780, t, 0.14, 0.5); tone("triangle", 1040, 1560, t, 0.1, 0.18); },
+    pop: function (t) { tone("sine", 400, 1000, t, 0.16, 0.6); tone("triangle", 800, 1500, t + 0.05, 0.12, 0.25); },
+    back: function (t) { tone("sine", 700, 420, t, 0.16, 0.5); },
+    sparkle: function (t) { [880, 1108, 1318, 1760, 2093].forEach(function (f, i) { tone("sine", f, f, t + i * 0.08, 0.22, 0.35, 0.3); }); },
+    ready: function (t) { [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { tone("triangle", f, f, t + i * 0.13, 0.4, 0.45, 0.4); }); },
     whoosh: function (t) { burst(t, 0.7, 0.35, "bandpass", 300, 2600, 0.9); },
     magic: function (t) { FX.sparkle(t); burst(t, 0.6, 0.18, "bandpass", 500, 3000, 1.2); },
     splash: function (t) { burst(t, 0.55, 0.4, "lowpass", 3500, 500); tone("sine", 500, 900, t + 0.1, 0.12, 0.18); tone("sine", 420, 760, t + 0.22, 0.1, 0.14); },
@@ -104,6 +104,17 @@
   function cue(text) {
     var list = cuesFor(text || ""); list.forEach(function (n, i) { play(n, 0.05 + i * 1.1); }); return list;
   }
+  var ICON = { roar: "🦁 Roar", thunder: "⛈️ Thunder", boom: "💥 Boom", splash: "💦 Splash", knock: "🚪 Knock", steps: "👣 Steps", bell: "🔔 Bell", giggle: "😄 Giggle", cheer: "🎉 Cheer", magic: "✨ Magic", twinkle: "⭐ Twinkle", bird: "🐦 Bird", owl: "🦉 Owl", meow: "🐱 Meow", woof: "🐶 Woof", whoosh: "💨 Whoosh", creak: "🚪 Creak", snore: "😴 Snore", heartbeat: "💓 Heartbeat", gunshot: "💥 Bang", phone: "📞 Phone", glass: "🪟 Glass", tick: "⏰ Tick", sting: "😱 Gasp" };
+  /* mark paragraphs that have sounds (a little speaker shows after them) and build a row of tap-to-hear buttons above the story */
+  function decorate() {
+    var body = document.getElementById("story-body"), row = document.getElementById("sfx-chips"); if (!body || !row) return;
+    row.textContent = ""; var seen = {};
+    [].forEach.call(body.querySelectorAll("p"), function (p) {
+      var c = cuesFor(p.textContent); p.classList.toggle("has-sfx", c.length > 0);
+      c.forEach(function (n) { if (!seen[n] && ICON[n]) { seen[n] = 1; var b = document.createElement("button"); b.type = "button"; b.className = "sfx-chip"; b.textContent = ICON[n]; b.addEventListener("click", function () { play(n); }); row.appendChild(b); } });
+    });
+    row.hidden = !row.children.length;
+  }
   function setOn(v) {
     on = !!v; try { localStorage.setItem(KEY, on ? "on" : "off"); } catch (e) {}
     var b = document.getElementById("t-sfx"); if (b) { b.textContent = on ? "🔔 Sound effects: On" : "🔕 Sound effects: Off"; b.setAttribute("aria-pressed", on ? "true" : "false"); }
@@ -125,5 +136,5 @@
     var body = document.getElementById("story-body");
     if (body) body.addEventListener("click", function (e) { var p = e.target.closest && e.target.closest("p"); if (!p || !any()) return; if (!cue(p.textContent).length) play("tap"); });
   });
-  window.SFX = { cue: cue, play: play, cuesFor: cuesFor, get on() { return on; }, setOn: setOn, names: Object.keys(FX) };
+  window.SFX = { decorate: decorate, cue: cue, play: play, cuesFor: cuesFor, get on() { return on; }, setOn: setOn, names: Object.keys(FX) };
 })();

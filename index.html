@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="cinema.css">
 <link rel="stylesheet" href="readable.css">
 <link rel="stylesheet" href="kids.css">
+<link rel="stylesheet" href="home.css">
 </head>
 <body>
 <div class="deco" id="deco" aria-hidden="true"></div>
@@ -38,8 +39,77 @@
     <li data-step="1">Genre</li><li data-step="2">Characters</li><li data-step="3">Length</li>
   </ol>
 
+  <!-- 0. home -->
+  <section class="screen home" id="s-home" aria-label="Welcome to StorySpark">
+    <div class="hero" id="hero" aria-roledescription="carousel" aria-label="Story moods">
+      <div class="hslides" id="hslides">
+      <figure class="hslide" data-i="0" aria-roledescription="slide" aria-label="1 of 6">
+        <picture><source media="(max-width:700px)" srcset="scenes/fantasy-m.webp"><img src="scenes/fantasy.webp" alt="" fetchpriority="high" draggable="false"></picture>
+        <figcaption><span class="htag">Fantasy</span><b class="hline">A kingdom under a silver moon.</b><span class="hsub">Dragons, spells and a destiny you never asked for.</span></figcaption>
+      </figure>
+      <figure class="hslide" data-i="1" aria-roledescription="slide" aria-label="2 of 6">
+        <picture><source media="(max-width:700px)" srcset="scenes/darkromance-m.webp"><img src="scenes/darkromance.webp" alt="" loading="lazy" draggable="false"></picture>
+        <figcaption><span class="htag">Dark romance</span><b class="hline">Dangerous. Intense. Impossible to resist.</b><span class="hsub">Candlelight, whispered promises, and a kiss that changes everything.</span></figcaption>
+      </figure>
+      <figure class="hslide" data-i="2" aria-roledescription="slide" aria-label="3 of 6">
+        <picture><source media="(max-width:700px)" srcset="scenes/adventure-m.webp"><img src="scenes/adventure.webp" alt="" loading="lazy" draggable="false"></picture>
+        <figcaption><span class="htag">Adventure</span><b class="hline">The map ends here. You keep going.</b><span class="hsub">Deserts, storms and treasure that is worth the climb.</span></figcaption>
+      </figure>
+      <figure class="hslide" data-i="3" aria-roledescription="slide" aria-label="4 of 6">
+        <picture><source media="(max-width:700px)" srcset="scenes/mystery-m.webp"><img src="scenes/mystery.webp" alt="" loading="lazy" draggable="false"></picture>
+        <figcaption><span class="htag">Mystery</span><b class="hline">Every clue leads back to you.</b><span class="hsub">Follow the trail, one secret at a time.</span></figcaption>
+      </figure>
+      <figure class="hslide" data-i="4" aria-roledescription="slide" aria-label="5 of 6">
+        <picture><source media="(max-width:700px)" srcset="scenes/romance-m.webp"><img src="scenes/romance.webp" alt="" loading="lazy" draggable="false"></picture>
+        <figcaption><span class="htag">Romance</span><b class="hline">Two strangers. One almost-kiss.</b><span class="hsub">Slow glances, shaking hands, and the moment you both stop pretending.</span></figcaption>
+      </figure>
+      <figure class="hslide" data-i="5" aria-roledescription="slide" aria-label="6 of 6">
+        <picture><source media="(max-width:700px)" srcset="scenes/horror-m.webp"><img src="scenes/horror.webp" alt="" loading="lazy" draggable="false"></picture>
+        <figcaption><span class="htag">Spooky</span><b class="hline">Do not open the door.</b><span class="hsub">Shivers, shadows and one very strange house.</span></figcaption>
+      </figure>
+      </div>
+      <div class="hshade" aria-hidden="true"></div>
+      <div class="hcopy">
+        <p class="hkick">✨ StorySpark</p>
+        <h1 id="h-home">Stories you can’t put down.</h1>
+        <p class="hlead">Add your characters, pick a mood, and get a story you can read, listen to and keep. From bedtime tales to dark romance.</p>
+        <div class="hcta"><button class="btn btn-primary hbtn" id="home-start" type="button" data-start>Start your story →</button><button class="btn btn-soft hbtn" type="button" id="home-daily">🎁 Story of the day</button></div>
+      </div>
+      <button class="harrow hprev" id="hprev" type="button" aria-label="Previous photo">‹</button>
+      <button class="harrow hnext" id="hnext" type="button" aria-label="Next photo">›</button>
+      <div class="hdots" id="hdots" role="group" aria-label="Choose a photo"><button type="button" class="hdot" data-go="0" aria-label="Show slide 1"></button><button type="button" class="hdot" data-go="1" aria-label="Show slide 2"></button><button type="button" class="hdot" data-go="2" aria-label="Show slide 3"></button><button type="button" class="hdot" data-go="3" aria-label="Show slide 4"></button><button type="button" class="hdot" data-go="4" aria-label="Show slide 5"></button><button type="button" class="hdot" data-go="5" aria-label="Show slide 6"></button></div>
+      <p class="hswipe" aria-hidden="true">Swipe ↔</p>
+    </div>
+
+    <div class="hsec">
+      <h2>Pick your mood</h2>
+      <p class="hsub2">Swipe through. Every story is written around your characters.</p>
+      <div class="moods" id="moods"><button type="button" class="mood" data-start><img src="scenes/fantasy-m.webp" alt="" loading="lazy" draggable="false"><span><b>Fantasy</b><small>Dragons, spells and a destiny you never asked for</small></span></button><button type="button" class="mood" data-start><img src="scenes/darkromance-m.webp" alt="" loading="lazy" draggable="false"><span><b>Dark romance</b><small>Candlelight, whispered promises, and a kiss that changes everything</small></span></button><button type="button" class="mood" data-start><img src="scenes/adventure-m.webp" alt="" loading="lazy" draggable="false"><span><b>Adventure</b><small>Deserts, storms and treasure that is worth the climb</small></span></button><button type="button" class="mood" data-start><img src="scenes/mystery-m.webp" alt="" loading="lazy" draggable="false"><span><b>Mystery</b><small>Follow the trail, one secret at a time</small></span></button><button type="button" class="mood" data-start><img src="scenes/romance-m.webp" alt="" loading="lazy" draggable="false"><span><b>Romance</b><small>Slow glances, shaking hands, and the moment you both stop pretending</small></span></button><button type="button" class="mood" data-start><img src="scenes/horror-m.webp" alt="" loading="lazy" draggable="false"><span><b>Spooky</b><small>Shivers, shadows and one very strange house</small></span></button></div>
+    </div>
+
+    <div class="hsec">
+      <h2>How it works</h2>
+      <ol class="hsteps">
+        <li><span>1</span><b>Choose a reader</b><small>Little ones, kids, teens or grown-ups. The look, the words and the story type change to fit.</small></li>
+        <li><span>2</span><b>Add your characters</b><small>Type any names. They become the heroes (and the heartbreakers) of the story.</small></li>
+        <li><span>3</span><b>Read, listen, keep</b><small>Hear it read aloud with sound effects, then save it, share it or download it.</small></li>
+      </ol>
+    </div>
+
+    <div class="hsec">
+      <h2>One story for every reader</h2>
+      <div class="htiers">
+        <button type="button" class="htier" data-start data-tier-go="tiny"><span>🧸</span><b>Little ones</b><small>Soft bedtime tales with sounds</small></button>
+        <button type="button" class="htier" data-start data-tier-go="kids"><span>🚀</span><b>Kids</b><small>Adventures and giggles</small></button>
+        <button type="button" class="htier" data-start data-tier-go="teens"><span>💜</span><b>Teens</b><small>Romance, mystery, drama</small></button>
+        <button type="button" class="htier" data-start data-tier-go="adult"><span>🌹</span><b>Grown-ups</b><small>Dark romance and thrillers</small></button>
+      </div>
+    </div>
+    <p class="fine hfoot">Free to use. Your stories stay on your device.</p>
+  </section>
+
   <!-- 1. who is it for -->
-  <section class="screen" id="s-age" aria-labelledby="h-age">
+  <section class="screen" id="s-age" hidden aria-labelledby="h-age">
     <h1 id="h-age">Who is the story for?</h1>
     <p class="lead">Pick the reader and StorySpark will change its look and its story types to suit.</p>
     <div class="grid age-grid" id="age-grid"></div>
@@ -146,6 +216,7 @@
     </div>
     <label class="grow gen-only" id="grow-row" hidden><input type="checkbox" id="grow"> <span id="grow-text">They've grown up: make the next episode for the next age group</span></label>
     <section class="quiz" id="quiz" hidden aria-labelledby="quiz-h"><h2 id="quiz-h">🧠 Story quiz</h2><div id="quiz-body"></div></section>
+    <div class="sfx-chips" id="sfx-chips" hidden aria-label="Story sounds"></div>
     <p class="fine" id="sfx-hint">🔔 Tap any paragraph to hear its sound effects!</p>
     <p class="fine" id="story-status" role="status"></p>
   </section>
@@ -171,6 +242,7 @@
 <script src="story-engine.js"></script>
 <script src="extras.js"></script>
 <script src="sfx.js"></script>
+<script src="home.js"></script>
 <script src="app.js"></script>
 <script src="aesthetic.js"></script>
 <script src="scene.js"></script>

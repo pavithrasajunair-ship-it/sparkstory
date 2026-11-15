@@ -59,3 +59,9 @@ html[data-tier=tiny] #genre-grid>.ss-tile .ss-art,html[data-tier=kids] #genre-gr
 html[data-tier=tiny] #genre-grid>.ss-tile b,html[data-tier=kids] #genre-grid>.ss-tile b{background:none!important;color:#000!important;padding:0!important;border-radius:0;font-size:20px;text-shadow:none}
 html[data-tier=tiny] #genre-grid>.ss-tile small,html[data-tier=kids] #genre-grid>.ss-tile small{color:#000!important}
 html[data-tier=tiny] #genre-grid>.ss-tile b,html[data-tier=kids] #genre-grid>.ss-tile b{overflow-wrap:anywhere;hyphens:auto;font-size:18px}
+
+.sfx-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
+.sfx-chip{font:700 15px var(--body);border:2px solid var(--kid-line,#7a6bb5);background:#fff;color:#17254d;border-radius:999px;padding:8px 14px;cursor:pointer}
+.sfx-chip:hover,.sfx-chip:active{background:#fff3d6}
+html[data-tier=teens] .sfx-chip,html[data-tier=adult] .sfx-chip{background:rgba(10,8,22,.78);color:#fff;border-color:rgba(255,255,255,.4)}
+#story-body p.has-sfx::after{content:" 🔊";font-size:.8em;opacity:.7}

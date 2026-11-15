@@ -2,7 +2,7 @@
   "use strict";
   const D = window.SSData, E = window.SSEngine, X = window.SSExtras;
   const $ = (id) => document.getElementById(id);
-  const SCREENS = ["age", "genre", "chars", "length", "loading", "story", "lib"];
+  const SCREENS = ["home", "age", "genre", "chars", "length", "loading", "story", "lib"];
   const COPY = {
     tiny:  { genre: "What story shall we have?", chars: "Who is in the story?", charsLead: "Type the names. The first one is the star of the story!", length: "How long?", roles: { friend: "Friend", pet: "Pet or toy", helper: "Helper", villain: "Grumpy one" } },
     kids:  { genre: "Pick your story type", chars: "Who is in your story?", charsLead: "Add your characters. The first one is the hero.", length: "How long should it be?", roles: { friend: "Friend", pet: "Pet", helper: "Helper", villain: "Troublemaker" } },
@@ -312,7 +312,7 @@
   let fontStep = store.get(FONT_KEY, 0);
   function applyFont() { $("story-body").style.fontSize = "calc(var(--read) + " + fontStep * 2 + "px)"; }
   function renderStory(notice) {
-    const s = state.story; if (window.SFX) SFX.play("ready", 0.25);
+    const s = state.story; if (window.SFX) { SFX.play("ready", 0.25); setTimeout(SFX.decorate, 60); }
     $("story-title").textContent = s.title;
     const words = s.text.split(/\s+/).length;
     const g = D.GENRES[s.params.genre];
@@ -528,7 +528,13 @@
       if (state.story && state.chars && state.chars.length && state.chars[0].name) { show("length"); return; }
       setTier(""); show("age");
     });
-    $("brand").addEventListener("click", () => { stopSpeak(); setTier(""); show("age"); });
+    $("brand").addEventListener("click", () => { stopSpeak(); setTier(""); show("home"); });
+    document.querySelectorAll("[data-start]").forEach((b) => b.addEventListener("click", () => {
+      const t = b.dataset.tierGo;
+      if (t) { setTier(t); buildGenres(); show("genre"); } else { setTier(""); show("age"); }
+    }));
+    $("home-daily").addEventListener("click", () => { setTier(""); show("age"); const d = $("daily"); if (d && !d.hidden) $("daily-go").click(); });
+    if (location.hash) show("age"); else show("home");
     $("btn-lib").addEventListener("click", showLib);
     initDaily(); $("daily-go").addEventListener("click", readDaily);
     $("t-txt").addEventListener("click", downloadTxt);
