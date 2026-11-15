@@ -470,14 +470,74 @@
     long: { first: ["opening", "meet"], mids: [["spark", "closer", "lean", "kiss"], ["obstacle", "distance"]], last: ["realize", "gesture", "embrace", "ending"] },
     darkAfter: ["spark", "lean", "obstacle"],
   });
+
+  /* ---- dark romance has its own voice: forbidden, dangerous, a little obsessed. It no longer borrows the sweet-romance lines. ---- */
+  Object.assign(S.darkromance.rich, {
+    meet: [
+      "{L} was nothing like the people {H} was supposed to trust. That was exactly the problem. {W}. By the third time, {H} had stopped pretending it was chance.",
+      "{L} watched {H} the way a person watches a locked door: patiently, and with a plan. {H} should have been afraid. Instead {H} kept finding reasons to walk past.",
+      "{H} learned three things about {L} in one night: the name was probably false, the smile was definitely a weapon, and the hands, steady, scarred, careful, were the kind {H} could not stop looking at.",
+      "Everyone had a story about {L}, and every story was worse than the last. {H} listened to all of them, then went to find {L} anyway. {A} could only watch.",
+      "{L} never asked questions. {L} simply knew: which cup {H} reached for, where {H} stood so that no one could stand behind. Being read that easily was terrifying. It was also the closest thing to being seen {H} had felt in years.",
+      "They made a deal that night, quiet and half-joking, in a corner of {P}: one favour each, no questions asked. Neither of them believed it would stay that simple.",
+    ],
+    spark: [
+      "{L}'s fingers closed around {H}'s wrist, not hard, just enough. \"You shouldn't be here,\" {L} said, and did not let go. Neither of them moved. The air near {P2} grew very hot and very still.",
+      "It was the way {L} said {H}'s name: low, unhurried, like a thing already owned. {H} felt it down the spine, a shiver that had nothing to do with the cold.",
+      "A power cut plunged {P2} into darkness. In the black, {H} felt {L} close, so close, a breath on the neck, a hand hovering at the small of the back. When the lights returned, neither of them had moved away.",
+      "{L} straightened {H}'s collar with slow, deliberate fingers, then looked up, eyes dark. \"Be careful with me,\" {L} said. It sounded like a threat and a plea at the same time.",
+      "There was a line, and they both knew exactly where it was. {L} stood on one side of it, {H} on the other, and every second the line seemed a little thinner.",
+      "{H} caught {L} staring and, for once, did not look away. A long moment passed, dark, electric, unspoken. Then {L} smiled, slow and dangerous, as if a bargain had just been signed.",
+    ],
+    closer: [
+      "\"I could ruin you,\" {L} said softly, tracing a thumb along {H}'s lower lip. \"I know,\" {H} whispered. \"Do it anyway.\" The silence after that was thick as smoke.",
+      "{L} pulled {H} into the shadows of {P2}, one hand braced on the wall, the other warm at {H}'s cheek. It was a terrible idea. It was the only idea.",
+      "They stopped pretending after midnight. No more careful distances, no more polite lies: just {L}'s forehead against {H}'s, two heartbeats out of rhythm and slowly, helplessly falling into step.",
+      "{L} confessed something dark, something that should have sent {H} running. {H} stayed. {H} stepped closer, in fact, and laid a steady hand over {L}'s racing heart. \"I'm not afraid of you,\" {H} said. It was almost true.",
+      "\"Say it,\" {L} breathed, a hair's width away. \"Say you want this.\" {H} had never wanted anything so badly in a whole, careful life. \"I want this,\" {H} said, and watched {L}'s control quietly break.",
+      "{L} took {H}'s hand and held it against a chest that was beating far too fast for such a calm face. \"Feel that?\" {L} murmured. \"That's you. That's what you do to me.\"",
+    ],
+    obstacle: [
+      "Then {V} found out. {V} always found out. The warning came on thick cream paper: leave {L} alone, or lose everything. {H} read it twice and burned it in the sink.",
+      "{V} had been watching all along. A photograph, a name, a sharp little smile, and suddenly the thing between {H} and {L} was a weapon in someone else's hand.",
+      "{L} had lied about something that mattered. {H} found the proof in a locked drawer, and every kiss replayed in the light of that single, shattering fact.",
+      "The past arrived like a storm. {V} named a debt, an old promise, a blood-deep reason why {L} could never belong to anyone, and {L} did not argue. That was the worst part.",
+      "{V} offered {H} a way out: walk away, and everything stays safe. {H} looked across the room at {L}, who was pretending not to listen, knuckles white on the glass, and felt the whole world tilt toward a terrible choice.",
+      "Someone leaned in and whispered a name, and {L}'s face went blank and cold in a way {H} had never seen. \"Don't follow me,\" {L} said. Then the door closed, hard, and the quiet afterward was the loudest thing {H} had ever heard.",
+    ],
+    distance: [
+      "For days {H} did not sleep. {H} told {A} it was fine. {A} did not believe it for a second. Each night {H} drove past {P}, slowly, and each night the windows stayed dark.",
+      "{H} tried to forget the heat of {L}'s hands, the low voice at {H}'s ear, the dangerous, delicious way {L} had said \"mine.\" Forgetting turned out to be a kind of slow burning.",
+      "Every shadow had {L}'s shape. Every stranger's cologne, every late-night footstep, every flicker of candlelight made {H}'s pulse stumble. Being without {L} was a physical ache, deep and hungry.",
+      "{H} kept the jacket {L} had left behind. It still smelled like smoke and rain and him. {H} hated how often it ended up pulled around cold shoulders at three in the morning.",
+      "Across the city, {L} sat in the dark with a glass untouched and a phone face-down, fighting the one rule that had ever mattered: stay away. It was losing.",
+      "The silence was a siege. {H} refused to call. {L} refused to explain. And all the while, something stretched taut between them that neither of them could cut.",
+    ],
+    realize: [
+      "{A2} said it plainly: \"You're not scared of {L}. You're scared of how much you want to stay.\" {H} did not argue, because there was nothing left to argue with.",
+      "At four in the morning, {H} stopped lying to the dark. It was {L}. It would always be {L}, dangerous, damaged, and exactly what {H} wanted. Safety had never felt like this.",
+      "{H} understood, finally, that the risk was never {L}. The risk was a long, quiet life without ever being this alive. The choice, once seen, was almost simple.",
+      "Somewhere between a warning and a memory, {H} accepted that this was not a love that would be gentle. It would be the kind that cost something. {H} found, with a strange calm, that {H} was willing to pay.",
+      "It wasn't an epiphany. It was a quiet, certain click, like a lock turning. {H} wanted {L}, all of {L}, shadows and secrets and sharp edges included.",
+    ],
+    gesture: [
+      "So {H} went to {P} at midnight, past the guards, past every sensible instinct, and chose to {T}. If this was a trap, it was the best one {H} had ever walked into.",
+      "{H} did not wait to be invited. {H} walked straight through the doors of {P}, found {L} in the dark, and chose to {T}, heart hammering, chin high.",
+      "There was no clever plan. There was only {H}, standing at {P} with nothing left to hide behind, choosing to {T}. If it ruined everything, at least it would be {H}'s ruin.",
+      "{H} crossed the whole length of {P} in front of everyone who mattered and chose to {T}. Somebody gasped. {L} looked up, and something in that hard, guarded face finally broke open.",
+    ],
+  });
   S.darkromance.rich.opening = [
     "Everyone at {P} knew the rule: stay away from {L}. {H} had never been good at rules.",
     "{L} was the most dangerous person {H} had ever met, and {H} could not stop looking.",
     "It started with a lie, a locked door and {L}'s eyes finding {H} across {P}. It ended somewhere much more reckless.",
     "{H} swore this would be a quick, careless thing. Then {L} said {H}'s name like a secret, and nothing was careless anymore.",
-  ].concat(S.romance.rich.opening);
+    "The invitation said black tie, no names, no questions. {H} came for the questions. {L}, masked and smiling at the far end of {P}, was the answer to all of them.",
+    "{L} had a reputation, a price on a name nobody said aloud, and a way of looking at {H} that felt like a hand around the heart. {H} stepped closer.",
+  ];
   S.darkromance.simple = S.darkromance.rich;
-  S.adultromance = Object.assign({}, S.darkromance, { darkAfter: ["obstacle"] });
+  S.adultromance = Object.assign({}, S.darkromance, { rich: Object.assign({}, S.romance.rich, HEAT), darkAfter: ["obstacle"] });
+  S.adultromance.simple = S.adultromance.rich;
   S.sweetromance = Object.assign({}, S.romance, {
     rich: Object.assign({}, S.romance.rich, { kiss: HEAT.sweetkiss }),
     seq: ["opening", "meet", "spark", "closer", "kiss", "obstacle", "distance", "realize", "gesture", "ending"],
