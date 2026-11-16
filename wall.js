@@ -78,13 +78,13 @@
     var btn = $("post-send"); btn.disabled = true; st.textContent = "Sending...";
     fetch(URL + "/rest/v1/wall_stories", { method: "POST", headers: hdr({ "Content-Type": "application/json", Prefer: "return=minimal" }), body: JSON.stringify({ title: title, author: author, tier: tier, body: body }) })
       .then(function (r) {
-        if (!r.ok) throw new Error(r.status);
+        if (!r.ok) return r.text().then(function (t) { throw new Error(t); });
         try { var a = recent(); a.push(Date.now()); localStorage.setItem("storyspark:posts", JSON.stringify(a)); } catch (x) {}
         $("post-form").reset(); count();
         st.textContent = "Thank you! Your story was sent. It will appear on the wall after it has been checked.";
         st.className = "fine wgood";
       })
-      .catch(function () { st.textContent = "Sorry, your story could not be sent. Please try again in a moment."; st.className = "fine wbad"; })
+      .catch(function (e) { var m = String((e && e.message) || ""); st.textContent = /wall_duplicate/.test(m) ? "That story (or one with the same title) is already on the list." : /wall_busy/.test(m) ? "The wall is full of stories waiting to be checked. Please try again tomorrow." : "Sorry, your story could not be sent. Please try again in a moment."; st.className = "fine wbad"; })
       .then(function () { btn.disabled = false; });
   }
 
