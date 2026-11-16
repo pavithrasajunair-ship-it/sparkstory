@@ -11,6 +11,24 @@ const ta = async (name, fn) => { try { await fn(); n++; } catch (e) { console.er
 const KIDS_BAD = /\b(kill|murder|blood|dead|death|die|gun|knife|stab|sex|naked|suicide|drug|corpse|gore|torture|weapon)\w*\b/i;
 const crew = [{ name: "Luna", role: "hero" }, { name: "Bruno", role: "pet" }, { name: "Mr Grumble", role: "villain" }, { name: "Tia", role: "friend" }, { name: "Oz", role: "friend" }, { name: "Kiki", role: "helper" }];
 
+t("premium tokens: signed, tamper-proof, expire; payment signature checked", () => {
+  process.env.PREMIUM_SECRET = "test-secret";
+  const PM = require("../api/_premium.js"), crypto = require("crypto");
+  const tok = PM.sign({ email: "a@b.com", exp: Date.now() + 60000 });
+  assert(PM.verify(tok) && PM.verify(tok).email === "a@b.com");
+  assert(!PM.verify(tok.slice(0, -2) + "xx"), "tampered token accepted");
+  assert(!PM.verify(PM.sign({ email: "a@b.com", exp: Date.now() - 1 })), "expired token accepted");
+  const sig = crypto.createHmac("sha256", "ks").update("order_1|pay_1").digest("hex");
+  assert(PM.paymentSignatureOk("order_1", "pay_1", sig, "ks") && !PM.paymentSignatureOk("order_1", "pay_2", sig, "ks"));
+  assert(PM.PRICE_PAISE === 49900);
+});
+t("epic stories are long and have no repeated lines (teens and grown-ups)", () => {
+  for (const [tier, g] of [["teens", "mystery"], ["adult", "thriller"], ["adult", "darkromance"]]) {
+    const r = E.generate({ tier, genre: g, chars: crew.slice(0, 2), length: "epic", seed: 3 });
+    const w = r.text.split(/\s+/).length; assert(w > 3000, tier + "/" + g + " only " + w + " words");
+    const s = r.text.split(/(?<=[.!?])\s+/).map((x) => x.trim()).filter((x) => x.length > 30); assert(s.length - new Set(s).size <= 2, "repeats in epic " + g);
+  }
+});
 t("age groups only offer their own genres", () => {
   const ids = (tier) => E.genresFor(tier).map((g) => g.id);
   for (const bad of ["horror", "darkromance", "romance2", "thriller", "psych", "drama", "historical"]) {

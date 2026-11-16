@@ -51,6 +51,7 @@
     short:  { name: "Short", note: "About 2 minutes (~450 words)", emoji: "⚡" },
     medium: { name: "Medium", note: "About 7 minutes (~1,300 words)", emoji: "📖" },
     long:   { name: "Long", note: "About 10 minutes (~2,000 words)", emoji: "📚" },
+    epic:   { name: "Epic", note: "About 20 minutes (~4,000 words)", emoji: "🏰", premium: true },
   };
 
   const SUGGEST = {

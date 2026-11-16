@@ -918,7 +918,7 @@
   }
 
   // ---------- length: stories are woven out to about 450 / 1300 / 2000 words ----------
-  const WORD_TARGET = { short: 450, medium: 1300, long: 2000 };
+  const WORD_TARGET = { short: 450, medium: 1300, long: 2000, epic: 4000 };
   const countWords = (t) => (String(t).match(/\S+/g) || []).length;
   const PATTERNS = [
     ["setting", "action", "talk", "feeling"],
@@ -1134,6 +1134,7 @@
       const tail = 1 + (endKind ? 1 : 0) + (bed ? (bed.today ? 1 : 0) + 1 : 0);
       dedupeSentences(chapters, tail);
       expandStory(chapters, tail, WORD_TARGET[length], tier, g.shape, reg, ctx, lex, rt, gid, easyOn);
+      if (length === "epic") dedupeSentences(chapters, tail);
     }
     const level = LEVELS[params.level] ? params.level : "";
     if (level) chapters.forEach((c) => { c.paragraphs = c.paragraphs.map((x) => simplify(x, level, tier)); });
