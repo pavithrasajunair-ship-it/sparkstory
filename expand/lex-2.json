@@ -1,0 +1,180 @@
+{
+"mystery": {
+"P": ["the lighthouse keeper's cottage", "the night train to Darjeeling", "the old cinema on Rose Road", "the museum after closing time", "the flooded orchard house", "the Venetian glass workshop", "the hill-station hotel", "the snowed-in mountain lodge", "the tea warehouse by the Kolkata docks", "the antique shop on Dagger Lane"],
+"P2": ["the dumbwaiter shaft", "the steamy greenhouse", "the creaky boathouse", "the secret passage behind the bookcase", "the night-market lane", "the ferry's top deck", "the old telephone exchange", "the attic of dusty trunks"],
+"I": ["the forged will", "the missing violin", "the lost recipe book", "the stolen jade elephant", "the coded postcard", "the vanished race trophy", "the combination to the hidden safe", "the ship's missing logbook", "the broken pocket watch", "the swapped suitcase"],
+"V": ["a smiling antique dealer", "Madame Valcourt", "the night watchman", "a charming heir", "the gardener with a limp", "an anonymous letter-writer", "a famous magician", "a nervous bank clerk", "the stranger in the yellow coat"],
+"A": ["a retired inspector called Mr. Menon", "a sharp-tongued journalist called Fatima", "a young apprentice called Tomas", "a chatty postmistress called Mrs. Okafor", "a bird-watching grandfather called Dadu", "a quiet chess champion called Li Wei", "an eager schoolboy called Arjun", "a famous novelist called Ms. Calloway"],
+"W": ["the rain stopped at exactly the wrong moment", "every guest told a different story about the evening", "a single lamp burned in a locked room", "the dog barked at nothing, then went silent", "a piano played one note and then stopped", "the guest list had one name too many", "the window was latched from the inside", "the tea was still warm in an empty cup"],
+"T": ["compare every alibi", "follow the muddy tracks back", "stage a fake announcement", "check the one thing nobody checked", "test the story with a small lie", "trace the handwriting", "retrace the night minute by minute", "wait quietly and watch who looks away"],
+"C": ["a pocket watch stopped at ten past nine", "a tea stain shaped like a ring", "a single peacock feather", "a ticket stub for the wrong train", "a half-burned matchbook"],
+"M": ["The quietest detail is often the loudest clue.", "Never trust a story that fits too neatly.", "Listening is a detective's sharpest tool.", "Even a good liar leaves a pattern behind.", "Patience solves what hurry only confuses.", "The truth is kinder when it is told early."],
+"X": [
+"Then {H} noticed that {A} had known about {I} all along, and every helpful answer so far had been carefully chosen.",
+"A note slipped under the door at {P2} proved that {V} was not the culprit at all, only the next target.",
+"{H} realised that {I} had never been stolen; someone had hidden it on purpose, and was now watching the search from nearby.",
+"Without warning, {V} offered to help, admitting they had been hunting the same truth and could lead {H} straight to it.",
+"The clue at {P2} was a fake planted that very morning, which meant someone knew exactly what {H} would look for.",
+"A clock chimed and {H} understood that everything must be solved before midnight, or {I} would be gone for good.",
+"{A} confessed they had lied about where they were that night, but only to protect a secret far smaller than {H} had feared.",
+"{H} compared the handwriting twice and gasped: the writer of the warning notes and the person asking for help were the very same.",
+"It turned out {I} was only a distraction, and what {V} truly wanted had been hidden at {P2} the whole time.",
+"{H} stepped back and saw that the culprit was the one person nobody had questioned, because everyone had assumed they were too kind to blame."
+]
+},
+"space": {
+"P": ["the jelly planet Wobblo", "the floating library ship", "the crater village of Lunaria", "the comet-top skatepark", "the glowing mushroom moon", "the space farm of Nebula Acres", "the robot school on Mars", "the singing planet Harmonia", "the orbiting treehouse", "the ice-cream rings of Neptune"],
+"P2": ["the meteor shower alley", "the sleepy side of the sun", "the cloud of space bubbles", "the zero-gravity tunnel", "the gummy asteroid field", "the aurora highway", "the wormhole slide", "the moon-dust dunes"],
+"I": ["the missing moon-key", "the rainbow rocket fuel", "the lost lullaby chip", "the golden space-seed", "the star-shaped passport", "the giant's telescope lens", "the sleeping starlight lantern", "the friendship beacon", "the oldest robot's memory cube", "the glitter-dust jar"],
+"V": ["Captain Crankypants", "a sulky black hole", "the Gloop from Planet Gloop", "a bossy vending-machine robot", "the Static Storm", "a grumpy comet", "Lord Zapp", "the Space Slug", "a runaway cleaning robot"],
+"A": ["a bouncy alien called Wibble", "a wise old astronaut called Captain Nandi", "a clever dolphin-shaped drone called Splash", "a cheerful rover called Rusty-Roo", "a shy cloud creature called Fizz", "a space-farmer girl called Anika", "a sleepy sloth astronaut called Sid", "a tiny moon rabbit called Mochi"],
+"W": ["the moons wore tiny glow-in-the-dark hats", "the northern lights rolled across the sky like ribbons", "meteors fell like gentle silver rain", "every star hummed a different note", "the planets drifted in slow, sleepy circles", "space jellyfish floated by, glowing softly", "the rings sparkled like a thousand bangles", "the sun rose in three different colours"],
+"T": ["build a rocket out of spare parts", "share the last space snack", "tune the radio to the star song", "swap places with the robot", "hum the planet's lullaby", "sail on a solar wind", "plant a seed in zero gravity", "wave a glowing flag"],
+"M": ["A kind hello works in every language, even alien ones.", "Small crews can do big things.", "Being different makes the universe more interesting.", "Asking for help is a very brave thing to do.", "Home is wherever your friends are.", "Mistakes are just detours with better views."],
+"X": [
+"Just then {H} discovered that {V} was not wicked at all, only lost and very far from home, and needed help more than anyone.",
+"A tiny blinking light showed that {I} was not an object but a sleepy creature, and it needed a gentle hello, not a grab.",
+"{A} sneezed and a secret hatch opened at {P2}, revealing a shortcut that nobody had ever noticed before.",
+"The ship's clock began counting down, and {H} had only ten minutes to reach {I} before the engines ran out of sparkle.",
+"Suddenly {V} asked to join the crew, because the lonely journey had made them wish for friends far more than for victory.",
+"{H} realised the map had been upside down all along, so {I} was waiting at {P2}, not where everyone had been looking.",
+"{A} quietly gave away their own favourite blanket-shaped power pack so the ship could keep going, and everyone cheered for their kindness.",
+"{I} turned out to be a birthday surprise planned by {A}, and the whole adventure had been a secret treasure hunt.",
+"The stars blinked out for a moment at {P2}, and {H} learned that {V} had only dimmed them to look for a lost friend.",
+"The scary rumbling at {P2} turned out to be {V} hiccupping, and a spoonful of stardust was all it needed."
+]
+},
+"spooky": {
+"P": ["the haunted funfair", "the clock-chiming bell tower", "the whispering library", "the old well in the woods", "the lighthouse on Raven Rock", "the empty school at dusk", "the lantern-lit bridge", "the cobwebbed greenhouse", "the hollow tree house", "the midnight market"],
+"P2": ["the portrait gallery", "the secret passage behind the fireplace", "the creepy-crawly cellar steps", "the moonlit courtyard", "the rattling dumbwaiter", "the attic window seat", "the foggy orchard", "the swaying train carriage"],
+"I": ["the silver whistle", "the glowing pumpkin seed", "the ghost's missing hat", "the enchanted candle", "the spider's silk map", "the tiny crystal ball", "the forgotten birthday cake", "the friendly witch's lost recipe", "the moonlight mirror", "the cracked music-box key"],
+"V": ["a grumpy poltergeist", "a sniffling mummy", "a tricky will-o'-the-wisp", "a lonely scarecrow", "a giggling shadow", "a forgetful vampire", "a cranky old broomstick", "a mischievous imp", "a creaky suit of armour"],
+"A": ["a cheerful pumpkin called Jack-o", "a nervous spider called Webster", "a kind witch called Agatha", "a sleepy owl called Professor Hoot", "a ghost girl called Tilly", "a gentle grandmother ghost called Dadi", "a dancing skeleton called Bones", "a tiny dragon called Flick"],
+"W": ["the moon peeked through the cobwebs", "the pumpkins grinned in the dark", "a thousand fireflies blinked in the trees", "the wind hummed a spooky little tune", "the fog curled like a friendly cat", "the stars looked as if they were holding their breath", "the portraits whispered to one another", "the bats swooped in neat little circles"],
+"T": ["hum a brave little tune", "light a single candle", "ask the ghost its name", "bake something that smells wonderful", "follow the glowing footprints", "tell the funniest story they know", "knock politely and wait", "wrap the shivering shadow in a scarf"],
+"S": ["a bell rang though nobody was near it", "footsteps pattered away down the hall", "a cold breeze blew out a single candle", "a chair rocked slowly all on its own", "an owl hooted three times, very softly"],
+"M": ["Being brave means being kind to the unknown.", "Everyone deserves an invitation to the party.", "Fear shrinks when you share it.", "Sometimes a ghost only wants to be remembered.", "Curiosity is a lantern in the dark.", "Even the spookiest night ends in a sunrise."],
+"X": [
+"{H} realised the ghost had been guiding them all along, and every creak and whisper was a clue pointing toward {I}.",
+"Candlelight revealed that {V} was afraid of {H} just as much as {H} was afraid of them.",
+"A portrait at {P2} shifted, and {H} saw that {A} had been a gentle ghost for a hundred years without ever mentioning it.",
+"The lights went out and a clock began to strike midnight, giving {H} only until the last chime to reach {I}.",
+"{I} was not lost at all; {V} had been guarding it to keep it safe from something far worse still sleeping nearby.",
+"{A} admitted they had been making the spooky sounds on purpose, hoping someone brave would finally visit and stay for tea.",
+"A trapdoor at {P2} opened beneath {H}, but it led to a cosy room full of friendly ghosts holding a surprise party.",
+"{H} found a diary proving that {V} had once been a child who lived here and simply wanted somebody to remember their name.",
+"The fog lifted and showed that {P2} was only a stage, built by {A} for the best Halloween show the town had ever seen.",
+"Just as {H} reached {I}, it began to glow and whisper, and they understood it had been choosing them for years."
+]
+},
+"superhero": {
+"P": ["the floating sky-dock", "the neon market district", "the abandoned subway depot", "the observatory on the hill", "Starlight Stadium", "the robot repair yard", "the lighthouse headquarters", "the crowded train terminal", "the rooftop garden of Mumbai Heights", "the underwater research dome"],
+"P2": ["the glass skyscraper", "the fire escape", "the flooded tunnel", "the carnival rooftops", "the airport runway", "the power plant fence", "the old stone bridge", "the school roof"],
+"I": ["the lightning gauntlet", "the city's power core", "the golden cape", "the stolen sun-shard", "the hero hotline phone", "the freeze ray's blueprint", "the shield of the first guardian", "the lost cure vial", "the mayor's secret key", "the hero academy trophy"],
+"V": ["the Mirror Mimic", "Baron Blackout", "Madame Meltdown", "the Rust King", "a rogue weather machine", "Professor Prank", "the Gravity Gang", "the Iron Jackal", "a swarm of stolen drones"],
+"A": ["a tech-whiz called Kiran", "a shape-shifting cat called Mimi", "a retired hero called Grandpa Thunder", "a fearless newsreader called Layla", "a tiny flying squirrel called Zoom", "a gadget-maker called Mr. Ito", "a shy kid with invisible powers called Noor", "a talking bicycle called Sprocket"],
+"W": ["lightning flickered across the skyline", "sirens echoed between the towers", "the streetlights blinked in warning", "capes fluttered from every rooftop", "the crowd below cheered and pointed upward", "the moon glowed like a spotlight", "smoke curled up from the old factory", "every screen in the city showed the same face"],
+"T": ["dodge the laser grid", "lift the fallen bridge", "freeze the runaway machine", "call every hero in town", "swap the villain's remote for a toy", "race the clock across the rooftops", "shield the crowd with a wall of light", "turn the lights back on, one block at a time"],
+"M": ["Courage grows when you share the load.", "Being a hero starts with a small act of kindness.", "Fairness matters more than winning.", "Mistakes are just practice for the next rescue.", "Even villains can choose a better path.", "The strongest power is believing in your friends."],
+"X": [
+"{H} discovered that {A} secretly worked for {V}, though a quiet change of heart might still be possible before it was too late.",
+"The mask came off and {H} realised {V} was an ordinary person whose powers had been stolen, and who only wanted them back.",
+"A ticking countdown flashed at {P2}: {H} had sixty seconds to save the city and {I} at the same time.",
+"{V} offered a truce, since a bigger threat was coming, and {H} had to decide whether to trust an enemy for one night.",
+"{H} felt their powers fade at {P2}, which meant the plan had to be won with courage, friends and a lot of cleverness.",
+"{I} turned out to be a decoy, and the real danger was something hidden beneath the city all along.",
+"{A} stepped in front of the blast and gave up their own powers to protect {H}, changing what winning would cost.",
+"A hooded newcomer saved {H} at {P2} and revealed they were once a sidekick of {V}, now ready to switch sides.",
+"{H} learned the city had been wrong about who the hero was: the one everybody cheered had been staging every rescue.",
+"The signal that called {H} to {P2} was a trap, sent by someone who knew that every hero would answer a cry for help."
+]
+},
+"comedy": {
+"P": ["the wedding venue with the wrong name on the cake", "the office holiday party", "the budget airline gate", "the apartment with the screaming smoke alarm", "the neighbourhood cricket match", "the cooking class from hell", "the in-laws' dinner table", "the self-service checkout", "the open-mic night", "the DIY furniture showroom"],
+"P2": ["the airport security line", "the shared taxi", "the supermarket car park", "the rooftop water tank", "the neighbour's balcony", "the unreliable Wi-Fi corner", "the staff WhatsApp group", "the overflowing laundry room"],
+"I": ["the borrowed wedding saree", "the last samosa", "the three-year-old project report", "the speech nobody wrote", "the stolen parking spot", "the leaking aquarium", "the family WhatsApp password", "the shared Netflix account", "the rental deposit", "the suspiciously cheap sofa"],
+"V": ["an overenthusiastic life coach", "Aunty Sheela", "a landlord with a clipboard", "a very polite but terrifying receptionist", "a man who films everything", "a goat with strong opinions", "the HR department", "a motivational speaker", "a long-lost cousin with a business idea"],
+"A": ["a deadpan flatmate called Sunil", "a dramatic theatre friend called Gigi", "an overconfident intern called Bhavna", "a retired wrestler called Big Dave", "a nosy auntie called Mrs. Iyer", "a cheerful auto driver called Murugan", "a conspiracy-loving cousin called Felix", "a super-organised sister called Zainab"],
+"W": ["somebody's phone started playing a ringtone at full volume", "the Wi-Fi died at the worst possible moment", "three separate arguments were happening at once", "the cake had somehow tilted to one side", "a stranger was loudly narrating the whole thing", "the lights flickered in the middle of the speech", "nobody remembered who had invited whom", "a dog was wearing someone's shoe"],
+"T": ["pretend to take an important call", "claim it was an artistic choice", "fake an accent and hope for the best", "start a rumour to distract everyone", "hide behind a potted plant", "announce a surprise and run", "act like nothing happened", "bribe a child"],
+"M": ["Admitting a mistake early is cheaper than hiding it.", "The best stories begin with a terrible decision.", "Family is chaos with snacks.", "Nobody is watching as closely as you fear.", "Confidence is mostly just not blinking.", "Sometimes the plan is the problem."],
+"X": [
+"{H} realised the whole disaster stemmed from a single text sent to the wrong person, who was now standing at {P2} with a full audience.",
+"{A} confessed they had been the one responsible for {V} turning up, and had been quietly panicking about it for three days.",
+"A stranger who had been helping all along turned out to be related to {V}, and she had receipts for everything.",
+"Everybody had been arguing about {I} for an hour before {H} noticed it sitting in plain view at {P2}, wearing someone's hat.",
+"The plan {H} invented to avoid embarrassment accidentally made them the guest of honour, with a speech due in four minutes.",
+"{V} cornered {H} to apologise, only to discover that the real culprit was {A}, who was currently pretending to be asleep.",
+"{H} found out that {I} had been returned to its owner on day one; the last three chaotic days had been entirely unnecessary.",
+"A live stream had been running at {P2} the entire time, and {H} now had two million viewers and one very bad excuse.",
+"{V} and {H} got trapped together at {P2}, and a shared dislike of everything else that day turned them into unlikely allies.",
+"{H} glanced at the calendar and screamed: the deadline was today, not next week, and {I} was still nowhere to be found."
+]
+},
+"scifi": {
+"P": ["the Martian greenhouse city", "the orbital shipyard of Karakoram", "the deep-sea research habitat", "the lunar mining outpost", "the quantum archive", "the floating market over Jupiter", "the cryo-sleep ward", "the last library on Earth", "the derelict mirror satellite", "the terraforming tower"],
+"P2": ["the cargo bay", "the maintenance crawlspace", "the observation deck", "the zero-g gym", "the cold storage level", "the shuttle dock", "the server forest", "the decontamination chamber"],
+"I": ["the stolen neural key", "the dying star's coordinates", "the prototype fusion cell", "the lost colony manifest", "the encrypted dream log", "the antimatter vial", "the first contact transcript", "the master override chip", "the terraformer's seed code", "the archive of human voices"],
+"V": ["the Orbital Authority", "Dr. Valenti's last experiment", "a swarm of rogue nanobots", "the silent fleet", "the crew's own mutiny", "a time loop", "Captain Ashgrove", "the mining syndicate", "a failing life-support AI"],
+"A": ["a quiet botanist called Dr. Amani", "a former smuggler called Reyes", "a ship's cat with a cybernetic eye called Pixel", "a brilliant teenage pilot called Suvi", "an old android called Gandalf-7", "a xenolinguist called Professor Adeyemi", "a medic called Haruto", "a salvage worker called Mama Chen"],
+"W": ["the artificial sun dimmed for no reason", "every screen displayed the same coordinates", "the gravity wavered like a held breath", "the corridors echoed with footsteps that weren't there", "the ship's clocks ran at different speeds", "the stars outside moved in a way stars never do", "the air smelled faintly of ozone and rain", "all the doors unlocked at once"],
+"T": ["reverse the engine's polarity", "hack the old satellite", "convince the AI it is alive", "jump to the unmapped sector", "broadcast a message to everyone at once", "seal the compartment from the outside", "trade a memory for the code", "wake the sleeping crew"],
+"M": ["Progress means little without conscience.", "The future belongs to those who share it.", "Machines learn what we teach them, so teach well.", "Survival is about people, not systems.", "Curiosity is humanity's oldest engine.", "Every signal deserves an honest reply."],
+"X": [
+"{H} found a log proving {A} was not human but a prototype, programmed to guide the crew toward {I} and nothing else.",
+"The signal was a recording from the future; {H} heard their own voice warning them never to open {I}.",
+"{V} was not the enemy but a failing safeguard, and shutting it down would cut off the life support at {P2}.",
+"A countdown appeared on every screen: in twelve hours {P2} would be sealed forever, with {H} and {I} on opposite sides.",
+"{H} learned that the crew had been awake for decades and remembered none of it, because {A} had been editing their memories.",
+"{I} was never a machine; it was a living mind that had been waiting centuries for someone to ask what it wanted.",
+"A rival crew arrived at {P2} with a deal, and {H} realised they had been chasing the same truth as {V}.",
+"{H} discovered a perfect copy of themselves at {P2}, and the clone remembered everything except why {V} wanted them both gone.",
+"{A} sacrificed their only remaining power cell to keep the lights on at {P2}, forcing {H} to finish the mission alone.",
+"The data showed that {V} had been protecting humanity from a truth far worse than the one {H} was about to publish."
+]
+},
+"school": {
+"P": ["the debate club room", "the school bus on a rainy morning", "the art room after hours", "the exam hall", "the stairwell behind the gym", "the annual day stage", "the hostel common room", "the science lab", "the bike shed", "the tuition centre"],
+"P2": ["the lunch queue", "the noticeboard corner", "the staff room door", "the muddy football pitch", "the class WhatsApp group", "the school gate at dismissal", "the empty classroom 7B", "the bus stop outside school"],
+"I": ["the lead role in the school play", "the science fair prize", "the borrowed notebook", "the unsent apology", "the exam question paper", "the class trip permission slip", "the school band's last place", "the scholarship form", "the friendship bracelet", "the yearbook photo"],
+"V": ["a forgotten promise", "a bossy prefect", "a group chat gone wrong", "a jealous teammate", "exam pressure", "a teacher who never smiled", "a new kid with a secret", "a cancelled trip", "a leaked photo"],
+"A": ["a bookish friend called Aditi", "a prankster friend called Marco", "an overachieving classmate called Chloe", "a kind older student called Imran", "a funny lab partner called Ravi", "a music-loving friend called Yuki", "a calm student counsellor called Ms. Banerjee", "a chatty cousin called Tanvi"],
+"W": ["everyone was whispering behind their notebooks", "the bell rang twice for no reason", "the corridor smelled like chalk and nerves", "somebody was crying quietly in the corner", "every phone buzzed at the same time", "the teacher was suspiciously late", "the posters on the wall had all been changed", "the whole class had stopped talking"],
+"T": ["own up to the mistake", "ask for help", "share the credit", "listen without interrupting", "walk over and say hello", "stay after class and explain", "write the honest note", "rally the class for one more try"],
+"M": ["Asking for help is a sign of strength.", "Grades fade, friendships last.", "Everybody is fighting a quiet battle.", "Kindness costs nothing and means everything.", "Making a mistake does not make you a failure.", "Belonging begins when you let people see you."],
+"X": [
+"{H} found out that {A} had been the one to spread the rumour, and the reason was something far more painful than spite.",
+"{V} unexpectedly showed up at {P2} to help {H}, admitting they were tired of being the villain in everyone's story.",
+"The teacher announced the deadline had moved to tomorrow, so {H} had one night to rescue {I} and fix everything.",
+"{I} was never really about winning; {H} realised mid-argument that what they truly wanted was to be noticed by their friends.",
+"A group photo from last year proved that {V} and {H} had once been best friends before a silly misunderstanding.",
+"{A} quietly gave up their own place to let {H} have {I}, and nobody noticed until it was nearly too late.",
+"The message {H} meant to keep private had gone to the whole school, and everyone at {P2} had read it.",
+"{H} discovered that the person they trusted most was passing information to {V}, though the reasons were far from simple.",
+"At {P2}, {H} overheard that {V} was struggling at home, and suddenly every mean remark made a different kind of sense.",
+"The whole class had been planning a surprise for {H}, which explained why {A} had been acting so strangely all week."
+]
+},
+"sweet": {
+"P": ["the night market by the river", "the university library steps", "the rooftop garden café", "the old tram stop", "the lantern festival", "the secondhand record shop", "the ferry across the bay", "the monsoon-soaked balcony", "the flower stall by the station", "the cosy bakery on Elm Lane"],
+"P2": ["the crowded wedding hall", "the bookshop's reading nook", "the bridge at sunset", "the ice-cream cart", "the quiet lift", "the street of paper lanterns", "the carnival Ferris wheel", "the shared taxi home"],
+"I": ["the pressed flower in the book", "the mixtape in the glove box", "the misplaced scarf", "the two festival tickets", "the handwritten recipe", "the postcard from abroad", "the borrowed camera", "the last slice of cake", "the little brass compass", "the voicemail nobody deleted"],
+"V": ["a missed call", "a shy silence", "a best friend's crush", "a scheduling clash", "a rival for the same scholarship", "an old photograph", "a promise made in a hurry", "an overprotective older brother", "a very bad first impression"],
+"A": ["a romantic aunt called Rekha", "a sarcastic roommate called Jun", "a hopeful florist called Mr. Alvarez", "a gossipy classmate called Sofia", "a patient bookseller called Mr. Das", "a protective brother called Arman", "a street musician called Lila", "a wise café owner called Mama Rosa"],
+"W": ["the rain tapped out a soft rhythm", "the sunset painted everything in peach", "paper lanterns drifted into the sky", "someone was playing a violin in the distance", "the whole town smelled of jasmine and tea", "the stars came out one by one", "the streetlights flickered on like small suns", "snow began to fall without a sound"],
+"T": ["return the missing thing in person", "stay and listen", "write a letter by hand", "ask them to the festival", "share the umbrella", "laugh at themselves first", "wait on the platform a little longer", "hum their favourite song"],
+"M": ["Small gestures say the biggest things.", "Love grows where there is room to be yourself.", "Courage is hearing your own heart out loud.", "Good things come to people who show up.", "Being patient is a way of caring.", "Sometimes the right person is already beside you."],
+"X": [
+"{H} learned that the anonymous notes they had treasured were written by {A}, who had been too shy to sign them.",
+"{H} found out the other person had waited at {P2} the same night, and both had assumed the other did not show up.",
+"A job offer in another city arrived, and {H} had to decide whether {I} mattered more than what came next.",
+"{A} admitted they had been matchmaking from the beginning, and every coincidence {H} had noticed was carefully arranged.",
+"{H} realised {I} had belonged to the other person all along, left behind years ago as a quiet goodbye.",
+"{V} faded at {P2}, and {H} understood that being rivals had mostly been a way of hiding admiration.",
+"A thunderstorm cancelled every plan, trapping {H} at {P2} with exactly the person they had been trying not to talk to.",
+"{H} discovered the person they were looking for had been sitting beside them in class for a whole year, quietly noticing everything.",
+"The last train was leaving in ten minutes, and {H} had only that long to say what {I} had been hiding.",
+"{A} revealed a secret: the one {H} admired had also been writing unsent letters about {H} for months."
+]
+}
+}

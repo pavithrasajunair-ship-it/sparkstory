@@ -1,0 +1,778 @@
+{
+ "bedtime": {
+  "P": [
+   "the lantern-lit lane",
+   "the snug treehouse nest",
+   "the moonbeam meadow",
+   "the cosy burrow under the roots",
+   "the pillow-soft hilltop",
+   "the quiet harbour with sleepy boats",
+   "the sleepy sunflower field",
+   "the warm bakery at midnight",
+   "the rocking-chair porch",
+   "the starlit rooftop garden"
+  ],
+  "P2": [
+   "the hush-hush hallway of ferns",
+   "the stepping stones of moonlight",
+   "the cotton-wool clouds",
+   "the sleepy lullaby lane",
+   "the honey-coloured barn",
+   "the dewdrop garden",
+   "the slow, gentle river",
+   "the lamp-lit staircase"
+  ],
+  "I": [
+   "the lost teddy-bear button",
+   "the jar of warm moonlight",
+   "the missing goodnight kiss",
+   "the tiniest woolly slipper",
+   "the silver spoon of dreams",
+   "the cuddly patchwork quilt",
+   "the little music-box owl",
+   "the last lullaby verse",
+   "the glow-worm lantern",
+   "the pocketful of sleepy sand"
+  ],
+  "V": [
+   "a wriggly, giggly hiccup",
+   "a restless little breeze",
+   "a bouncy kitten who will not nap",
+   "a noisy cricket choir",
+   "a too-bright street lamp",
+   "a shy shadow who hates the dark",
+   "a rumbly tummy-thunder",
+   "a stubborn sleepy-time sneeze",
+   "a chatty, wide-awake hedgehog"
+  ],
+  "A": [
+   "a sleepy koala called Kiko",
+   "a gentle elephant called Dhruv",
+   "a snuggly snail called Shelly",
+   "a soft grey mouse called Mimi",
+   "a night-time bat called Luma",
+   "a cuddly panda called Bao",
+   "a rocking-horse called Clip-Clop",
+   "a patient old tortoise called Tomas"
+  ],
+  "W": [
+   "the crickets hummed a slow lullaby",
+   "the stars tucked themselves in one by one",
+   "the moonlight spilled like warm milk",
+   "the trees swayed like cradles",
+   "the river whispered goodnight",
+   "the night breeze smelled of jasmine",
+   "the clouds floated like soft pillows",
+   "the whole world went quiet and sleepy"
+  ],
+  "T": [
+   "hum a soft goodnight tune",
+   "fluff up the biggest pillow",
+   "count the stars very slowly",
+   "wrap everyone in a cosy blanket",
+   "rock the little moon to sleep",
+   "whisper a sleepy secret",
+   "pour a cup of warm dreams",
+   "tiptoe and say a tender goodnight"
+  ],
+  "M": [
+   "Rest is a gift we give our friends and ourselves.",
+   "Quiet moments can be the happiest ones.",
+   "Gentle words open the sleepiest hearts.",
+   "Every day ends best with someone who loves you.",
+   "Slowing down helps us notice little wonders.",
+   "Nobody is ever alone in the night."
+  ],
+  "X": [
+   "Suddenly {H} saw that {V} was not a problem at all, only a sleepy friend who was very, very lonely.",
+   "Then {A} yawned and confessed that {I} had been tucked safely in {H}'s own pocket all along.",
+   "The moon whispered that {I} would only shine if {H} gave it away to someone who needed it more.",
+   "When {H} reached {P2}, the helper {A} fell asleep first, and {H} realised the quest was really to guard their rest.",
+   "Then {V} began to cry softly, and {H} understood it was not being naughty, only afraid of the big quiet night.",
+   "Dawn would come soon, and {H} had only until the last star faded to bring {I} home before morning.",
+   "Then {A} admitted that the real treasure was never {I}, but the cosy company {H} had found along the way.",
+   "At {P2}, {H} discovered that {V} had been the one leaving little trails of stardust to guide everyone home.",
+   "Then {I} turned out to be too big to carry, so {H} and {A} had to ask {V} for a gentle helping hand.",
+   "{H} peeked inside {I} and found a tiny note in the helper's handwriting, saying that this had been a surprise party all along."
+  ]
+ },
+ "animals": {
+  "P": [
+   "the reedy riverbank",
+   "the hollow log village",
+   "the snowy pine hill",
+   "the rice paddy at sunrise",
+   "the coral reef garden",
+   "the mango grove",
+   "the prairie dog town",
+   "the sunlit savannah waterhole",
+   "the bamboo thicket",
+   "the cosy farmyard barn"
+  ],
+  "P2": [
+   "the stepping-stone creek",
+   "the thorny bramble tunnel",
+   "the tall elephant-grass path",
+   "the leafy canopy bridge",
+   "the muddy wallow",
+   "the dusty anthill road",
+   "the pebble beach",
+   "the honeycomb hollow"
+  ],
+  "I": [
+   "the missing baby's blanket",
+   "the golden honey pot",
+   "the winter store of nuts",
+   "the tiny silver whistle",
+   "the feather from a rainbow bird",
+   "the last ripe mango",
+   "the rolling red ball",
+   "the lost wooden flute",
+   "the shiny blue shell",
+   "the big warm woolly scarf"
+  ],
+  "V": [
+   "a bossy blue jay",
+   "a stubborn old buffalo",
+   "a hungry little caterpillar",
+   "a prickly porcupine in a bad mood",
+   "a muddle-headed monkey",
+   "a very loud rooster",
+   "a rainy-day river",
+   "a sulky young badger",
+   "a flock of fussy flamingos"
+  ],
+  "A": [
+   "a gentle elephant called Meera",
+   "a bouncy kangaroo called Joey-Jo",
+   "a wise old tortoise called Kachua",
+   "a chatty parrot called Mitthu",
+   "a shy red panda called Rio",
+   "a playful otter called Ollie",
+   "a sleepy sloth called Sasha",
+   "a curious meerkat called Kofi"
+  ],
+  "W": [
+   "the dragonflies shimmered like jewels",
+   "the peacocks fanned out their tails",
+   "the crickets chirped in chorus",
+   "the lilies floated like little boats",
+   "the wind rustled the whole forest awake",
+   "the otters slid down the muddy bank laughing",
+   "the morning mist rolled over the water",
+   "the fireflies winked in the tall grass"
+  ],
+  "T": [
+   "lend a strong, steady trunk",
+   "build a bridge of branches",
+   "share the last berries",
+   "listen to each other's worries",
+   "sing a round together",
+   "take the long way together",
+   "trade a favour for a favour",
+   "wait patiently and be kind"
+  ],
+  "M": [
+   "Different friends bring different strengths.",
+   "Listening is a kind of kindness.",
+   "Home is wherever your friends are.",
+   "Saying sorry is brave.",
+   "Everyone has something to share.",
+   "Being gentle is stronger than being loud."
+  ],
+  "X": [
+   "{H} noticed that {V} was not being mean at all, only hiding because it had lost its own family.",
+   "Then {A} suddenly confessed that {I} had been hidden for safekeeping, not stolen, and that nobody had really been to blame.",
+   "Just as {H} reached {P2}, the first snowflakes fell, and everyone had until sunset to bring {I} home.",
+   "It turned out {I} belonged to {V} all along, and {H} had to decide whether to give it back.",
+   "Halfway across {P2}, {V} slipped and called for help, and {H} chose to rescue it before chasing {I}.",
+   "Then {A} wasn't lost at all but had been quietly leading {H} to a surprise {H} would never have guessed.",
+   "{H} learned that {I} could not be taken, only shared, so the whole group had to agree before it would work.",
+   "At {P2}, {V} offered to become a friend, if {H} could first prove that animals really do help each other.",
+   "The tracks {H} followed to {I} were really own paw prints, going round in circles because {A} was too shy to say they were lost.",
+   "{H} found out that {V} was only guarding {I} for a sleeping baby, and the baby must not be woken."
+  ]
+ },
+ "fairy": {
+  "P": [
+   "the palace of mirrors",
+   "the enchanted rose orchard",
+   "the moonlit mermaid lagoon",
+   "the village of tiny round doors",
+   "the golden wheat kingdom",
+   "the crooked clock tower",
+   "the swan-feather meadow",
+   "the snowflake castle",
+   "the royal spice market of Zindarpur",
+   "the beanstalk garden"
+  ],
+  "P2": [
+   "the bridge of spun sugar",
+   "the hall of a hundred candles",
+   "the thorny, singing hedge",
+   "the lily-pad ford",
+   "the cobbled path of coloured glass",
+   "the stairway of clouds",
+   "the toadstool ring",
+   "the well at the end of the world"
+  ],
+  "I": [
+   "the princess's lost lullaby",
+   "the golden spinning wheel",
+   "the silver bell of the kingdom",
+   "the glowing rose of Rani Padma",
+   "the king's missing crown jewel",
+   "the dancing red shoes",
+   "the magic porridge pot",
+   "the lantern of true wishes",
+   "the twelve silk ribbons",
+   "the sleeping spell's cure"
+  ],
+  "V": [
+   "a vain old queen",
+   "a muddled wizard with a leaky wand",
+   "a gruff bridge-troll",
+   "a jealous mirror",
+   "a sleepy ogre who snores thunder",
+   "a sneaky fox in a velvet coat",
+   "a very grumpy fairy godfather",
+   "a cloud of naughty pixies",
+   "a stubborn briar hedge"
+  ],
+  "A": [
+   "a gentle mermaid called Marina",
+   "a brave little tailor called Tarun",
+   "a clever milkmaid called Gauri",
+   "a kindly woodcutter called Tobias",
+   "a tiny thumb-sized knight called Sir Pip",
+   "a singing nightingale called Nila",
+   "a proud peacock prince called Mayur",
+   "a cheerful gingerbread girl called Spice"
+  ],
+  "W": [
+   "the moon wore a crown of silver",
+   "the castle windows twinkled like candy",
+   "the rose petals fell like soft confetti",
+   "the nightingales sang from golden cages",
+   "the lanterns bobbed along the river",
+   "the clock tower chimed a merry tune",
+   "the snowflakes sparkled like diamonds",
+   "the stars sewed themselves into the sky"
+  ],
+  "T": [
+   "weave a ribbon of kindness",
+   "answer the riddle truthfully",
+   "dance the royal waltz",
+   "tell the oldest story in the kingdom",
+   "bake a feast for everyone",
+   "ring the silver bell",
+   "make a wish for someone else",
+   "tie a knot of friendship"
+  ],
+  "M": [
+   "A true prince or princess is kind to everyone.",
+   "Cleverness and courage open every door.",
+   "Be honest, even when it is hard.",
+   "The smallest gift can break the biggest spell.",
+   "Look beyond how people seem to who they are.",
+   "Happy endings are made by the kind-hearted."
+  ],
+  "X": [
+   "At midnight {H} learned that {A} was really a lost prince in disguise, bound by a spell only {I} could break.",
+   "Then {V} turned out to be the one who had hidden {I}, hoping someone would finally notice how lonely it was.",
+   "Halfway across {P2}, the old spell began to fade, and {H} had only until the last chime to bring {I} home.",
+   "Then {A} bowed and revealed that the quest had been a test, and that {H} had already passed it long ago.",
+   "{H} discovered that {I} would grant just one wish, and the wish had to be for someone else.",
+   "A little voice at {P2} told {H} that {V} was under a spell too, and could only be freed by kindness.",
+   "{H} understood that {A} had not been helping at all but had been secretly leaving the clues all along.",
+   "Then {I} was a copy, and the true one was kept by {V}, who now asked {H} for a friendly trade.",
+   "The rightful ruler was not who {H} had thought, and {A} quietly stepped aside so the truth could be told.",
+   "When {H} stepped into {P2}, the whole kingdom vanished, and only the people {H} had been kind to could bring it back."
+  ]
+ },
+ "silly": {
+  "P": [
+   "the spaghetti swamp",
+   "the trampoline town square",
+   "the underpants factory",
+   "the marshmallow marsh",
+   "the soggy sandwich shop",
+   "the cheese-wheel castle",
+   "the toothpaste volcano",
+   "the wobbly wobble-bridge circus",
+   "the topsy-turvy toy shop",
+   "the noodle forest"
+  ],
+  "P2": [
+   "the slippery banana-peel road",
+   "the hopping hopscotch hill",
+   "the pudding puddle",
+   "the squeaky floorboard hall",
+   "the zigzag zipper tunnel",
+   "the cushion mountain",
+   "the custard creek",
+   "the sneezy pepper path"
+  ],
+  "I": [
+   "the world's wobbliest wobble-jelly",
+   "the golden whoopee cushion",
+   "the left-handed sock",
+   "the rubber chicken crown",
+   "the giant jar of giggles",
+   "the talking toothbrush",
+   "the invisible birthday cake",
+   "the stinky cheese trophy",
+   "the squeaky boots of destiny",
+   "the magic pair of wiggly glasses"
+  ],
+  "V": [
+   "a fussy pirate chef",
+   "a snoring dragon with hiccups",
+   "a gang of sneaky sock-stealing seagulls",
+   "a grumpy toast who hates butter",
+   "a sneezing scarecrow",
+   "a bouncing bully bubble",
+   "a cheeky robot who only says banana",
+   "a very serious clown",
+   "a naughty, noisy noodle monster"
+  ],
+  "A": [
+   "a juggling jellyfish called Jiggle",
+   "a plump purple penguin called Pogo",
+   "a beeping toaster called Mr Crumbs",
+   "a mischievous monkey called Chintu",
+   "a wibbly walrus called Wilf",
+   "a cheerful chicken called Cluck Norris",
+   "a goofy llama called Lulu",
+   "a dancing dosa called Dosa-Dave"
+  ],
+  "W": [
+   "the clouds were sneezing glitter",
+   "the puddles hiccuped when you stepped in them",
+   "the chairs were having a dance party",
+   "the pigeons were wearing tiny hats",
+   "the trees tickled passers-by with their leaves",
+   "the moon was telling knock-knock jokes",
+   "the rainbow slid down like a slide",
+   "the butterflies were eating ice cream"
+  ],
+  "T": [
+   "wiggle the wiggliest wiggle",
+   "blow the biggest bubble gum bubble",
+   "squeak like a rusty mouse",
+   "juggle seven jellybeans",
+   "tell a knock-knock joke backwards",
+   "hop on one leg and honk",
+   "pull the silliest face",
+   "tickle the toes"
+  ],
+  "M": [
+   "Being silly is a very serious talent.",
+   "Laughter turns problems into puddles of fun.",
+   "Nobody is too grown-up for a giggle.",
+   "Mistakes are funniest when you laugh together.",
+   "The best plans are the wobbly ones.",
+   "Sharing a joke makes a friend."
+  ],
+  "X": [
+   "{H} suddenly realised that {V} was not chasing anyone and was only trying to return {I} that had been dropped earlier.",
+   "Then {A} sneezed so hard that {I} flew off and landed on {V}, who immediately became the star of the story.",
+   "It turned out {I} was a very large joke that {A} had been telling the whole time, and nobody had laughed yet.",
+   "Just as {H} reached {P2}, everything turned upside down, and the only way out was to walk on hands.",
+   "Then {V} confessed that it had only wanted to learn how to tell jokes, so {H} had to teach it before breakfast.",
+   "{H} found that {I} was made of cheese, and every mouse in the land was now racing {H} to reach it first.",
+   "Then {A} accidentally swapped places with {V}, so now {H} was giggling with the wrong one.",
+   "Midway through {P2}, all of {H}'s words came out as quacks, and the plan had to be performed as a play.",
+   "The clock was ticking toward lunch, and {H} had to bring {I} back before {A} ate the entire map.",
+   "{H} learned that {I} never worked for anyone who took it seriously, so the plan needed to be as silly as possible."
+  ]
+ },
+ "kindness": {
+  "P": [
+   "the neighbourhood library",
+   "the busy bus stop",
+   "the school garden",
+   "the quiet bench by the lake",
+   "the village well",
+   "the old people's tea room",
+   "the street-side chai stall",
+   "the animal rescue shelter",
+   "the rainy front steps",
+   "the corner market stall"
+  ],
+  "P2": [
+   "the crowded train platform",
+   "the muddy footpath",
+   "the staircase to the top floor",
+   "the schoolyard gate",
+   "the lane of lanterns",
+   "the community kitchen",
+   "the roadside mango tree",
+   "the bakery queue"
+  ],
+  "I": [
+   "the missing lunchbox",
+   "the lonely umbrella",
+   "the torn kite",
+   "the shy girl's drawing",
+   "the lost cat's collar",
+   "the grandfather's old radio",
+   "the basket of warm rotis",
+   "the little jar of coins",
+   "the pot of marigold seeds",
+   "the crumpled thank-you letter"
+  ],
+  "V": [
+   "a heavy rainstorm",
+   "a boy who feels left out",
+   "a very long queue",
+   "a broken-down bus",
+   "a hungry stray kitten",
+   "a new neighbour who speaks a different language",
+   "a scared little puppy",
+   "a crying baby sister",
+   "a lonely old shopkeeper"
+  ],
+  "A": [
+   "a generous street vendor called Raju",
+   "a quiet librarian called Mrs Okafor",
+   "a warm-hearted neighbour called Carmen",
+   "a kind bus driver called Bilal",
+   "a clever little girl called Anaya",
+   "a gentle grandfather called Dada",
+   "a cheerful nurse called Akiko",
+   "a friendly postman called Hamid"
+  ],
+  "W": [
+   "the rain pattered on the tin roof",
+   "the chai steamed in the morning chill",
+   "the church bells rang with joy",
+   "the market hummed with friendly voices",
+   "the washing flapped like colourful flags",
+   "the sunlight warmed every doorstep",
+   "the streetlights glowed one by one",
+   "children's laughter echoed down the lane"
+  ],
+  "T": [
+   "bring a hot cup of chai",
+   "share an umbrella",
+   "learn to say hello in a new language",
+   "fix it together",
+   "save a seat for someone",
+   "leave a kind note",
+   "wait and listen patiently",
+   "carry the heavy bag"
+  ],
+  "M": [
+   "Noticing others is the first step of kindness.",
+   "A shared meal can mend a hard day.",
+   "Kindness has no language.",
+   "Little acts of care add up to a big change.",
+   "Being kind costs nothing and gives everything.",
+   "Everyone you meet is fighting a quiet worry."
+  ],
+  "X": [
+   "{H} discovered that {V} was not being rude at all, only feeling lonely and scared in a new place.",
+   "Then {A} quietly admitted that {I} had once been a treasure of their own, given away so someone else could be happy.",
+   "As {H} arrived at {P2}, a stranger needed help more urgently, and {H} had to choose between {I} and kindness.",
+   "{H} realised that the person everyone avoided, {V}, was the one who had been kindly helping everyone for years.",
+   "It turned out that {I} had never been lost, only left on purpose by {A} as a way to say thank you.",
+   "The kind thing {H} did for {V} had secretly been seen by {A}, who now wanted to repay it.",
+   "{H} learned at {P2} that the smallest favour, done without anyone watching, had saved someone's whole day.",
+   "Then {V} turned out to be an old friend of the helper, and the two of them had not spoken in years because of one small quarrel.",
+   "A day before the festival, {H} learned that {I} would only be complete when the whole neighbourhood added something to it.",
+   "{H} swapped {I} for a friend's smile, and realised the exchange was the best bargain ever made."
+  ]
+ },
+ "magic": {
+  "P": [
+   "the clocktower of wishes",
+   "the upside-down rainforest",
+   "the moonlit mirror lake",
+   "the crystal market",
+   "the bubble city in the sky",
+   "the cloud-top library",
+   "the rainbow bridge village",
+   "the cave of a thousand fireflies",
+   "the potion-brewing bazaar",
+   "the garden of talking flowers"
+  ],
+  "P2": [
+   "the staircase of floating books",
+   "the river of liquid starlight",
+   "the whispering cloud ferry",
+   "the hall of dancing shadows",
+   "the singing mushroom ring",
+   "the carpet-ride canyon",
+   "the glittering sand dunes",
+   "the door that opens to anywhere"
+  ],
+  "I": [
+   "the star-spun cloak",
+   "the wand of gentle thunder",
+   "the book that writes itself",
+   "the bottle of captured laughter",
+   "the flying carpet's thread",
+   "the wish-granting feather",
+   "the snow-globe of sleeping seasons",
+   "the lantern that finds lost things",
+   "the silver acorn of growing",
+   "the shimmering sunrise stone"
+  ],
+  "V": [
+   "a muddled spell that keeps going wrong",
+   "a trickster wind sprite",
+   "a gloomy rain wizard",
+   "a runaway broomstick",
+   "a mirror that tells fibs",
+   "a cheeky mermaid-turned-mouse",
+   "a swirling sandstorm genie",
+   "a very forgetful sorcerer",
+   "a flock of pesky paper dragons"
+  ],
+  "A": [
+   "a clever apprentice called Meghna",
+   "a jolly genie called Jinn-Jinn",
+   "a flying squirrel called Zip",
+   "a young wizard called Kwame",
+   "a talking broom called Swish",
+   "a gentle unicorn called Starla",
+   "a bookish owl called Professor Hoo",
+   "a bubbly fairy called Lakshmi"
+  ],
+  "W": [
+   "the sky shimmered in every colour",
+   "the stars hummed like tiny bells",
+   "the water glowed like liquid moonlight",
+   "the air smelled of cinnamon and rain",
+   "the paper lanterns floated upward on their own",
+   "the flowers whispered riddles",
+   "the moon tilted down to listen",
+   "the rainbow bent itself into an arch"
+  ],
+  "T": [
+   "whisper the secret word",
+   "draw a circle of light",
+   "wave the wand gently",
+   "mix a spoonful of laughter into the potion",
+   "trade a promise for a spell",
+   "turn the page backwards",
+   "follow the sparkly breadcrumbs",
+   "catch a falling star in a jar"
+  ],
+  "M": [
+   "Magic works best when it is shared.",
+   "Practice makes even wizards better.",
+   "Wishes come true for kind hearts.",
+   "Everyone has a little magic of their own.",
+   "Mistakes can turn into wonderful surprises.",
+   "A spell is only as good as the heart behind it."
+  ],
+  "X": [
+   "The spell had been a mistake from the start, and {H} realised {I} could not fix it, only a friend like {A} could.",
+   "Then {A} was secretly the owner of {I}, and had been waiting for {H} to be kind enough to deserve the truth.",
+   "Then {V} was not a villain but a spell gone wrong, and {H} could only mend it by listening to its story.",
+   "At {P2}, the magic began to fade, and {H} had only until the last sparkle disappeared to find {I}.",
+   "{H} discovered that {I} did not grant wishes at all, but showed what each wish really meant.",
+   "A twist of the wand turned {H} very small, and now {A} and {V} had to team up to bring {H} back.",
+   "{H} found out that the magic had been inside them all along, and {I} had only been a way to believe it.",
+   "Then {V} offered to trade {I} for a happy memory, and {H} had to pick the one worth giving.",
+   "The map to {P2} was drawn backwards, and {A} realised the way forward was to go the opposite way.",
+   "The wand {H} held wasn't magic at all, but {A} had been making the sparkles secretly to give {H} courage."
+  ]
+ },
+ "adventure": {
+  "P": [
+   "the sunken temple of Tarsis",
+   "the glacier at the edge of the world",
+   "the volcano island of Kalu",
+   "the bamboo forest of Hanami",
+   "the abandoned railway in the desert",
+   "the floating market of the Mekong",
+   "the cliffside monastery in the clouds",
+   "the whale-bone coast",
+   "the salt flats of Uyuni",
+   "the mangrove maze of the Sundarbans"
+  ],
+  "P2": [
+   "the swaying cable-car over the gorge",
+   "the rapids of the roaring river",
+   "the tunnel behind the waterfall",
+   "the cracking ice bridge",
+   "the whispering rice terraces",
+   "the night-time camel trail",
+   "the bat-filled cave mouth",
+   "the rusty ship graveyard"
+  ],
+  "I": [
+   "the Maharaja's lost sapphire",
+   "the Viking's carved horn",
+   "the map sewn into a scarf",
+   "the stolen tiger-stripe flag",
+   "the explorer's sealed journal",
+   "the seed of the thousand-year tree",
+   "the jade dragon seal",
+   "the long-lost pearl of the deep",
+   "the iron key of the clockwork vault",
+   "the beacon lamp of the sailors"
+  ],
+  "V": [
+   "a rival expedition led by Baroness Volk",
+   "a rolling avalanche",
+   "a pack of cunning river pirates",
+   "the swirling monsoon storm",
+   "a ruthless smuggler named Silas Crane",
+   "a hungry crocodile king",
+   "a collapsing mountain pass",
+   "a crumbling cliff face",
+   "an old guardian's curse"
+  ],
+  "A": [
+   "a fearless sherpa called Pemba",
+   "a fast-talking pilot called Amelia",
+   "a wise old fisherman called Kenji",
+   "a daring cartographer called Inés",
+   "a sturdy mule called Biscuit",
+   "a young archaeologist called Tariq",
+   "a quiet mountain guide called Lhamo",
+   "a cheeky capuchin called Fig"
+  ],
+  "W": [
+   "the sun rose like molten gold over the peaks",
+   "the river sparkled with silver fish",
+   "the wind carried the scent of wild spices",
+   "the clouds hung low like a ceiling of silk",
+   "the jungle thrummed with a thousand insects",
+   "the stars burned fiercely over the dunes",
+   "the waves crashed like drums on the rocks",
+   "the temple bells rang in the valley below"
+  ],
+  "T": [
+   "read the hidden code in the stars",
+   "tie a rope across the gap",
+   "bargain with the market traders",
+   "swim through the flooded tunnel",
+   "dig beneath the old stone marker",
+   "signal with a mirror",
+   "follow the river downstream",
+   "ride the monsoon winds"
+  ],
+  "M": [
+   "Courage grows every time you take a step.",
+   "The best explorers share their maps.",
+   "Not all treasure is gold.",
+   "Teamwork can cross any river.",
+   "Respect the wild places you discover.",
+   "The bravest thing is asking for help."
+  ],
+  "X": [
+   "Then {A} was working for the rival the whole time, and {H} only discovered it when the map to {I} was handed over.",
+   "Then {I} proved to be a fake, and the real treasure was hidden in {P2}, in plain sight all along.",
+   "Then {V} was after the same prize for a noble reason, and {H} had to decide whether to team up.",
+   "A sudden flood trapped {H} and {A} at {P2}, and they had until sunrise to find a way out with {I}.",
+   "{H} learned that {A} had been lost on this same route years ago, and the journey was really a search for a lost family.",
+   "The map was upside down, and {H} realised the safe road to {I} had been behind them all along.",
+   "At {P2}, {H} found {V} wounded and had to choose between continuing and giving up the lead to help.",
+   "Then {A} sacrificed their only rope so {H} could reach {I}, and now they would all have to find another way home.",
+   "Then {I} was not a treasure but a warning, and {H} understood why the old explorers had hidden it so well.",
+   "{H} discovered that {V} was an old friend of {A}, who had been tricked into hunting for {I} by someone worse."
+  ]
+ },
+ "fantasy": {
+  "P": [
+   "the sunken kingdom of Maris",
+   "the obsidian citadel",
+   "the bone-white desert of Khar",
+   "the elven library of Silverglen",
+   "the stormbound sea-keep",
+   "the festival city of Marigold Gate",
+   "the canyon of sleeping giants",
+   "the black glass forest",
+   "the tower of the last star",
+   "the dwarven forge-halls of Karak-Dun"
+  ],
+  "P2": [
+   "the river of drifting lanterns",
+   "the shattered battlements",
+   "the thornwood bridge",
+   "the moonlit crypt stairs",
+   "the road of seven standing stones",
+   "the frozen waterfall passage",
+   "the ghost-lit mine",
+   "the dragon's graveyard"
+  ],
+  "I": [
+   "the crown of the drowned king",
+   "the phoenix feather",
+   "the shield of Valdoria",
+   "the sky-forged bow",
+   "the heart of the mountain",
+   "the staff of the first mage",
+   "the amber seal of the council",
+   "the veil of unseen paths",
+   "the oath-blade of Tamsin",
+   "the rune-stone of the old tongue"
+  ],
+  "V": [
+   "the Warlord of Ravenspire",
+   "a demon bound in iron",
+   "the necromancer Vesper",
+   "the Frost Titan",
+   "a coven of storm-hags",
+   "the usurper prince Daelen",
+   "a shadow-wolf pack",
+   "a corrupted forest spirit",
+   "the Bone Archmage"
+  ],
+  "A": [
+   "a half-elf rogue called Sable",
+   "a battle-scarred knight called Dame Isolde",
+   "a young sorceress called Nalini",
+   "a dwarf smith called Thrain",
+   "a shape-shifting fox called Kitsune",
+   "a retired dragon-rider called Bhima",
+   "a blind seer called Oracle Meru",
+   "a wolf-bard called Eirik"
+  ],
+  "W": [
+   "twin moons hung heavy over the hills",
+   "dragon-fire lit the clouds orange",
+   "rivers of starlight wound through the valley",
+   "ancient banners snapped in the wind",
+   "the old stones hummed with forgotten power",
+   "the horn of the watch echoed through the mist",
+   "embers drifted like glowing snow",
+   "a hundred torches flickered along the wall"
+  ],
+  "T": [
+   "speak the forgotten word of power",
+   "strike a bargain with the spirit",
+   "forge the broken blade anew",
+   "unseal the ancient ward",
+   "tame the storm with a song",
+   "cross the veil between worlds",
+   "light the beacon of the old kings",
+   "call upon the old oath"
+  ],
+  "M": [
+   "True power lies in choosing mercy.",
+   "A crown is a burden before it is an honour.",
+   "Loyalty is worth more than a thousand blades.",
+   "Even broken things can be made whole.",
+   "Courage is carrying on when the light fades.",
+   "The past can be learned from, but not rewritten."
+  ],
+  "X": [
+   "{H} learned that {A} was the lost heir all along, and the throne that {V} guarded was never rightfully theirs.",
+   "Wielding {I} would cost {H} dearly, and {A} secretly offered to pay the price in {H}'s place.",
+   "The ancient prophecy had been mistranslated, and {H} was never meant to destroy {V}, but to free it.",
+   "Then {V} proposed an alliance against a greater enemy, and {H} had until moonrise at {P2} to decide.",
+   "Then {A} had been bound by a curse to betray {H}, and only {I} could break it before the next dawn.",
+   "Then {I} was never a danger, only a key, and what it opened in {P2} was far more dangerous than {V}.",
+   "{H} learned that the map had been forged by {V}, and every step so far had been a trap leading to {P2}.",
+   "At {P2}, {H} found that the old hero everyone worshipped had been {V} before the curse took hold.",
+   "The kingdom's true enemy had worn the face of {A} for months, and {H} could trust nothing now except {I}.",
+   "{H} discovered that {I} could only be used once, and the choice of who to save would be made at {P2}."
+  ]
+ }
+}
