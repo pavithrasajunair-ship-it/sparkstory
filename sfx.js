@@ -31,6 +31,14 @@
     g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + Math.min(0.05, dur / 3)); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
     n.connect(f); f.connect(g); g.connect(master); n.start(t0); n.stop(t0 + dur + 0.05);
   }
+  /* a human-ish "voice": a buzzy source shaped by two vowel filters, with vibrato and a swell. Used for cheers and roars. */
+  function voice(t0, f0, f1, dur, vol, forms, wob) {
+    var o = ac.createOscillator(), g = ac.createGain(); o.type = "sawtooth"; o.frequency.setValueAtTime(f0, t0); o.frequency.linearRampToValueAtTime(f1, t0 + dur);
+    var lfo = ac.createOscillator(), lg = ac.createGain(); lfo.frequency.value = wob || 6; lg.gain.value = f0 * 0.03; lfo.connect(lg); lg.connect(o.frequency);
+    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + dur * 0.25); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    forms.forEach(function (fm) { var f = ac.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = fm[0]; f.Q.value = fm[1]; var fg = ac.createGain(); fg.gain.value = fm[2]; o.connect(f); f.connect(fg); fg.connect(g); });
+    g.connect(master); o.start(t0); lfo.start(t0); o.stop(t0 + dur + 0.05); lfo.stop(t0 + dur + 0.05);
+  }
   var FX = {
     tap: function (t) { tone("sine", 520, 780, t, 0.14, 0.5); tone("triangle", 1040, 1560, t, 0.1, 0.18); },
     pop: function (t) { tone("sine", 400, 1000, t, 0.16, 0.6); tone("triangle", 800, 1500, t + 0.05, 0.12, 0.25); },
@@ -39,15 +47,27 @@
     ready: function (t) { [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { tone("triangle", f, f, t + i * 0.13, 0.4, 0.45, 0.4); }); },
     whoosh: function (t) { burst(t, 0.7, 0.35, "bandpass", 300, 2600, 0.9); },
     magic: function (t) { FX.sparkle(t); burst(t, 0.6, 0.18, "bandpass", 500, 3000, 1.2); },
-    splash: function (t) { burst(t, 0.55, 0.4, "lowpass", 3500, 500); tone("sine", 500, 900, t + 0.1, 0.12, 0.18); tone("sine", 420, 760, t + 0.22, 0.1, 0.14); },
+    splash: function (t) {
+      tone("sine", 260, 70, t, 0.14, 0.6, 0.05);                       /* the plop */
+      burst(t, 0.8, 0.5, "highpass", 5000, 6000, 0.5); burst(t, 0.9, 0.45, "lowpass", 7000, 700);   /* the crash of water, then it settles */
+      for (var i = 0; i < 7; i++) { var d = 0.12 + i * 0.07 + Math.random() * 0.05, f = 350 + Math.random() * 700; tone("sine", f, f * 1.9, t + d, 0.07, 0.17, 0.03); }   /* little bubbles */
+    },
     knock: function (t) { [0, 0.22, 0.44].forEach(function (d) { tone("sine", 170, 90, t + d, 0.09, 0.6); burst(t + d, 0.05, 0.2, "lowpass", 900); }); },
     steps: function (t) { for (var i = 0; i < 5; i++) burst(t + i * 0.26, 0.09, 0.3, "lowpass", 500 + (i % 2) * 120); },
-    roar: function (t) { var g = tone("sawtooth", 110, 55, t, 0.9, 0.34, 0.2); var f = ac.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 650; burst(t, 0.9, 0.22, "lowpass", 700, 200); },
+    roar: function (t) {
+      voice(t, 85, 55, 1.4, 0.55, [[300, 2, 1.2], [900, 3, 0.8], [1700, 4, 0.3]], 26);   /* growly, fast-wobbling throat */
+      voice(t + 0.05, 128, 70, 1.3, 0.3, [[500, 2, 1], [1200, 3, 0.5]], 31);
+      burst(t, 1.4, 0.3, "bandpass", 600, 1500, 0.7); tone("sine", 55, 40, t, 1.3, 0.35, 0.2);
+    },
     thunder: function (t) { burst(t, 1.4, 0.55, "lowpass", 380, 60); tone("sine", 60, 38, t, 1.3, 0.5, 0.2); },
     boom: function (t) { tone("sine", 140, 40, t, 0.5, 0.7, 0.1); burst(t, 0.3, 0.3, "lowpass", 600, 80); },
     bell: function (t) { [[880, 0.3], [1760, 0.12], [2640, 0.06]].forEach(function (p) { tone("sine", p[0], p[0], t, 1.4, p[1], 0.8); }); },
     giggle: function (t) { [700, 900, 760, 980, 820].forEach(function (f, i) { tone("sine", f, f * 1.12, t + i * 0.09, 0.07, 0.22); }); },
-    cheer: function (t) { tone("triangle", 300, 900, t, 0.5, 0.25, 0.15); FX.sparkle(t + 0.35); },
+    cheer: function (t) {
+      for (var i = 0; i < 7; i++) { var f = 150 + Math.random() * 170; voice(t + Math.random() * 0.25, f, f * (1.1 + Math.random() * 0.3), 1.5, 0.11, [[750, 5, 1], [1250, 6, 0.8], [2700, 6, 0.4]], 5 + Math.random() * 3); }   /* a crowd of voices going "woo" */
+      burst(t, 1.6, 0.16, "bandpass", 1900, 2400, 0.6);
+      for (var j = 0; j < 16; j++) burst(t + 0.15 + Math.random() * 1.4, 0.05, 0.2, "highpass", 1800 + Math.random() * 1500, 0, 0.7);   /* clapping */
+    },
     bird: function (t) { for (var i = 0; i < 3; i++) { tone("sine", 2300, 3300, t + i * 0.16, 0.07, 0.16); tone("sine", 3300, 2500, t + i * 0.16 + 0.07, 0.06, 0.12); } },
     owl: function (t) { tone("sine", 360, 300, t, 0.35, 0.3, 0.2); tone("sine", 360, 290, t + 0.55, 0.45, 0.3, 0.25); },
     meow: function (t) { var o = ac.createOscillator(), f = ac.createBiquadFilter(), g = ac.createGain(); o.type = "sawtooth"; o.frequency.setValueAtTime(420, t); o.frequency.linearRampToValueAtTime(620, t + 0.2); o.frequency.linearRampToValueAtTime(380, t + 0.55);
@@ -62,6 +82,10 @@
     phone: function (t) { [0, 0.25, 0.7, 0.95].forEach(function (d) { tone("square", 1400, 1400, t + d, 0.1, 0.12); tone("square", 1100, 1100, t + d, 0.1, 0.1); }); },
     glass: function (t) { burst(t, 0.5, 0.35, "highpass", 4000, 6000); [3200, 4100, 5200].forEach(function (f, i) { tone("sine", f, f * 0.98, t + i * 0.05, 0.4, 0.1, 0.3); }); },
     tick: function (t) { for (var i = 0; i < 4; i++) tone("square", 1800, 1500, t + i * 0.5, 0.03, 0.12); },
+    gasp: function (t) {
+      burst(t, 0.32, 1.0, "bandpass", 600, 3200, 0.8); burst(t + 0.02, 0.28, 0.45, "highpass", 2800, 4500, 0.5);   /* a sharp breath in */
+      voice(t + 0.12, 330, 420, 0.18, 0.12, [[800, 5, 1], [1800, 6, 0.5]], 4);
+    },
     sting: function (t) { tone("sawtooth", 220, 233, t, 1.1, 0.16, 0.3); tone("sawtooth", 233, 247, t, 1.1, 0.12, 0.3); },
     twinkle: function (t) { [1568, 1976, 2349].forEach(function (f, i) { tone("sine", f, f, t + i * 0.1, 0.35, 0.12, 0.4); }); }
   };
@@ -72,16 +96,17 @@
     [/\b(phone|rang|ringing|call came|text message|buzz\w*)\b/i, "phone"],
     [/\b(glass|shatter\w*|window broke|smash\w*)\b/i, "glass"],
     [/\b(clock|ticking|midnight|countdown|deadline)\b/i, "tick"],
-    [/\b(suddenly|stranger|shadow\w*|vanish\w*|disappear\w*|missing|body|murder\w*|blood|dark\w*)\b/i, "sting"],
-    [/\b(roar\w*|growl\w*|dragon|monster|lion|bear)\b/i, "roar"],
+    [/\b(gasp\w*|startl\w*|stunn\w*|shock\w*|froze|freez\w*|suddenly|gaped|wide eyes)\b/i, "gasp"],
+    [/\b(stranger|shadow\w*|vanish\w*|disappear\w*|missing|body|murder\w*|blood|dark\w*)\b/i, "sting"],
+    [/\b(roar\w*|growl\w*|dragon|monster|lion|beast)\b/i, "roar"],
     [/\b(thunder|lightning|storm)\b/i, "thunder"],
     [/\b(boom\w*|bang\w*|crash\w*|rumbl\w*|explod\w*)\b/i, "boom"],
-    [/\b(splash\w*|puddle\w*|dived?|swam|swim\w*|ocean|river|lake|sea|waves?|waterfall)\b/i, "splash"],
+    [/\b(splash\w*|puddle\w*|dived?|swam|swim\w*|waterfall|poured into the)\b/i, "splash"],
     [/\b(knock\w*|tap(?:ped)? on|door)\b/i, "knock"],
     [/\b(footsteps?|tiptoe\w*|crept|marched|walked|ran|hurried)\b/i, "steps"],
     [/\b(bell|ding|chim\w+)\b/i, "bell"],
     [/\b(laugh\w*|giggl\w*|chuckl\w*|funny|tickl\w*)\b/i, "giggle"],
-    [/\b(cheer\w*|hooray|yay|celebrat\w*|party|hug\w*|surpris\w*|won)\b/i, "cheer"],
+    [/\b(cheer\w*|hooray|yay|applau\w*|clap\w*|celebrat\w*|crowd)\b/i, "cheer"],
     [/\b(magic\w*|spell|sparkl\w*|wand|fairy|glow\w*|shimmer\w*|enchant\w*|wish\w*)\b/i, "magic"],
     [/\b(star|stars|twinkl\w*|moon\w*)\b/i, "twinkle"],
     [/\b(bird\w*|sing\w*|chirp\w*|tweet\w*|sparrow|robin)\b/i, "bird"],
@@ -104,7 +129,7 @@
   function cue(text) {
     var list = cuesFor(text || ""); list.forEach(function (n, i) { play(n, 0.05 + i * 1.1); }); return list;
   }
-  var ICON = { roar: "🦁 Roar", thunder: "⛈️ Thunder", boom: "💥 Boom", splash: "💦 Splash", knock: "🚪 Knock", steps: "👣 Steps", bell: "🔔 Bell", giggle: "😄 Giggle", cheer: "🎉 Cheer", magic: "✨ Magic", twinkle: "⭐ Twinkle", bird: "🐦 Bird", owl: "🦉 Owl", meow: "🐱 Meow", woof: "🐶 Woof", whoosh: "💨 Whoosh", creak: "🚪 Creak", snore: "😴 Snore", heartbeat: "💓 Heartbeat", gunshot: "💥 Bang", phone: "📞 Phone", glass: "🪟 Glass", tick: "⏰ Tick", sting: "😱 Gasp" };
+  var ICON = { roar: "🦁 Roar", thunder: "⛈️ Thunder", boom: "💥 Boom", splash: "💦 Splash", knock: "🚪 Knock", steps: "👣 Steps", bell: "🔔 Bell", giggle: "😄 Giggle", cheer: "🎉 Cheer", magic: "✨ Magic", twinkle: "⭐ Twinkle", bird: "🐦 Bird", owl: "🦉 Owl", meow: "🐱 Meow", woof: "🐶 Woof", whoosh: "💨 Whoosh", creak: "🚪 Creak", snore: "😴 Snore", heartbeat: "💓 Heartbeat", gunshot: "💥 Bang", phone: "📞 Phone", glass: "🪟 Glass", tick: "⏰ Tick", sting: "🎻 Tense", gasp: "😮 Gasp" };
   /* mark paragraphs that have sounds (a little speaker shows after them) and build a row of tap-to-hear buttons above the story */
   function decorate() {
     var body = document.getElementById("story-body"), row = document.getElementById("sfx-chips"); if (!body || !row) return;

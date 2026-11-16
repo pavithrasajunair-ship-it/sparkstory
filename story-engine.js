@@ -837,6 +837,7 @@
       if (k === "Ib") return bare(ctx.I);
       if (ctx[k] != null) return ctx[k];
       if (k === "M") return lex.M && lex.M.length ? rt.draw("M" + g, lex.M) : "";
+      if (k === "X") return fill(rt.draw("X" + g, lex.X) || "", ctx, lex, rt, g);
       if (["P2", "W", "T", "C", "S", "D"].includes(k)) return rt.draw(k + g, lex[k]) || "";
       throw new Error("Unknown token " + m);
     });
@@ -1045,12 +1046,15 @@
     const ctx = makeCtx({ ...params, tier }, g, lex, rt);
     const dark = (tier === "adult") && lex.D && lex.D.length > 0;
 
-    const beatText = (name, state) => {
+    const twistBeat = ["twist", "setback", "obstacle", "distance", "strange2", "escalate", "trouble"].find((b) => pool[b]);
+    let twistDone = false;
+    const beatText = (name) => {
       const variants = (name === "ending" && gid === "darkromance" && pool.endingDark) ? pool.endingDark : pool[name];
       if (!variants) return "";
       const t = rt.draw("beat:" + g.shape + ":" + name + (name === "ending" && gid === "darkromance" ? "D" : ""), variants);
       let out = fill(t, ctx, lex, rt, gid);
       if (dark && shape.darkAfter && shape.darkAfter.includes(name)) out += " " + fill("{D}", ctx, lex, rt, gid);
+      if (lex.X && lex.X.length && !twistDone && name === twistBeat) { twistDone = true; out += " " + fill("{X}", ctx, lex, rt, gid); }
       return out;
     };
     const makeParas = (beats) => {
