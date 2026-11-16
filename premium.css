@@ -1,0 +1,6 @@
+/* Premium screen + locks. Colours come from theme.css. */
+.prem-list{list-style:none;padding:0;margin:1rem 0;display:grid;gap:.7rem;max-width:560px}
+.prem-list li{padding:.9rem 1rem;border-radius:14px;border:2px solid var(--line,#8886);line-height:1.5}
+.prem-restore{margin:1.2rem 0;max-width:560px}
+.prem-restore summary{cursor:pointer;padding:.5rem 0}
+.lock-badge{font-size:.8rem;margin-left:.35rem;opacity:.9}

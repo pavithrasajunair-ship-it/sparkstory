@@ -2,7 +2,7 @@
   "use strict";
   const D = window.SSData, E = window.SSEngine, X = window.SSExtras;
   const $ = (id) => document.getElementById(id);
-  const SCREENS = ["home", "age", "genre", "chars", "length", "loading", "story", "lib", "wall", "post"];
+  const SCREENS = ["home", "age", "genre", "chars", "length", "loading", "story", "lib", "wall", "post", "premium"];
   const COPY = {
     tiny:  { genre: "What story shall we have?", chars: "Who is in the story?", charsLead: "Type the names. The first one is the star of the story!", length: "How long?", roles: { friend: "Friend", pet: "Pet or toy", helper: "Helper", villain: "Grumpy one" } },
     kids:  { genre: "Pick your story type", chars: "Who is in your story?", charsLead: "Add your characters. The first one is the hero.", length: "How long should it be?", roles: { friend: "Friend", pet: "Pet", helper: "Helper", villain: "Troublemaker" } },
@@ -129,8 +129,9 @@
   function saveCast(name, role) {
     name = name.trim(); if (!name) return false;
     const all = cast().filter((c) => c.name.toLowerCase() !== name.toLowerCase());
+    if (!window.Premium.active && all.length >= window.Premium.FREE.cast) { window.Premium.open("Free accounts keep " + window.Premium.FREE.cast + " saved characters. Premium keeps many more."); return false; }
     all.push({ name, role: role === "hero" ? "friend" : role });
-    return store.set(CAST_KEY, all.slice(-24));
+    return store.set(CAST_KEY, all.slice(-60));
   }
   function renderCast() {
     const box = $("cast-box"), list = $("cast-list"); list.textContent = "";
@@ -209,12 +210,13 @@
     $("h-length").textContent = COPY[state.tier].length;
     const g = $("length-grid"); g.textContent = "";
     Object.entries(D.LENGTHS).forEach(([id, l]) => {
+      if (l.premium && state.tier !== "teens" && state.tier !== "adult") return;
       const note = state.tier === "tiny" && id === "long" ? "A longer bedtime story" : l.note;
       const b = document.createElement("button");
       b.type = "button"; b.className = "tile"; b.dataset.length = id; b.setAttribute("role", "radio"); b.setAttribute("aria-checked", String(state.length === id));
       b.innerHTML = '<span class="big"></span><b></b><small></small>';
-      b.querySelector(".big").textContent = l.emoji; b.querySelector("b").textContent = l.name; b.querySelector("small").textContent = note;
-      b.addEventListener("click", () => { state.length = id; g.querySelectorAll(".tile").forEach((t) => t.setAttribute("aria-checked", String(t === b))); });
+      b.querySelector(".big").textContent = l.emoji; b.querySelector("b").textContent = l.name; if (l.premium) { const k = document.createElement("span"); k.className = "lock-badge"; k.textContent = "Premium"; k.hidden = window.Premium.active; b.querySelector("b").appendChild(k); } b.querySelector("small").textContent = note;
+      b.addEventListener("click", () => { if (l.premium && !window.Premium.active) { window.Premium.open("Epic stories are part of Premium."); return; } state.length = id; g.querySelectorAll(".tile").forEach((t) => t.setAttribute("aria-checked", String(t === b))); });
       g.appendChild(b);
     });
     $("ai-row").hidden = !state.ai;
@@ -387,9 +389,11 @@
   function saveStory() {
     const s = state.story; if (!s) return;
     const all = lib().filter((x) => x.id !== s.id);
+    const cap = window.Premium.active ? 200 : window.Premium.FREE.library;
+    if (all.length >= cap && !lib().some((x) => x.id === s.id)) { window.Premium.open("Your library is full (" + cap + " stories). Premium keeps up to 200."); return; }
     s.id = s.id || String(Date.now());
     all.unshift({ id: s.id, savedAt: Date.now(), story: { title: s.title, chapters: s.chapters, params: s.params, ctx: s.ctx, text: s.text, ai: !!s.ai, id: s.id, episode: s.episode || 0, seriesTitle: s.seriesTitle || "", seriesId: s.seriesId || "", shared: !!s.shared } });
-    if (!store.set(SAVE_KEY, all.slice(0, 40))) { $("story-status").textContent = "This browser could not save the story. Use Copy to keep it."; return; }
+    if (!store.set(SAVE_KEY, all.slice(0, 200))) { $("story-status").textContent = "This browser could not save the story. Use Copy to keep it."; return; }
     state.saved = true; $("t-save").textContent = "✅ Saved"; $("story-status").textContent = "Saved in this browser. Find it under My stories."; updateCount();
   }
   function showLib() {
@@ -596,6 +600,7 @@
     $("use-bed").addEventListener("change", () => { state.bed = $("use-bed").checked; $("bed-opts").hidden = !state.bed; syncEnding(); });
     $("t-episode").addEventListener("click", () => {
       const s0 = state.story; if (!s0 || s0.shared) return;
+      if (!window.Premium.active && (s0.episode || 1) >= window.Premium.FREE.episodes) { window.Premium.open("Free stories go up to Episode " + window.Premium.FREE.episodes + ". Premium has no limit."); return; }
       stopSpeak();
       const ep = E.nextEpisode(Object.assign({}, s0, { id: s0.id }), { grow: $("grow").checked });
       if (!ep.seriesId) ep.seriesId = s0.id || String(s0.params.seed);

@@ -26,12 +26,14 @@
 <link rel="stylesheet" href="kids.css">
 <link rel="stylesheet" href="home.css">
 <link rel="stylesheet" href="wall.css">
+<link rel="stylesheet" href="premium.css">
 </head>
 <body>
 <div class="deco" id="deco" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <button class="brand" id="brand" type="button" aria-label="StorySpark home">StorySpark</button>
+  <button class="btn btn-ghost" id="btn-premium" type="button" data-premium-open>Premium</button>
   <button class="btn btn-ghost" id="btn-wall" type="button" data-wall>Story wall</button>
   <button class="btn btn-ghost" id="btn-lib" type="button">My stories <span class="count" id="lib-count" hidden></span></button>
 </header>
@@ -275,6 +277,36 @@
       <p class="fine" id="post-status" role="status"></p>
     </form>
   </section>
+  <!-- premium -->
+  <section class="screen" id="s-premium" hidden aria-labelledby="h-premium">
+    <button class="back" type="button" data-prem-back>← Back</button>
+    <h1 id="h-premium">StorySpark Premium</h1>
+    <p class="lead">₹499 for a year. Pay once, no auto-renewal.</p>
+    <p class="wgood" id="prem-reason" hidden></p>
+    <ul class="prem-list">
+      <li><b>Epic stories.</b> About 3,500 words, for teens and grown-ups.</li>
+      <li><b>Unlimited episodes.</b> Free stops at Episode 2.</li>
+      <li><b>Bigger library.</b> Save up to 200 stories (free: 15).</li>
+      <li><b>More saved characters.</b> Keep a whole cast (free: 5).</li>
+      <li><b>Early access.</b> New genres open to premium readers about two weeks before everyone else.</li>
+    </ul>
+    <p class="fine">Everything else stays free: all genres, sound effects, read-aloud, the Story wall and saving to your device.</p>
+    <p class="fine" id="prem-test" hidden>Test mode: no real money is taken.</p>
+    <p class="wgood" id="prem-state"></p>
+    <div class="wform" id="prem-buy-box">
+      <label>Your email <input id="prem-email" type="email" maxlength="120" autocomplete="email" placeholder="you@example.com"></label>
+      <button class="btn btn-primary" type="button" id="prem-buy">Get Premium for ₹499</button>
+    </div>
+    <details class="prem-restore">
+      <summary>Already paid? Restore on this device</summary>
+      <div class="wform">
+        <label>Email you paid with <input id="prem-r-email" type="email" maxlength="120"></label>
+        <label>Payment ID (starts with pay_) <input id="prem-r-pid" maxlength="40"></label>
+        <button class="btn btn-soft" type="button" id="prem-restore">Restore Premium</button>
+      </div>
+    </details>
+    <p class="fine" id="prem-msg" role="status"></p>
+  </section>
 </main>
 <div class="sleep" id="sleep" hidden role="dialog" aria-label="Sleep mode">
   <div class="moon" aria-hidden="true">🌙</div>
@@ -289,6 +321,7 @@
 <script src="sfx.js"></script>
 <script src="home.js"></script>
 <script src="wall.js"></script>
+<script src="premium.js"></script>
 <script src="app.js"></script>
 <script src="aesthetic.js"></script>
 <script src="scene.js"></script>
