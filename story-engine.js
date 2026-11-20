@@ -1145,6 +1145,22 @@
     return story;
   }
 
+  // beats that introduce characters or close a story: a continuation must not repeat or use them
+  const CLOSING = /^(ending|endingDark|goodnight|happy|win|climax|solve|reveal|confront|realize|gesture|opening|meet|ally|friend|wish|call|arrival|kind)$/;
+  // the bare minimum to avoid: used when a shape has too few other beats to fill a chapter
+  const CLOSING_HARD = /^(ending|endingDark|goodnight|happy|win|solve|opening)$/;
+  // first mention of an extra character keeps its full description ("a cheeky capuchin called Fig"); later ones are just the name
+  function shortenRepeats(chapters) {
+    const seen = {};
+    const re = /\b([Aa]n? [a-z][a-z' -]{2,40}? called ([A-Z][\w'-]+))/g;
+    chapters.forEach((c) => {
+      c.paragraphs = c.paragraphs.map((t) => t.replace(re, (m, whole, name) => {
+        if (!seen[name]) { seen[name] = 1; return m; }
+        return name;
+      }));
+    });
+  }
+
   // add one more chapter to an existing story
   function continueStory(story) {
     const p = story.params;
@@ -1154,15 +1170,16 @@
     const pool = shape[reg] || shape.rich;
     const rt = setup({ seed: (p.seed + 7919 * (story.chapters.length + 1)) >>> 0 });
     const ctx = { ...story.ctx };
-    const mids = shape.long.mids.reduce((a, b) => a.concat(b), []);
+    const mids = shape.long.mids.reduce((a, b) => a.concat(b), []).filter((b) => !CLOSING.test(b));
     // a chapter is a real scene: five or six beats (was three), picked without repeats, then the ending
     const want = tier === "tiny" ? 4 : 6;
     const picked = [];
+    if (mids.filter((b) => pool[b]).length < 3) mids.splice(0, mids.length, ...[].concat(shape.seq || [], shape.short || []).filter((b, i, a) => pool[b] && !CLOSING_HARD.test(b) && a.indexOf(b) === i));
     for (let k = 0; k < 40 && picked.length < want - 1; k++) {
       const b = mids[Math.floor(rt.r() * mids.length)];
       if (pool[b] && b !== "ending" && picked.indexOf(b) === -1) picked.push(b);
     }
-    const beats = picked.concat(pool.ending ? ["ending"] : []);
+    const beats = picked;   // no ending beat: "keep going" means the story is not over
     const texts = beats.map((b) => simplify(tidy(fill(rt.draw("c:" + b, pool[b]), ctx, lex, rt, p.genre)), p.level, tier));
     const paras = tier === "tiny" ? texts : (() => { const o = []; for (let i = 0; i < texts.length; i += 2) o.push(texts.slice(i, i + 2).join(" ")); return o; })();
     // grow the new chapter to a proper size, the same way a whole story is grown to its word target
@@ -1172,7 +1189,7 @@
     const words = () => body[0].paragraphs.join(" ").split(/\s+/).length;
     if (words() < target * 0.6) {
       // this shape has no filler lines: build the chapter from the story's own full beat list instead
-      const all = [].concat(shape.seq || [], shape.short || [], shape.extra || []).filter((b, i, a) => pool[b] && b !== "ending" && a.indexOf(b) === i);
+      const all = [].concat(shape.seq || [], shape.short || [], shape.extra || []).filter((b, i, a) => pool[b] && !CLOSING_HARD.test(b) && a.indexOf(b) === i);
       const seen = new Set(story.text.split(/(?<=[.!?])\s+/));
       const more = [];
       for (let round = 0; round < 3 && more.join(" ").split(/\s+/).length < target * 0.8; round++) {
@@ -1181,14 +1198,18 @@
           if (t && !seen.has(t) && more.indexOf(t) === -1) more.push(t);
         });
       }
-      const ending = texts[texts.length - 1];
-      const merged = more.concat(ending ? [ending] : []);
+      const merged = more;
       body[0].paragraphs = tier === "tiny" ? merged : (() => { const o = []; for (let i = 0; i < merged.length; i += 2) o.push(merged.slice(i, i + 2).join(" ")); return o; })();
     }
+    // never repeat a sentence the story already used
+    const used = new Set(story.text.split(/(?<=[.!?"])\s+/).map((x) => x.trim()));
+    const fresh = body[0].paragraphs.map((t) => t.split(/(?<=[.!?"])\s+/).filter((x) => !used.has(x.trim())).join(" ")).filter((t) => t.trim());
+    if (fresh.length) body[0].paragraphs = fresh;
     paras.splice(0, paras.length, ...body[0].paragraphs);
     const n = story.chapters.length + 1;
     const chapters = story.chapters.length === 1 && !story.chapters[0].title ? [{ title: "Chapter 1", paragraphs: story.chapters[0].paragraphs }] : story.chapters.slice();
     chapters.push({ title: "Chapter " + n, paragraphs: paras });
+    shortenRepeats(chapters);
     const next = { ...story, chapters };
     next.text = toText(next);
     return next;
