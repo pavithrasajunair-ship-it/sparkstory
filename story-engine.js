@@ -1155,10 +1155,37 @@
     const rt = setup({ seed: (p.seed + 7919 * (story.chapters.length + 1)) >>> 0 });
     const ctx = { ...story.ctx };
     const mids = shape.long.mids.reduce((a, b) => a.concat(b), []);
-    const beats = [mids[Math.floor(rt.r() * mids.length)], mids[Math.floor(rt.r() * mids.length)], "ending"]
-      .filter((b, i, a) => pool[b] && a.indexOf(b) === i);
+    // a chapter is a real scene: five or six beats (was three), picked without repeats, then the ending
+    const want = tier === "tiny" ? 4 : 6;
+    const picked = [];
+    for (let k = 0; k < 40 && picked.length < want - 1; k++) {
+      const b = mids[Math.floor(rt.r() * mids.length)];
+      if (pool[b] && b !== "ending" && picked.indexOf(b) === -1) picked.push(b);
+    }
+    const beats = picked.concat(pool.ending ? ["ending"] : []);
     const texts = beats.map((b) => simplify(tidy(fill(rt.draw("c:" + b, pool[b]), ctx, lex, rt, p.genre)), p.level, tier));
     const paras = tier === "tiny" ? texts : (() => { const o = []; for (let i = 0; i < texts.length; i += 2) o.push(texts.slice(i, i + 2).join(" ")); return o; })();
+    // grow the new chapter to a proper size, the same way a whole story is grown to its word target
+    const body = [{ title: "", paragraphs: paras }];
+    const target = tier === "tiny" ? 300 : (p.length === "long" || p.length === "epic") ? 750 : 550;
+    try { expandStory(body, 1, target, tier, g.shape, reg, ctx, lex, rt, p.genre, false); } catch (e) { /* keep the short version */ }
+    const words = () => body[0].paragraphs.join(" ").split(/\s+/).length;
+    if (words() < target * 0.6) {
+      // this shape has no filler lines: build the chapter from the story's own full beat list instead
+      const all = [].concat(shape.seq || [], shape.short || [], shape.extra || []).filter((b, i, a) => pool[b] && b !== "ending" && a.indexOf(b) === i);
+      const seen = new Set(story.text.split(/(?<=[.!?])\s+/));
+      const more = [];
+      for (let round = 0; round < 3 && more.join(" ").split(/\s+/).length < target * 0.8; round++) {
+        all.forEach((b) => {
+          const t = simplify(tidy(fill(rt.draw("c" + round + ":" + b, pool[b]), ctx, lex, rt, p.genre)), p.level, tier);
+          if (t && !seen.has(t) && more.indexOf(t) === -1) more.push(t);
+        });
+      }
+      const ending = texts[texts.length - 1];
+      const merged = more.concat(ending ? [ending] : []);
+      body[0].paragraphs = tier === "tiny" ? merged : (() => { const o = []; for (let i = 0; i < merged.length; i += 2) o.push(merged.slice(i, i + 2).join(" ")); return o; })();
+    }
+    paras.splice(0, paras.length, ...body[0].paragraphs);
     const n = story.chapters.length + 1;
     const chapters = story.chapters.length === 1 && !story.chapters[0].title ? [{ title: "Chapter 1", paragraphs: story.chapters[0].paragraphs }] : story.chapters.slice();
     chapters.push({ title: "Chapter " + n, paragraphs: paras });
