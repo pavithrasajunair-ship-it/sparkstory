@@ -57,8 +57,8 @@ function buildPrompt(v) {
   if (v.place) user += `\nSetting: ${v.place}\n`;
   if (v.item) user += `\nA special thing in the story: ${v.item}\n`;
   if (v.bedtime) user += `\nThis is a calm bedtime story. Keep it soft and slow, with no problem that feels scary, and end by gently winding down so the child can fall asleep.${v.bedtime.today ? " Something that happened today, to be handled kindly and reassuringly: " + v.bedtime.today + "." : ""}\n`;
-  if (v.continueFrom) user = `Here is the end of a story so far:\n"""\n${v.continueFrom}\n"""\n\nWrite the next chapter (about 400 words) in the same style, with the same characters, moving the story forward. Start with a line \`TITLE: <same story title>\` then one chapter heading line \`## <chapter title>\`.`;
-  return { system, user, maxTokens: v.continueFrom ? 1400 : size.tokens };
+  if (v.continueFrom) user = `Here is the end of a story so far:\n"""\n${v.continueFrom}\n"""\n\nWrite the next chapter as a full scene, about 800 words (never under 650), with real action, dialogue and detail, not a summary in the same style, with the same characters, moving the story forward. Start with a line \`TITLE: <same story title>\` then one chapter heading line \`## <chapter title>\`.`;
+  return { system, user, maxTokens: v.continueFrom ? 2400 : size.tokens };
 }
 
 function parse(text) {

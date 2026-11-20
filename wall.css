@@ -35,3 +35,8 @@
 #s-wall .wcard,#s-post input,#s-post select,#s-post textarea,#s-premium input{background:#fff;color:var(--ink)}
 #s-post .wbad,#s-wall .wbad,#s-premium .wbad{color:#b3261e}
 #s-post .wgood,#s-wall .wgood,#s-premium .wgood{color:#14753a}
+
+/* Long unbroken text (a keyboard mash, a long link) must wrap inside its card, never spill over the next one. */
+.wcard{min-width:0;overflow:hidden}
+.wcard *{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+#s-wall .wgrid,#s-wall [class*="grid"]{min-width:0}
