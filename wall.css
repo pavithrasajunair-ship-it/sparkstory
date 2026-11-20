@@ -24,3 +24,14 @@
 .wgood{color:#6be28f;font-weight:600}
 .top{flex-wrap:wrap;gap:.4rem}
 @media (max-width:560px){.top .btn{padding:.4rem .7rem;font-size:.85rem}.top .brand{font-size:1.05rem}}
+
+/* Readable panel: these screens can open over a dark story scene, so they carry their own light surface and dark text. */
+#s-wall,#s-post,#s-premium{--ink:#2a1b4d;--muted:#5b4f7a;--card:#fff;--line:#cdbff0;background:rgba(255,253,248,.97);color:var(--ink);border:3px solid #fff;border-radius:22px;padding:1.2rem 1.3rem 1.6rem;margin-top:1rem;text-shadow:none}
+#s-wall :is(h1,h2,h3,p,label,legend,summary,li,.lead,.fine),#s-post :is(h1,h2,h3,p,label,legend,summary,li,.lead,.fine),#s-premium :is(h1,h2,h3,p,label,legend,summary,li,.lead,.fine){color:var(--ink);text-shadow:none}
+#s-wall .fine,#s-post .fine,#s-premium .fine{color:var(--muted)}
+#s-wall :is(.wtab),#s-post .wtab{color:var(--ink)}
+#s-wall .wtab.on{color:#fff}
+#s-wall :is(.back,.btn-soft,.btn-ghost),#s-post :is(.back,.btn-soft,.btn-ghost),#s-premium :is(.back,.btn-soft,.btn-ghost){background:#fff;color:var(--ink);border:2px solid var(--line)}
+#s-wall .wcard,#s-post input,#s-post select,#s-post textarea,#s-premium input{background:#fff;color:var(--ink)}
+#s-post .wbad,#s-wall .wbad,#s-premium .wbad{color:#b3261e}
+#s-post .wgood,#s-wall .wgood,#s-premium .wgood{color:#14753a}
