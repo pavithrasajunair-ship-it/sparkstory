@@ -1,0 +1,104 @@
+/* StorySpark look: reading by lamplight.
+   Night-ink pages, one warm lamp colour for actions, book-cover choices, a storybook serif for titles.
+   Loaded last on purpose: it overrides the older layers. Per-age palettes (tiny, kids, teens, adult) still win where they set colours. */
+
+:root{
+  --bg1:#110c28;--bg2:#1b1442;--ink:#f6f1ff;--muted:#bdb1dc;--card:#1b1540;--line:#3b3070;
+  --accent:#ffc94d;--accent-ink:#1c1233;--accent2:#9d7bff;--radius:14px;--shadow:0 18px 40px -22px rgba(0,0,0,.7);
+  --serif:"Lora",Georgia,"Times New Roman",serif;
+}
+body{background:radial-gradient(900px 520px at 50% -8%,rgba(255,201,77,.16),transparent 70%),linear-gradient(180deg,var(--bg1),var(--bg2)) fixed}
+
+/* no confetti of emoji: only the youngest readers keep a few drifting shapes */
+html:not([data-tier=tiny]):not([data-tier=kids]) .deco{display:none}
+html[data-tier=tiny] .deco span,html[data-tier=kids] .deco span{opacity:.35}
+
+/* type: serif for every title, sans for the interface */
+h1,h2,h3,.brand,.hline,.hcopy h1,.hsec h2,.tile b,.htier b,.mood b,.hsteps b,.daily b{font-family:var(--serif);font-weight:700;letter-spacing:-.01em}
+h1{font-size:clamp(30px,5.4vw,46px);line-height:1.12;text-wrap:balance}
+.lead{max-width:56ch}
+.htag,.hkick,.hswipe,.field span,.daily small{text-transform:none;letter-spacing:.01em}
+.field span{font-size:15px;font-weight:600}
+
+/* header: wordmark and three quiet links */
+.top{align-items:center;flex-wrap:nowrap;gap:2px 6px;padding:14px 18px}
+.brand{display:flex;align-items:center;gap:9px;font-size:24px;margin-right:auto;color:var(--ink)}
+.brand::before{content:"";width:20px;height:20px;flex:0 0 20px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffc94d' d='M12 1c.6 5.6 2.4 8.4 11 11-8.6 2.6-10.4 5.4-11 11-.6-5.6-2.4-8.4-11-11C9.6 9.4 11.4 6.6 12 1z'/%3E%3C/svg%3E") center/contain no-repeat}
+.top .btn-ghost{border:0;background:none;color:var(--ink);padding:9px 11px;min-height:40px;font-size:15px;font-weight:600;border-radius:10px;opacity:.86;position:relative}
+.top .btn-ghost:hover{opacity:1;background:rgba(255,255,255,.08)}
+.top .btn-ghost[data-premium-open]{color:var(--accent);opacity:1}
+@media (max-width:520px){.top{padding:12px 12px}.brand{font-size:21px}.brand::before{width:17px;height:17px;flex-basis:17px}.top .btn-ghost{padding:8px 7px;font-size:14px}}
+
+/* buttons: rounded rectangles, not pills (the youngest keep their round ones) */
+.btn{border-radius:12px}
+html[data-tier=tiny] .btn{border-radius:999px}
+.btn-primary{box-shadow:0 10px 24px -10px color-mix(in srgb,var(--accent) 70%,transparent)}
+.tile:hover{transform:translateY(-4px)}
+.steps li{border:0;border-bottom:2px solid var(--line);border-radius:0;padding:6px 2px;margin-right:14px;background:none;color:var(--muted)}
+.steps li.on{background:none;color:var(--ink);border-bottom-color:var(--accent)}
+.steps li.done{color:var(--ink);border-bottom-color:var(--accent2)}
+
+/* age choice: four book covers */
+.age-grid{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin-top:20px}
+.age-grid .tile,.htiers .htier{position:relative;min-height:250px;justify-content:flex-end;gap:8px;padding:22px 20px 20px 30px;border:0;border-radius:4px 14px 14px 4px;color:#fff;overflow:hidden;
+  box-shadow:inset 12px 0 0 rgba(0,0,0,.22),inset 13px 0 0 rgba(255,255,255,.14),0 22px 34px -22px rgba(0,0,0,.8);transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s}
+.age-grid .tile:hover,.htiers .htier:hover{transform:translateY(-6px) rotate(-1deg)}
+.age-grid .tile::before,.htiers .htier::before{content:"";position:absolute;left:30px;top:22px;width:34px;height:3px;background:var(--accent);border-radius:2px}
+.age-grid .tile .big,.htiers .htier span{display:none}
+.age-grid .tile b,.htiers .htier b{font-size:26px;line-height:1.1;color:#fff}
+.age-grid .tile small,.htiers .htier small{color:rgba(255,255,255,.86);font-size:15px;line-height:1.4}
+.age-grid .tile:nth-child(1),.htiers .htier:nth-child(1){background:linear-gradient(160deg,#ff9a76,#ff5f9e)}
+.age-grid .tile:nth-child(2),.htiers .htier:nth-child(2){background:linear-gradient(160deg,#2fb3d6,#2a6fd6)}
+.age-grid .tile:nth-child(3),.htiers .htier:nth-child(3){background:linear-gradient(160deg,#9d6bff,#5b2fd6)}
+.age-grid .tile:nth-child(4),.htiers .htier:nth-child(4){background:linear-gradient(160deg,#3a1030,#14091f 70%);box-shadow:inset 12px 0 0 rgba(0,0,0,.4),inset 13px 0 0 rgba(255,255,255,.1),0 22px 34px -22px rgba(0,0,0,.8)}
+.age-grid .tile:nth-child(4)::before,.htiers .htier:nth-child(4)::before{background:#e0405e}
+.age-grid .tile[aria-checked=true]{outline:3px solid var(--accent);outline-offset:3px}
+
+/* genre and length choices: calm panels */
+.genre-grid .tile,.length-grid .tile{border:1px solid var(--line);border-radius:12px;background:var(--card);box-shadow:none}
+.genre-grid .tile:hover,.length-grid .tile:hover{border-color:var(--accent)}
+.daily{border-style:solid;border-width:1px 0 1px 0;border-radius:0;background:none}
+
+/* home: the "how it works" steps are a real sequence, shown as one line of text */
+.hsteps{gap:0 36px}
+.hsteps li{background:none;border:0;border-top:2px solid var(--h-line);border-radius:0;padding:16px 0 0}
+.hsteps span{background:none;color:var(--h-accent);font:700 38px/1 var(--serif);width:auto;height:auto;display:block;border-radius:0;margin-bottom:4px}
+.hsteps b{font-size:21px}
+.htiers{gap:18px}
+.hsec{padding-top:56px}
+.hsec h2{font-size:clamp(28px,4.2vw,40px)}
+.mood{border-radius:6px 16px 16px 6px}
+.home .hbtn{border-radius:12px}
+
+/* the one moment that plays by itself: the hero text arrives in order, once */
+@keyframes lampIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hcopy>*{animation:lampIn .9s cubic-bezier(.22,1,.36,1) both}
+.hcopy>:nth-child(2){animation-delay:.12s}.hcopy>:nth-child(3){animation-delay:.28s}.hcopy>:nth-child(4){animation-delay:.42s}
+.hcopy h1{font-size:clamp(36px,6.6vw,70px);line-height:1.04}
+@media (prefers-reduced-motion:reduce){.hcopy>*{animation:none}}
+
+/* header and progress over a story scene: a dark glass strip for every age, not a cream pill */
+html[data-tier].ss-scene-on .top,html.ss-scene-on .top{background:rgba(14,9,32,.62);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:0;border-radius:0 0 16px 16px;color:#fff;max-width:980px}
+html[data-tier].ss-scene-on .steps,html.ss-scene-on .steps{background:rgba(14,9,32,.62);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:0;border-radius:12px;padding:8px 14px;display:inline-flex}
+html.ss-scene-on .steps li{color:#d9d0f5;border-bottom-color:rgba(255,255,255,.22);background:none}
+html.ss-scene-on .steps li.on{color:#fff;border-bottom-color:var(--accent);background:none}
+html.ss-scene-on .steps li.done{color:#fff;border-bottom-color:#7ddba3;background:none}
+.top .brand,.top .btn-ghost{color:#fff}
+.top .btn{font-size:15px!important;padding:8px 11px!important;border-width:0!important;border-radius:10px!important;background:none}
+.top .btn[data-premium-open]{color:var(--accent)}
+.top .count{background:var(--accent);color:var(--accent-ink)}
+@media (max-width:520px){
+  .top .btn{font-size:13.5px!important;padding:8px 6px!important}
+  .brand{font-size:19px}
+  .age-grid,.htiers{grid-template-columns:1fr 1fr;gap:12px}
+  .age-grid .tile,.htiers .htier{min-height:190px;padding:18px 14px 16px 24px}
+  .age-grid .tile::before,.htiers .htier::before{left:24px;top:18px}
+  .age-grid .tile b,.htiers .htier b{font-size:21px}
+  .age-grid .tile small,.htiers .htier small{font-size:13px}
+}
+
+/* every tier: same wordmark and quiet links, readable on the dark strip */
+html[data-tier] .top .brand,html[data-tier] .top .brand *{color:#fff!important;text-shadow:none!important}
+html[data-tier] .top .btn,html[data-tier] .top .btn-ghost{background:none!important;color:#fff!important;box-shadow:none!important;border:0!important}
+html[data-tier] .top .btn[data-premium-open]{color:var(--accent)!important}
+html[data-tier] .top{background:rgba(14,9,32,.62)!important}
