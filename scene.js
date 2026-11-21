@@ -6,7 +6,8 @@
   var rnd = function (a, b) { return a + Math.random() * (b - a); }, pick = function (a) { return a[Math.floor(Math.random() * a.length)]; };
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var root, layers = [], cur = 0, canvas, ctx, lightEl, dimEl, gradeEl, hint, W = 0, H = 0, DPR = 1, PH = {}, AVIF = false;
-  var state = { key: '', locked: '', px: .5, py: .6, tx: .5, ty: .6, down: false, candles: [], dragonT: 0 };
+  var BIO_KEYS = { adventure: ['forest', 'mountain', 'sea', 'snow', 'jungle', 'desert', 'meadow'] };
+  var state = { key: '', locked: '', biome: '', px: .5, py: .6, tx: .5, ty: .6, down: false, candles: [], dragonT: 0 };
 
   /* ---------------------------------------------------- scenery */
   var BLUR = '<defs><filter id="b2" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.4"/></filter><filter id="b6" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7"/></filter><filter id="b14" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="16"/></filter></defs>';
@@ -290,12 +291,15 @@ var SC = {
   function build(L, key, keepOpacity) {
     var cfg = SC[key] || SC['default']; L.key = key; L.bgd.style.background = cfg.bg;
     var old = L.el.querySelector('.ss-svg'); if (old) old.remove(); L.svg = null;
-    if (cfg.art) { var tmp = document.createElement('div'); tmp.innerHTML = cfg.art(W, H); L.svg = tmp.firstChild; L.vb = { w: W, h: H }; L.el.appendChild(L.svg); }
+    var art = cfg.art;
+    if (BIO_KEYS[key] && state.biome && window.SSBiome) { var bio = state.biome, bs = state.biomeSeed; art = function (w, h) { return svgWrap(w, h, SSBiome.svg(bio, w, h, bs, state.biomeTime, 'bgb')); }; L.bgd.style.background = '#0e1522'; }
+    if (art) { var tmp = document.createElement('div'); tmp.innerHTML = art(W, H); L.svg = tmp.firstChild; L.vb = { w: W, h: H }; L.el.appendChild(L.svg); }
     var ph = L.el.querySelector('.ss-photo'); if (ph) ph.remove(); var url = photoUrl(key);
     if (url) { var im = new Image(); im.onload = function () { if (L.key !== key) return; var d = document.createElement('div'); d.className = 'ss-photo'; d.style.backgroundImage = 'url(' + url + ')'; L.el.insertBefore(d, L.bgd.nextSibling); requestAnimationFrame(function () { d.classList.add('in'); }); if (PH[key] && PH[key].replaceArt !== false && L.svg) { L.svg.style.display = 'none'; L.svg = null; state.candles = []; } }; im.onerror = function () {}; im.src = url; }
   }
   function setScene(key, opts) {
     if (!root) return; var cfg = SC[key] || SC['default']; if (key === state.key && root.classList.contains('on')) return;
+    if (BIO_KEYS[key] && window.SSBiome) { var bl = BIO_KEYS[key]; state.biomeSeed = Math.floor(Math.random() * 1e9); state.biome = bl[state.biomeSeed % bl.length]; state.biomeTime = ['day', 'dawn', 'dusk', 'night'][(state.biomeSeed >> 3) % 4]; } else state.biome = '';
     var nxt = 1 - cur, L = layers[nxt]; build(L, SC[key] ? key : 'default'); state.key = SC[key] ? key : 'default';
     L.el.classList.add('show'); layers[cur].el.classList.remove('show'); cur = nxt;
     mode = cfg.fx; P = P.filter(function (p) { return p.m === 'ember' || p.m === 'petals' && mode === 'petals'; });
@@ -304,7 +308,7 @@ var SC = {
     if (!root.classList.contains('on')) { root.classList.add('on'); document.documentElement.classList.add('ss-scene-on'); }
     if (cfg.hint) showHint(cfg.hint); else hideHint();
   }
-  function photoUrl(key) { var m = PH[key]; if (!m) return ''; var tr = document.documentElement.getAttribute('data-tier'); if ((tr === 'tiny' || tr === 'kids') && /^(horror|darkromance|mystery|thriller|romance|psych)$/.test(key)) return ''; var mob = W < 760 && m.mobile; return 'scenes/' + key + (mob ? '-m' : '') + '.' + (AVIF && m.avif ? 'avif' : 'webp'); }
+  function photoUrl(key) { var m = PH[key]; if (!m) return ''; if (BIO_KEYS[key] && state.biome && state.biome !== 'desert') return ''; var tr = document.documentElement.getAttribute('data-tier'); if ((tr === 'tiny' || tr === 'kids') && /^(horror|darkromance|mystery|thriller|romance|psych)$/.test(key)) return ''; var mob = W < 760 && m.mobile; return 'scenes/' + key + (mob ? '-m' : '') + '.' + (AVIF && m.avif ? 'avif' : 'webp'); }
   function loadManifest() { try { fetch('scenes/manifest.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : {}; }).then(function (j) { PH = j && typeof j === 'object' ? j : {}; }).catch(function () {}); var a = new Image(); a.onload = function () { AVIF = a.width > 0; }; a.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQAMAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A='; } catch (e) {} }
   function hideScene() { if (!root) return; root.classList.remove('on'); document.documentElement.classList.remove('ss-scene-on'); state.key = ''; hideHint(); }
   var hintT = 0; function showHint(t) { if (!hint) return; hint.textContent = t; hint.classList.add('on'); clearTimeout(hintT); hintT = setTimeout(hideHint, 6000); } function hideHint() { if (hint) hint.classList.remove('on'); }

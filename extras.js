@@ -13,10 +13,25 @@
   // ---------- cover art (an SVG scene, different for every story) ----------
   // genres that have a real photo cover (files in /covers); every other genre keeps the drawn scene
   const PHOTOS = { romance: ["romance-1", "romance-2"], romance2: ["romance-1", "romance-2"], darkromance: ["darkromance-1", "darkromance-2"], horror: ["horror-1"], fantasy: ["fantasy-1", "fantasy-2"], fairy: ["fantasy-1", "fantasy-2"], magic: ["fantasy-1", "fantasy-2"], mystery: ["mystery-1"], thriller: ["mystery-1"], adventure: ["adventure-1"] };
+  // Real photos only where a genre has two or more to rotate (romance); everything else gets a drawn landscape
+  // chosen from the story's own place and words, so two adventure stories rarely look the same.
+  const PHOTO_GENRES = { romance: 1, romance2: 1, darkromance: 1 };
+  function biomeCover(story, doc) {
+    const B = (typeof self !== "undefined" && self.SSBiome) || (typeof require === "function" ? (function () { try { return require("./biomes.js"); } catch (e) { return null; } })() : null);
+    if (!B || !doc.createElementNS) return null;
+    const p = story.params || {}, c = story.ctx || {};
+    const seed = (p.seed || 0) ^ hashStr((story.title || "") + (p.genre || ""));
+    const where = [c.P, c.P2, c.I, story.title, (story.text || "").slice(0, 1200)].join(" ");
+    const biome = B.pick(p.genre, where, seed);
+    const time = B.timeFor(p.genre, p.tier, seed);
+    const holder = doc.createElement("div");
+    holder.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-label="Cover picture for ' + String(story.title || "the story").replace(/[&<>"]/g, "") + '" class="cover-svg" preserveAspectRatio="xMidYMid slice">' + B.svg(biome, 800, 400, seed, time, "cv" + (seed % 100000)) + "</svg>";
+    return holder.firstChild;
+  }
   function cover(story, doc) {
     doc = doc || document;
     const pg = (story.params || {}).genre, list = PHOTOS[pg];
-    if (list && doc.createElement) {
+    if (list && doc.createElement && PHOTO_GENRES[pg]) {
       const sd = ((story.params || {}).seed || 0) ^ hashStr(story.title || "");
       const img = doc.createElement("img");
       img.className = "cover-img"; img.src = "/covers/" + list[Math.abs(sd) % list.length] + ".webp";
@@ -24,6 +39,7 @@
       img.onerror = () => { try { const f = coverArt(story, doc); img.replaceWith(f); } catch (e) {} };
       return img;
     }
+    try { const b = biomeCover(story, doc); if (b) return b; } catch (e) { /* fall back to the old drawing */ }
     return coverArt(story, doc);
   }
   function coverArt(story, doc) {
