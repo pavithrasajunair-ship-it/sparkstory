@@ -10,9 +10,9 @@
     adult: { genre: "Choose your genre", chars: "Your characters", charsLead: "Name them. The first one carries the story.", length: "Length", roles: { friend: "Companion", pet: "Animal", helper: "Ally", villain: "Antagonist" } },
   };
   const DECO = {
-    tiny: ["⭐", "🌙", "☁️", "🎈", "🦋", "🧸"], kids: ["🚀", "🌈", "⚡", "🧩", "🎨", "🪁"],
-    teens: ["✨", "🎧", "🔥", "💫", "🎮", "⚡"], adult: ["✦", "·", "✧", "❖", "·"],
-    "": ["✨", "📖", "⭐", "🌙", "🦄", "🪄"],
+    tiny: ["✦", "·", "✧", "·", "✦"], kids: ["✦", "·", "✧", "❖", "·"],
+    teens: ["✦", "·", "✧", "·", "❖"], adult: ["✦", "·", "✧", "❖", "·"],
+    "": ["✦", "·", "✧", "·", "❖"],
   };
   const SAVE_KEY = "storyspark:lib";
   const FONT_KEY = "storyspark:font";
@@ -83,7 +83,7 @@
   function initDaily() {
     const { it } = todaysIdea(), g = D.GENRES[it.genre]; if (!g) return;
     $("daily-title").textContent = it.idea;
-    $("daily-idea").textContent = g.emoji + " " + g.name + " · for " + D.TIERS[it.tier].name.toLowerCase() + " (" + D.TIERS[it.tier].range + ")";
+    $("daily-idea").textContent = g.name + " · for " + D.TIERS[it.tier].name.toLowerCase() + " (" + D.TIERS[it.tier].range + ")";
     $("daily").hidden = false;
   }
   function readDaily() {
@@ -101,7 +101,7 @@
       const b = document.createElement("button");
       b.type = "button"; b.className = "tile"; b.dataset.tier = t.id;
       b.innerHTML = '<span class="big"></span><b></b><small></small>';
-      b.querySelector(".big").textContent = t.emoji;
+      { const ta = TIER_ART[t.id] || ["meadow", "day"]; tileArt(b.querySelector(".big"), ta[0], ta[1], hashKey(t.id)); }
       b.querySelector("b").textContent = t.name + " (" + t.range + ")";
       b.querySelector("small").textContent = t.blurb;
       b.addEventListener("click", () => { setTier(t.id); buildGenres(); show("genre"); });
@@ -109,6 +109,16 @@
     });
   }
 
+  // Small drawn landscapes on the tiles: a different place and mood for every genre, no emoji.
+  const TIER_ART = { tiny: ["meadow", "dawn"], kids: ["forest", "day"], teens: ["city", "dusk"], adult: ["castle", "night"] };
+  function hashKey(k) { let h = 2166136261; for (let i = 0; i < k.length; i++) { h ^= k.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function tileArt(el, biome, time, seed) {
+    try {
+      if (!window.SSBiome || !el) return;
+      el.classList.add("art");
+      el.innerHTML = '<svg viewBox="0 0 300 110" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + SSBiome.svg(biome, 300, 110, seed, time, "t" + (seed % 99999)) + "</svg>";
+    } catch (e) { /* tiles still work without the picture */ }
+  }
   // ---------- genre ----------
   function buildGenres() {
     $("h-genre").textContent = COPY[state.tier].genre;
@@ -117,7 +127,7 @@
       const b = document.createElement("button");
       b.type = "button"; b.className = "tile"; b.dataset.genre = x.id;
       b.innerHTML = '<span class="big"></span><b></b>';
-      b.querySelector(".big").textContent = x.emoji;
+      { const sd = hashKey(x.id); tileArt(b.querySelector(".big"), SSBiome.pick(x.id, "", sd), SSBiome.timeFor(x.id, state.tier, sd), sd); }
       b.querySelector("b").textContent = x.name;
       b.addEventListener("click", () => { state.genre = x.id; buildChars(); show("chars"); });
       g.appendChild(b);
@@ -174,7 +184,7 @@
       inp.addEventListener("input", () => { ch.name = inp.value; });
       row.appendChild(inp);
       if (i === 0) {
-        const f = document.createElement("div"); f.className = "rolefix"; f.textContent = "⭐ Main character"; row.appendChild(f);
+        const f = document.createElement("div"); f.className = "rolefix"; f.textContent = "Main character"; row.appendChild(f);
       } else {
         const sel = document.createElement("select"); sel.setAttribute("aria-label", "Role of character " + (i + 1));
         roleOptions().forEach(([v, l]) => { const o = document.createElement("option"); o.value = v; o.textContent = l; if (ch.role === v) o.selected = true; sel.appendChild(o); });
@@ -184,8 +194,8 @@
         x.addEventListener("click", () => { state.chars.splice(i, 1); renderChars(); });
         row.appendChild(x);
       }
-      const sv = document.createElement("button"); sv.type = "button"; sv.className = "save-c"; sv.textContent = "💾"; sv.title = "Save to my cast"; sv.setAttribute("aria-label", "Save " + (ch.name || "this character") + " to my cast");
-      sv.addEventListener("click", () => { if (!ch.name.trim()) { inp.focus(); return; } saveCast(ch.name, ch.role); renderCast(); sv.textContent = "✅"; });
+      const sv = document.createElement("button"); sv.type = "button"; sv.className = "save-c"; sv.textContent = "Save"; sv.title = "Save to my cast"; sv.setAttribute("aria-label", "Save " + (ch.name || "this character") + " to my cast");
+      sv.addEventListener("click", () => { if (!ch.name.trim()) { inp.focus(); return; } saveCast(ch.name, ch.role); renderCast(); sv.textContent = "✓"; });
       if (i === 0) row.insertBefore(sv, row.children[2] || null); else row.insertBefore(sv, row.querySelector(".x"));
       list.appendChild(row);
     });
@@ -265,7 +275,7 @@
           const ok = i === q.answer; if (ok) right++;
           b.classList.add(ok ? "right" : "wrong");
           if (!ok) row.children[q.answer].classList.add("right");
-          if (done === qs.length) { const sc = document.createElement("p"); sc.className = "score"; sc.setAttribute("role", "status"); sc.textContent = (right === qs.length ? "🌟 Perfect! " : right ? "⭐ Nice! " : "💫 Good try! ") + right + " out of " + qs.length; box.appendChild(sc); }
+          if (done === qs.length) { const sc = document.createElement("p"); sc.className = "score"; sc.setAttribute("role", "status"); sc.textContent = (right === qs.length ? "Perfect! " : right ? "Nice! " : "Good try! ") + right + " out of " + qs.length; box.appendChild(sc); }
         });
         row.appendChild(b);
       });
@@ -318,7 +328,7 @@
     $("story-title").textContent = s.title;
     const words = s.text.split(/\s+/).length;
     const g = D.GENRES[s.params.genre];
-    $("story-meta").textContent = (g ? g.emoji + " " + g.name + " · " : "") + Math.max(1, Math.round(words / 200)) + " min read" + (s.episode ? " · Episode " + s.episode : "") + (s.params.dedication ? " · 💝 Made for " + s.params.dedication : "") + (s.params.bedtime ? " · 🌙 Bedtime" : "") + (s.ai ? " · written with AI ✨" : "");
+    $("story-meta").textContent = (g ? g.name + " · " : "") + Math.max(1, Math.round(words / 200)) + " min read" + (s.episode ? " · Episode " + s.episode : "") + (s.params.dedication ? " · Made for " + s.params.dedication : "") + (s.params.bedtime ? " · Bedtime" : "") + (s.ai ? " · written with AI " : "");
     const n = $("story-notice"); n.textContent = notice || ""; n.hidden = !notice;
     const body = $("story-body"); body.textContent = "";
     s.chapters.forEach((c) => {
@@ -329,7 +339,7 @@
     try { cv.appendChild(X.cover(s)); } catch (e) {}
     $("quiz").hidden = true; $("t-quiz").hidden = !X.quiz(s).length;
     applyFont();
-    $("t-save").textContent = state.saved ? "✅ Saved" : "💾 Save";
+    $("t-save").textContent = state.saved ? "Saved" : "Save";
     $("story-status").textContent = "";
     $("shared-banner").hidden = !s.shared;
     document.querySelectorAll(".gen-only").forEach((el) => { el.hidden = !!s.shared; });
@@ -337,14 +347,14 @@
     const canGrow = !s.shared && ti >= 0 && ti < order.length - 1;
     $("grow-row").hidden = !canGrow; $("grow").checked = false;
     if (canGrow) $("grow-text").textContent = "They've grown up: make the next episode for " + D.TIERS[order[ti + 1]].name + " (" + D.TIERS[order[ti + 1]].range + ")";
-    $("t-episode").textContent = s.episode ? "📺 Episode " + (s.episode + 1) : "📺 Next episode";
+    $("t-episode").textContent = s.episode ? "Episode " + (s.episode + 1) : "Next episode";
     stopSpeak();
   }
 
   // listen
   let speaking = false;
   const canSpeak = "speechSynthesis" in window && typeof SpeechSynthesisUtterance === "function";
-  function stopSpeak() { if (canSpeak) speechSynthesis.cancel(); speaking = false; $("t-listen").textContent = "🔊 Listen"; document.querySelectorAll(".speaking").forEach((p) => p.classList.remove("speaking")); }
+  function stopSpeak() { if (canSpeak) speechSynthesis.cancel(); speaking = false; $("t-listen").textContent = "Listen"; document.querySelectorAll(".speaking").forEach((p) => p.classList.remove("speaking")); }
   function pickedVoice() { const n = $("voice").value; return n ? (speechSynthesis.getVoices().find((v) => v.name === n) || null) : null; }
   function loadVoices() {
     if (!canSpeak) return;
@@ -394,7 +404,7 @@
     s.id = s.id || String(Date.now());
     all.unshift({ id: s.id, savedAt: Date.now(), story: { title: s.title, chapters: s.chapters, params: s.params, ctx: s.ctx, text: s.text, ai: !!s.ai, id: s.id, episode: s.episode || 0, seriesTitle: s.seriesTitle || "", seriesId: s.seriesId || "", shared: !!s.shared } });
     if (!store.set(SAVE_KEY, all.slice(0, 200))) { $("story-status").textContent = "This browser could not save the story. Use Copy to keep it."; return; }
-    state.saved = true; $("t-save").textContent = "✅ Saved"; $("story-status").textContent = "Saved in this browser. Find it under My stories."; updateCount();
+    state.saved = true; $("t-save").textContent = "Saved"; $("story-status").textContent = "Saved in this browser. Find it under My stories."; updateCount();
   }
   function showLib() {
     const all = lib().slice().sort((x, y) => (!!y.fav - !!x.fav) || (y.savedAt - x.savedAt)), ul = $("lib-list"); ul.textContent = "";
@@ -407,7 +417,7 @@
       sm.textContent = (g ? g.name : "") + (it.story.episode ? " · Episode " + it.story.episode : "") + " · " + new Date(it.savedAt).toLocaleDateString();
       left.append(b, sm);
       const acts = document.createElement("div"); acts.className = "acts";
-      const fav = document.createElement("button"); fav.type = "button"; fav.className = "btn btn-ghost"; fav.textContent = it.fav ? "⭐" : "☆"; fav.setAttribute("aria-pressed", it.fav ? "true" : "false"); fav.setAttribute("aria-label", (it.fav ? "Remove favourite: " : "Favourite: ") + it.story.title);
+      const fav = document.createElement("button"); fav.type = "button"; fav.className = "btn btn-ghost"; fav.textContent = it.fav ? "" : ""; fav.setAttribute("aria-pressed", it.fav ? "true" : "false"); fav.setAttribute("aria-label", (it.fav ? "Remove favourite: " : "Favourite: ") + it.story.title);
       fav.addEventListener("click", () => { store.set(SAVE_KEY, lib().map((x) => x.id === it.id ? Object.assign({}, x, { fav: !x.fav }) : x)); showLib(); });
       const open = document.createElement("button"); open.type = "button"; open.className = "btn btn-soft"; open.textContent = "Read";
       open.addEventListener("click", () => { setTier(it.story.params.tier); state.genre = it.story.params.genre; state.length = it.story.params.length; state.chars = (it.story.params.chars || []).map((c) => ({ name: c.name, role: c.role })); if (!state.chars.length) state.chars = [{ name: "", role: "hero" }]; state.place = it.story.params.place || ""; state.item = it.story.params.item || ""; state.story = it.story; state.saved = true; state.fromLib = true; renderStory(""); show("story"); });
@@ -467,7 +477,7 @@
     sleepOn = false; clearTimeout(sleepTimer); sleepTimer = null;
     if (canSpeak) speechSynthesis.cancel();
     try { if (wakeLock) { wakeLock.release(); wakeLock = null; } } catch (e) {}
-    if (finished === true) { $("sleep-msg").textContent = "Sweet dreams 🌙"; $("sleep-stop").textContent = "Close"; return; }
+    if (finished === true) { $("sleep-msg").textContent = "Sweet dreams "; $("sleep-stop").textContent = "Close"; return; }
     $("sleep").hidden = true; $("sleep-stop").textContent = "Stop";
   }
 

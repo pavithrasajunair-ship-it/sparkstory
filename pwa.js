@@ -22,7 +22,7 @@
   var deferred = null, installBtn = null;
   var header = document.querySelector('header.top');
   if (header && !standalone) {
-    installBtn = el('button', 'btn btn-ghost pwa-install', '📲 Install'); installBtn.type = 'button'; installBtn.hidden = true;
+    installBtn = el('button', 'btn btn-ghost pwa-install', 'Install'); installBtn.type = 'button'; installBtn.hidden = true;
     installBtn.setAttribute('aria-label', 'Install StorySpark as an app');
     var lib = document.getElementById('btn-lib'); header.insertBefore(installBtn, lib || null);
     installBtn.addEventListener('click', function () {

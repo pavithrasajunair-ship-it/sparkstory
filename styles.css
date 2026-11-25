@@ -153,3 +153,11 @@ html[data-tier=teens] .deco,html[data-tier=kids] .deco{opacity:.4}
 .daily{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:22px 0 4px;padding:16px 18px;background:var(--card);border:2px dashed var(--accent,var(--line));border-radius:var(--radius)}
 .daily small{display:block;color:var(--muted);font-weight:700}.daily b{display:block;font:700 18px var(--head)}.daily span{color:var(--muted);font-size:14px}
 @media(max-width:560px){.daily{flex-direction:column;align-items:flex-start}}
+
+/* Quieter, more premium: no emoji pictograms on tiles, calm loader and moon */
+.tile .big:not(.art){display:none}
+.tile .big.art{display:block;width:100%;height:96px;border-radius:12px;overflow:hidden;margin-bottom:6px;font-size:0}
+.tile .big.art svg{width:100%;height:100%;display:block}
+.tile{border-top:3px solid var(--accent,rgba(255,255,255,.22))}
+.loader{font-size:40px;gap:14px;color:rgba(255,255,255,.75)}
+.sleep .moon{width:96px;height:96px;border-radius:50%;font-size:0;margin:0 auto 24px;background:transparent;box-shadow:inset -26px -8px 0 0 #f1e4b4;opacity:.8}

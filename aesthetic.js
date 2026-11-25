@@ -255,7 +255,7 @@
       while (nextT < ctx.currentTime + 1.6) { if (nextT < ctx.currentTime) nextT = ctx.currentTime + .1; sc.bars(nextT, bar, B); nextT += B * 3; bar++; }
       var sp = window.speechSynthesis && speechSynthesis.speaking; if (sp !== ducked) { ducked = sp; master.gain.setTargetAtTime(sp ? BASE * .3 : BASE, ctx.currentTime, .4); }
     }
-    function setBtn() { var b = $('#ss-music'); if (b) { b.setAttribute('aria-pressed', on && mood ? 'true' : 'false'); b.textContent = on ? '🎵' : '🔇'; b.setAttribute('aria-label', on ? 'Turn music off' : 'Turn music on'); } }
+    function setBtn() { var b = $('#ss-music'); if (b) { b.setAttribute('aria-pressed', on && mood ? 'true' : 'false'); b.textContent = on ? 'Music on' : 'Music off'; b.setAttribute('aria-label', on ? 'Turn music off' : 'Turn music on'); } }
     return {
       play: function (genre) {
         var m = moodOf(genre); if (m === mood && ctx && ctx.state !== 'suspended') { setBtn(); return; }
@@ -277,7 +277,7 @@
   /* ---------------- start ---------------- */
   function boot() {
     var sp = document.createElement('div'); sp.innerHTML = SPRITE; document.body.appendChild(sp.firstChild);
-    var mb = document.createElement('button'); mb.id = 'ss-music'; mb.type = 'button'; mb.textContent = '🎵'; mb.setAttribute('aria-pressed', 'false'); mb.setAttribute('aria-label', 'Music');
+    var mb = document.createElement('button'); mb.id = 'ss-music'; mb.type = 'button'; mb.textContent = 'Music'; mb.setAttribute('aria-pressed', 'false'); mb.setAttribute('aria-label', 'Music');
     mb.addEventListener('click', function () { Music.toggle(); }); document.body.appendChild(mb);
     watchGenres(); watchStory(); tidy();
     ['#brand', '[data-back="age"]'].forEach(function (s) { $$(s).forEach(function (b) { b.addEventListener('click', function () { Music.stop(); }); }); });

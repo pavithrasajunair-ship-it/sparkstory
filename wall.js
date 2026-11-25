@@ -96,7 +96,7 @@
     $("wall-post-btn").addEventListener("click", function () { showPost(); });
     [].forEach.call(document.querySelectorAll(".wtab"), function (b) { b.addEventListener("click", function () { setTab(b.dataset.tab); }); });
     $("wall-reader-back").addEventListener("click", function () { $("wall-reader").hidden = true; $("wall-list-wrap").hidden = false; });
-    $("wall-reader-copy").addEventListener("click", function () { if (!current) return; var t = current.title + "\n\n" + current.body; var b = $("wall-reader-copy"); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { b.textContent = "Copied!"; }, function () { b.textContent = "Select the text to copy"; }); setTimeout(function () { b.textContent = "📋 Copy story"; }, 1800); });
+    $("wall-reader-copy").addEventListener("click", function () { if (!current) return; var t = current.title + "\n\n" + current.body; var b = $("wall-reader-copy"); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { b.textContent = "Copied!"; }, function () { b.textContent = "Select the text to copy"; }); setTimeout(function () { b.textContent = "Copy story"; }, 1800); });
     [].forEach.call(document.querySelectorAll("[data-post-back]"), function (b) { b.addEventListener("click", showWall); });
     $("post-body").addEventListener("input", count); $("post-form").addEventListener("submit", submit);
     var share = $("t-wall");
