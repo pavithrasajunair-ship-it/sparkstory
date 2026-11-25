@@ -47,7 +47,7 @@
     const NS = "http://www.w3.org/2000/svg";
     const el = (n, a, kids) => { const e = doc.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); (kids || []).forEach((c) => e.appendChild(c)); return e; };
     const p = story.params || {};
-    const g = D.GENRES[p.genre] || { emoji: "✨", name: "story" };
+    const g = D.GENRES[p.genre] || { emoji: "", name: "story" };
     const seed = (p.seed || 0) ^ hashStr(story.title + (p.genre || ""));
     const r = rng(seed);
     const hue = hashStr(p.genre || "x") % 360;
@@ -71,10 +71,6 @@
     const hill = (y0, amp, fill) => { let d = "M0 200 L0 " + y0; for (let x = 0; x <= 400; x += 50) d += " Q " + (x + 25) + " " + (y0 - amp * (0.4 + r())).toFixed(0) + " " + (x + 50) + " " + (y0 + (r() - 0.5) * 14).toFixed(0); return el("path", { d: d + " L400 200 Z", fill }); };
     svg.appendChild(hill(150, 30, hillA));
     svg.appendChild(hill(172, 22, hillB));
-    // the hero of the cover: the genre emoji, big and centred
-    const t = el("text", { x: "200", y: "126", "text-anchor": "middle", "font-size": "78" });
-    t.textContent = g.emoji;
-    svg.appendChild(t);
     return svg;
   }
 
@@ -103,7 +99,7 @@
   // ---------- ambient sounds (made with the Web Audio API, no files, no network) ----------
   const Ambience = (function () {
     let ac = null, master = null, stops = [], timer = null, current = "off";
-    const KINDS = [["off", "Off"], ["rain", "🌧️ Rain"], ["ocean", "🌊 Ocean"], ["wind", "🍃 Soft wind"], ["lullaby", "🎵 Lullaby chimes"]];
+    const KINDS = [["off", "Off"], ["rain", "Rain"], ["ocean", "Ocean"], ["wind", "Soft wind"], ["lullaby", "Lullaby chimes"]];
     function ensure() {
       if (!ac) { const AC = typeof window !== "undefined" && (window.AudioContext || window.webkitAudioContext); if (!AC) return false; ac = new AC(); master = ac.createGain(); master.gain.value = 0.5; master.connect(ac.destination); }
       if (ac.state === "suspended" && ac.resume) ac.resume();
